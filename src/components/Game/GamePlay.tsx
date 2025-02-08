@@ -100,7 +100,7 @@ function GamePlay() {
 
     return (
         <div ref={pageRef} className={page({fullscreen: isFullscreen})}>
-            <div className="w-full h-[calc(100vh-300px)]">
+            <div className="w-full h-[calc(100vh-300px)] min-h-[600px]">
                 <BoardLayout boardRef={boardRef}>
                     <AnimatePresence mode="wait">
                         <motion.div className="w-full h-full" key={screen} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: 0.5}}> 

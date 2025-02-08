@@ -76,13 +76,9 @@ function InputScreen({onComplete}: InputScreenProps) {
                 value={currentUserAnswer}
                 onChange={inputOnChange}
                 onKeyDown={onKeyPress}
-                className="bg-transparent text-center text-white text-[200px] font-pangolin w-10/12 border-4 border-dotted border-white/50 rounded-xl px-10 outline-none mb-10" 
+                className="bg-transparent text-center text-white text-[200px] font-pangolin w-10/12 border-4 border-dotted border-white/50 rounded-xl outline-none mb-10" 
                 initial={{opacity: 0, y: -100}}
-
-
                 animate={{opacity: 1, y: 0}}
-
-
                 transition={{duration: 0.7}}
             />
             <motion.div 
