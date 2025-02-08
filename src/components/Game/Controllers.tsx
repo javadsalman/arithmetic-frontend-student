@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Fullscreen, FullscreenExit, VolumeUp, VolumeOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { useSoundStore } from "../../stores/soundStore";
+
 
 interface ControllersProps {
     pageRef: React.RefObject<HTMLDivElement>;

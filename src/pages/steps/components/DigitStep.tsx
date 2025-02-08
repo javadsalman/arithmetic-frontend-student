@@ -5,7 +5,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGameStore } from '../../../stores/gameStore';
 import NumberSelector from '../../../components/GameForm/NumberSelector';
-import Lang, { content as langContent } from '../Lang';
+import Lang from '../../home/Lang';
 
 
 // Utility function to convert YouTube URL to embed URL
@@ -28,11 +28,12 @@ const modalStyle = {
 };
 
 function DigitStep() {
-    const { digitCount, setDigitCount, resetStore } = useGameStore();
+    const { digitCount, setDigitCount } = useGameStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentVideo, setCurrentVideo] = useState('');
     const navigate = useNavigate();
     const { gameType, gameMode } = useParams();
+
 
     const numbers = [1, 2, 4, 5, 6, 7, 8, 9, 10];
 

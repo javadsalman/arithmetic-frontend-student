@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, styled, Toolbar, useTheme, useMediaQuery } from '@mui/material';
+import React from 'react';
+import { Box, styled } from '@mui/material';
 import backgroundImage from '../../assets/images/background.png';
 import Header from './Header';
 
@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const MainContent = styled(Box)(({ theme }) => ({
+const MainContent = styled(Box)(() => ({
   minHeight: '100vh',
   backgroundImage: `url(${backgroundImage})`,
   backgroundSize: 'cover',
@@ -17,9 +17,6 @@ const MainContent = styled(Box)(({ theme }) => ({
 }));
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
 
   return (
     <MainContent>

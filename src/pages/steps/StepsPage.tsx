@@ -5,7 +5,7 @@ import NumberStep from "./components/NumberStep";
 import TimeStep from "./components/TimeStep";
 import { StepType } from "./types";
 import { DIGIT_STEP, NUMBER_STEP, TIME_STEP, STEP_TITLES, STEP_ORDERS } from "./constants";
-import Lang, {content as langContent} from "./Lang";
+import Lang from "../home/Lang";
 
 const stepKeys = ['digit', 'number', 'time'] as const;
 

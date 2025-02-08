@@ -31,7 +31,7 @@ import { ActionMode } from "./types";
 
 
 const getFirstStep = (action: ActionMode) => {
-    return 'asdf'
+    return action
 }
 
 

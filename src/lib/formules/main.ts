@@ -1,7 +1,4 @@
-import './style.css'
 import Generator from './generator'
-import DynamicNumber from './dynamic-number'
-import Digit from './digit'
 import { FormInfo } from './types'
 
 
