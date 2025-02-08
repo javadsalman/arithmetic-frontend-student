@@ -1,0 +1,9 @@
+.question {
+  margin-top: 10px;
+  font-size: 40px;
+}
+.submit button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-left: 300px;
+}
