@@ -11,18 +11,20 @@ export const content: LangContent = {
         '10 Əsasda Toplama-Çıxma': '10 Əsasda Toplama-Çıxma',
         '5K Əsasda Toplama': '5K Əsasda Toplama',
         '5K Əsasda Toplama-Çıxma': '5K Əsasda Toplama-Çıxma',
+        'Qarışıq Toplama-Çıxma': 'Qarışıq Toplama-Çıxma',
     },
     'en': {
         'Sənə uyğun formulu seç!': 'Choose the formula that suits you!',
         'Basit toplama-çıxma': 'Simple addition-subtraction',
         '5 Əsasda Toplama': 'Addition based on 5',
-
         '5 Əsasda Toplama-Çıxma': 'Addition-Subtraction based on 5',
         '10 Əsasda Toplama': 'Addition based on 10',
         '10 Əsasda Toplama-Çıxma': 'Addition-Subtraction based on 10',
         '5K Əsasda Toplama': 'Addition based on 5K',
         '5K Əsasda Toplama-Çıxma': 'Addition-Subtraction based on 5K',
+        'Qarışıq Toplama-Çıxma': 'Mixed Addition-Subtraction',
     },
+
     'ru': {
         'Sənə uyğun formulu seç!': 'Выберите подходящую вам формулу!',
         'Basit toplama-çıxma': 'Простое сложение-вычитание',
@@ -32,6 +34,7 @@ export const content: LangContent = {
         '10 Əsasda Toplama-Çıxma': 'Сложение-вычитание на основе 10',
         '5K Əsasda Toplama': 'Сложение на основе 5K',
         '5K Əsasda Toplama-Çıxma': 'Сложение-вычитание на основе 5K',
+        'Qarışıq Toplama-Çıxma': 'Смешанное Сложение-Вычитание',
     },
     'tr': {
         'Sənə uyğun formulu seç!': 'Sana uygun formülü seç!',
@@ -42,7 +45,9 @@ export const content: LangContent = {
         '10 Əsasda Toplama-Çıxma': '10 Temelinde Toplama-Çıkarma',
         '5K Əsasda Toplama': '5K Temelinde Toplama',
         '5K Əsasda Toplama-Çıxma': '5K Temelinde Toplama-Çıkarma',
+        'Qarışıq Toplama-Çıxma': 'Karışık Toplama-Çıkarma',
     },
+
     'pl': {
         'Sənə uyğun formulu seç!': 'Wybierz formułę, która Ci odpowiada!',
         'Basit toplama-çıxma': 'Proste dodawanie-odejmowanie',
@@ -52,6 +57,7 @@ export const content: LangContent = {
         '10 Əsasda Toplama-Çıxma': 'Dodawanie-odejmowanie na podstawie 10',
         '5K Əsasda Toplama': 'Dodawanie na podstawie 5K',
         '5K Əsasda Toplama-Çıxma': 'Dodawanie-odejmowanie na podstawie 5K',
+        'Qarışıq Toplama-Çıxma': 'Mieszane Dodawanie-Odejmowanie',
     },
     'kz': {
         'Sənə uyğun formulu seç!': 'Сізге сәйкес формуланы таңдаңыз!',
@@ -62,6 +68,7 @@ export const content: LangContent = {
         '10 Əsasda Toplama-Çıxma': '10 негізінде қосу-азайту',
         '5K Əsasda Toplama': '5K негізінде қосу',
         '5K Əsasda Toplama-Çıxma': '5K негізінде қосу-азайту',
+        'Qarışıq Toplama-Çıxma': 'Аралас Қосу-Азайту',
     },
 }
 

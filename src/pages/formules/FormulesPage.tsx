@@ -112,7 +112,7 @@ function FormulesPage() {
                     <div className="flex justify-center">
                         <Note 
                             number={7}
-                            disabled={true}
+                            disabled={false}
                             title={langContent[language]![FORMULE_TITLES[FIVE_K_ADD_SUB]]}
                             numberColor="text-indigo-500"
                             bgColor="bg-indigo-500"
@@ -128,7 +128,7 @@ function FormulesPage() {
                 <div className="flex justify-center">
                     <Note 
                         number={8}
-                        disabled={true}
+                        disabled={false}
                         title={langContent[language]![FORMULE_TITLES[MIXED_ADD_SUB]]}
                         numberColor="text-green-500"
                         bgColor="bg-green-500"
