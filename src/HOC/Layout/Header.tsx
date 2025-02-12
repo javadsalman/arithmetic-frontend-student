@@ -238,8 +238,10 @@ const Header = ({ onOpenSidebar }: HeaderProps) => {
                                 component="img"
                                 src={graduatedSvg}
                                 sx={{ 
-                                    width: { xs: 45, sm: 36, md: 40 },
-                                    height: { xs: 45, sm: 36, md: 40 }
+                                    width: { xs: 38, sm: 36, md: 40 },
+                                    height: { xs: 38, sm: 36, md: 40 },
+                                    borderRadius: { xs: '50%', sm: 'none' },
+                                    border: { xs: '2px solid #E3F2FD', sm: 'none' }
                                 }}
                             />
                         </Box>
