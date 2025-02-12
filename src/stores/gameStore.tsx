@@ -4,7 +4,6 @@ import { ActionMode } from '../pages/actions/types';
 import { FormuleMode } from '../lib/formules/types';
 import { immer } from 'zustand/middleware/immer';
 
-
 interface GameState {
     digitCount: number;
     numberCount: number;
@@ -47,7 +46,6 @@ export const useGameStore = create<GameState>()(
             setGameMode: (gameMode: FormuleMode|ActionMode) => set({ gameMode }),
             setDigitCount: (count: number) => set({ digitCount: count }),
             setNumberCount: (count: number) => set({ numberCount: count }),
-
             setIsMixedDigits: (isRandom: boolean) => set({ isMixedDigits: isRandom }),
             setGameCount: (count: number) => set({ gameCount: count }),
             setBetweenDuration: (time: number) => set({ betweenDuration: time }),

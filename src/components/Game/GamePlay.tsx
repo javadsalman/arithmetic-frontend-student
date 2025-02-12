@@ -5,7 +5,7 @@ import GameScreen from "./GameScreen";
 import InputScreen from "./InputScreen";
 import Controllers from "./Controllers";
 import { AnimatePresence, motion } from "framer-motion";
-import { finishInput, restartGame, startGame, useGameplayStore } from "../../stores/gameplayStore";
+import { finishInput, restartGame, startGame, useGameplayStore, changeHeightSize, HeightSize } from "../../stores/gameplayStore";
 import ResultScreen from "./ResultScreen";
 import EndScreen from "./EndScreen";
 import EntranceScreen from "./EnteranceScreen";
@@ -27,7 +27,8 @@ const page = tv({
     }
 })
 
-const heightVariants = {
+
+export const heightVariants: Record<HeightSize, string> = {
     xs: 'h-[calc(100vh-500px)]',
     sm: 'h-[calc(100vh-400px)]',
     md: 'h-[calc(100vh-300px)]',
@@ -35,32 +36,17 @@ const heightVariants = {
     xl: 'h-[calc(100vh-100px)]'
 } as const;
 
-type HeightVariant = keyof typeof heightVariants;
-
 function GamePlay() {
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [heightSize, setHeightSize] = useState<HeightVariant>('md');
     const pageRef = useRef<HTMLDivElement>(null);
     const boardRef = useRef<HTMLDivElement>(null);
     const {
         screen, 
         setScreen,
+        heightSize,
     } = useGameplayStore();
     const { language } = useLanguageStore();
-    
-    const handleHeightChange = useCallback((type: 'increase' | 'decrease') => {
-        setHeightSize(prev => {
-            const sizes: HeightVariant[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-            const currentIndex = sizes.indexOf(prev);
-            if (type === 'increase' && currentIndex < sizes.length - 1) {
-                return sizes[currentIndex + 1];
-            }
-            if (type === 'decrease' && currentIndex > 0) {
-                return sizes[currentIndex - 1];
-            }
-            return prev;
-        });
-    }, []);
+
 
     const controllerProps: ControllerProps = useMemo(() => {
         if (screen === "input") {
@@ -136,7 +122,7 @@ function GamePlay() {
                 pageRef={pageRef} 
                 isFullscreen={isFullscreen} 
                 onFullscreenChange={setIsFullscreen}
-                onHeightChange={handleHeightChange}
+                onHeightChange={changeHeightSize}
             />
         </div>
     );

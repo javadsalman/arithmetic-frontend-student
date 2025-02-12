@@ -16,10 +16,13 @@ interface Round {
 }
 
 
+export type HeightSize = "xs" | "sm" | "md" | "lg" | "xl";
+
 interface GameplayState {
     rounds: Round[];
     currentUserAnswer: string;
     screen: "enterance" | "game" | "input" | "result" | "end";
+    heightSize: HeightSize;
     setCurrentUserAnswer: (answer: string) => void;
     getCurrentRound: () => Round|undefined;
     addRound: (round: Round) => void;
@@ -27,6 +30,7 @@ interface GameplayState {
     getCurrentCalcItems: () => number[];
     clearRounds: () => void;
     setScreen: (screen: "enterance" | "game" | "input" | "result" | "end") => void;
+    setHeightSize: (size: HeightSize) => void;
 }
 
 
@@ -36,6 +40,7 @@ export const useGameplayStore = create<GameplayState>()(
             rounds: [],
             currentUserAnswer: "",
             screen: "enterance",
+            heightSize: 'md',
             setCurrentUserAnswer: (answer: string) => set(state => {
                 state.currentUserAnswer = answer;
             }),
@@ -57,6 +62,9 @@ export const useGameplayStore = create<GameplayState>()(
             }),
             setScreen: (screen: "enterance" | "game" | "input" | "result" | "end") => set(state => {
                 state.screen = screen;
+            }),
+            setHeightSize: (size: HeightSize) => set(state => {
+                state.heightSize = size;
             })
         })),
         {name: "gameplay"}
@@ -110,3 +118,15 @@ export const finishInput = () => {
         setScreen("result");
     }
 }
+
+export const changeHeightSize = (type: 'increase' | 'decrease') => {
+    const { heightSize, setHeightSize } = useGameplayStore.getState();
+    const sizes: HeightSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+    const currentIndex = sizes.indexOf(heightSize);
+    if (type === 'increase' && currentIndex < sizes.length - 1) {
+        setHeightSize(sizes[currentIndex + 1]);
+    } else if (type === 'decrease' && currentIndex > 0) {
+        setHeightSize(sizes[currentIndex - 1]);
+    }
+}
+
