@@ -28,7 +28,7 @@ function Entrance({boardRef, onComplete, duration=1000, wait=3000, disappear=500
         <div className="flex flex-col items-center justify-center h-full w-full">
             <div className="text-white text-7xl md:text-9xl font-pangolin tracking-wider relative">
                 <span ref={beReadyRef} className="my-10 px-10 hidden">
-                    <Lang>Hazir ol</Lang>
+                    <Lang>Hazır ol</Lang>
                 </span>
                 <span ref={startRef} className="my-10 px-10 hidden">
                     <Lang>Başla</Lang>
