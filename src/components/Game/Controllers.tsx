@@ -7,7 +7,7 @@ import {
     UnfoldMore,
     UnfoldLess
 } from "@mui/icons-material";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSoundStore } from "../../stores/soundStore";
 
 
@@ -115,9 +115,10 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
             </div>
 
             {/* Main Controls - Right side */}
-            <div className="flex justify-center md:justify-end gap-4 order-1 md:order-2">
-                {showButton && (
-                    <motion.button 
+            <div className="flex justify-center md:justify-end gap-4 order-1 md:order-2 h-14">
+                <AnimatePresence mode="wait">
+                    {showButton && (
+                        <motion.button 
                         initial={{opacity: 0, scale: 0.9}}
                         animate={{opacity: 1, scale: 1}}
                         exit={{opacity: 0, scale: 0.9}}
@@ -126,9 +127,9 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
                         className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-8 rounded-full text-lg shadow-lg transition-colors duration-200"
                     >
                         {buttonText}
-                    </motion.button>
-                )}
-                
+                        </motion.button>
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     )
