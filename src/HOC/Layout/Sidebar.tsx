@@ -50,7 +50,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                                     fontWeight: 600
                                 }}
                             >
-                                <Lang>Menu</Lang>
+                                <Lang>Menyu</Lang>
                             </Typography>
                             <IconButton 
                                 onClick={onClose}

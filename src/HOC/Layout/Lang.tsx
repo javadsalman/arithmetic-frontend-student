@@ -10,6 +10,7 @@ const content: LangContent = {
         'Profil': 'Profil',
         'Nəticələr': 'Sonuçlar',
         'Çıxış': 'Çıkış',
+        'Menyu': 'Menyu',
     },
     'en': {
 
@@ -20,6 +21,7 @@ const content: LangContent = {
         'Profil': 'Profile',
         'Nəticələr': 'Results',
         'Çıxış': 'Logout',
+        'Menyu': 'Menu',
     },
     'ru': {
         'Formullar': 'Формулы',
@@ -29,6 +31,7 @@ const content: LangContent = {
         'Profil': 'Профиль',
         'Nəticələr': 'Результаты',
         'Çıxış': 'Выход',
+        'Menyu': 'Меню',
     },
     'tr': {
         'Formullar': 'Formüller',
@@ -38,6 +41,7 @@ const content: LangContent = {
         'Profil': 'Profil',
         'Nəticələr': 'Sonuçlar',
         'Çıxış': 'Çıkış',
+        'Menyu': 'Menü',
     },
     'pl': {
         'Formullar': 'Formuły',
@@ -47,6 +51,7 @@ const content: LangContent = {
         'Profil': 'Profil',
         'Nəticələr': 'Wyniki',
         'Çıxış': 'Wyjście',
+        'Menyu': 'Menu',
     },
     'kz': {
         'Formullar': 'Формулалар',
@@ -56,6 +61,7 @@ const content: LangContent = {
         'Profil': 'Профиль',
         'Nəticələr': 'Нәтижелер',
         'Çıxış': 'Шығу',
+        'Menyu': 'Меню',
     },
 }
 
