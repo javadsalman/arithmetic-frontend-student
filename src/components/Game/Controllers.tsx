@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { Fullscreen, FullscreenExit, VolumeUp, VolumeOff } from "@mui/icons-material";
+import { 
+    Fullscreen, 
+    FullscreenExit, 
+    VolumeUp, 
+    VolumeOff, 
+    UnfoldMore,
+    UnfoldLess
+} from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { useSoundStore } from "../../stores/soundStore";
 
@@ -11,9 +18,10 @@ interface ControllersProps {
     showButton: boolean;
     buttonText: string;
     buttonOnClick: () => void;
+    onHeightChange?: (type: 'increase' | 'decrease') => void;
 }
 
-function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, buttonText, buttonOnClick}: ControllersProps) {
+function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, buttonText, buttonOnClick, onHeightChange}: ControllersProps) {
     const { isMuted, toggleMute } = useSoundStore();
 
     const handleFullscreen = () => {
@@ -62,37 +70,64 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
     }, []);
     
     return (
-        <div className="py-5 flex justify-center md:justify-end gap-4">
-            {showButton && (
-                <motion.button 
-                    initial={{opacity: 0, scale: 0.9}}
-                    animate={{opacity: 1, scale: 1}}
-                    exit={{opacity: 0, scale: 0.9}}
-                    transition={{duration: 0.5}}
-                    onClick={buttonOnClick}
-                    className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-8 rounded-full text-lg shadow-lg transition-colors duration-200"
+        <div className="py-5 flex flex-col md:flex-row gap-4">
+            {/* Resize Controls - Left side */}
+            <div className="flex justify-center md:justify-start gap-2 order-2 md:order-1 md:flex-1">
+                <div className="flex gap-2">
+                    <button
+                        title="Artır"
+                        onClick={() => onHeightChange?.('increase')}
+                        className="relative  w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
+                    >
+                        <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <UnfoldMore fontSize="large" />
+                        </div>
+                    </button>
+                    <button
+                        title="Azalt"
+                        onClick={() => onHeightChange?.('decrease')}
+                        className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
+                    >   
+                        <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <UnfoldLess fontSize="large" />
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            {/* Main Controls - Right side */}
+            <div className="flex justify-center md:justify-end gap-4 order-1 md:order-2">
+                {showButton && (
+                    <motion.button 
+                        initial={{opacity: 0, scale: 0.9}}
+                        animate={{opacity: 1, scale: 1}}
+                        exit={{opacity: 0, scale: 0.9}}
+                        transition={{duration: 0.5}}
+                        onClick={buttonOnClick}
+                        className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-8 rounded-full text-lg shadow-lg transition-colors duration-200"
+                    >
+                        {buttonText}
+                    </motion.button>
+                )}
+                <button
+                    title="Səs"
+                    onClick={toggleMute}
+                    className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
                 >
-                    {buttonText}
-                </motion.button>
-            )}
-            <button
-                title="Səs"
-                onClick={toggleMute}
-                className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-3 rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
-            >
-                <div className="text-2xl">
-                    {isMuted ? <VolumeOff fontSize="large" /> : <VolumeUp fontSize="large" />}
-                </div>
-            </button>
-            <button
-                title="Tam Ekran"
-                onClick={handleFullscreen}
-                className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-3 rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
-            >
-                <div className="text-2xl">
-                    {isFullscreen ? <FullscreenExit fontSize="large" /> : <Fullscreen fontSize="large" />}
-                </div>
-            </button>
+                    <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        {isMuted ? <VolumeOff fontSize="large" /> : <VolumeUp fontSize="large" />}
+                    </div>
+                </button>
+                <button
+                    title="Tam Ekran"
+                    onClick={handleFullscreen}
+                    className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
+                >
+                    <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        {isFullscreen ? <FullscreenExit fontSize="large" /> : <Fullscreen fontSize="large" />}
+                    </div>
+                </button>
+            </div>
         </div>
     )
 }

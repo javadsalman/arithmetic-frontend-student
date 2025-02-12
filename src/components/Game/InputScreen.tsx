@@ -29,9 +29,9 @@ function InputScreen({onComplete}: InputScreenProps) {
     
     const getFontSize = (length: number) => {
         if (length > 10) return 'text-[25px] md:text-[50px]';
-        if (length > 8) return 'text-[50px] md:text-[100px]';
-        if (length > 5) return 'text-[75px] md:text-[150px]';
-        return 'text-[100px] md:text-[200px]';
+        if (length > 8) return 'text-[50px] md:text-[70px]';
+        if (length > 5) return 'text-[75px] md:text-[100px]';
+        return 'text-[100px] md:text-[120px]';
     };
 
     const inputFontSize = useMemo(() => getFontSize(currentUserAnswer.length), [currentUserAnswer.length]);

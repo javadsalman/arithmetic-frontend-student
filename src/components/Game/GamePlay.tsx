@@ -11,6 +11,7 @@ import EndScreen from "./EndScreen";
 import EntranceScreen from "./EnteranceScreen";
 import { content as langContent } from "./Lang";
 import { useLanguageStore } from "../../stores/languageStore";
+
 type ControllerProps = {
     showButton: boolean;
     buttonText: string;
@@ -26,8 +27,19 @@ const page = tv({
     }
 })
 
+const heightVariants = {
+    xs: 'h-[calc(100vh-500px)]',
+    sm: 'h-[calc(100vh-400px)]',
+    md: 'h-[calc(100vh-300px)]',
+    lg: 'h-[calc(100vh-200px)]',
+    xl: 'h-[calc(100vh-100px)]'
+} as const;
+
+type HeightVariant = keyof typeof heightVariants;
+
 function GamePlay() {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [heightSize, setHeightSize] = useState<HeightVariant>('md');
     const pageRef = useRef<HTMLDivElement>(null);
     const boardRef = useRef<HTMLDivElement>(null);
     const {
@@ -36,6 +48,20 @@ function GamePlay() {
     } = useGameplayStore();
     const { language } = useLanguageStore();
     
+    const handleHeightChange = useCallback((type: 'increase' | 'decrease') => {
+        setHeightSize(prev => {
+            const sizes: HeightVariant[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+            const currentIndex = sizes.indexOf(prev);
+            if (type === 'increase' && currentIndex < sizes.length - 1) {
+                return sizes[currentIndex + 1];
+            }
+            if (type === 'decrease' && currentIndex > 0) {
+                return sizes[currentIndex - 1];
+            }
+            return prev;
+        });
+    }, []);
+
     const controllerProps: ControllerProps = useMemo(() => {
         if (screen === "input") {
             return {
@@ -71,16 +97,13 @@ function GamePlay() {
         setScreen("input");
     }, [])
 
-
     const onInputComplete = useCallback(() => {
         finishInput()
     }, [])
-        
 
     useEffect(() => {
         restartGame();
     }, [])
-
 
     const screenContent = useMemo(() => {
         switch (screen) {
@@ -97,10 +120,9 @@ function GamePlay() {
         }
     }, [screen]);
 
-
     return (
         <div ref={pageRef} className={page({fullscreen: isFullscreen})}>
-            <div className="w-full h-[calc(100vh-300px)] min-h-[600px]">
+            <div className={`w-full transition-all duration-300 ${heightVariants[heightSize]}`}>
                 <BoardLayout boardRef={boardRef}>
                     <AnimatePresence mode="wait">
                         <motion.div className="w-full h-full" key={screen} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: 0.5}}> 
@@ -109,7 +131,13 @@ function GamePlay() {
                     </AnimatePresence>
                 </BoardLayout>
             </div>
-            <Controllers {...controllerProps} pageRef={pageRef} isFullscreen={isFullscreen} onFullscreenChange={setIsFullscreen} />
+            <Controllers 
+                {...controllerProps} 
+                pageRef={pageRef} 
+                isFullscreen={isFullscreen} 
+                onFullscreenChange={setIsFullscreen}
+                onHeightChange={handleHeightChange}
+            />
         </div>
     );
 }
