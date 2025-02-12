@@ -26,13 +26,12 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                 }
             }}
         >
-            <Box className="h-full bg-main-pattern bg-cover bg-center bg-no-repeat bg-fixed">
-                <Box className="h-full backdrop-blur-md bg-white/80 flex flex-col">
+            <Box className="h-full bg-fixed">
+                <Box className="h-full backdrop-blur-md bg-white flex flex-col">
                     {/* Header with close button */}
                     <Box 
                         sx={{ 
-                            bgcolor: 'rgba(244, 107, 107, 0.1)',
-                            mb: 1
+                            bgcolor: 'rgba(244, 107, 107, 0.3)',
                         }}
                     >
                         <Box sx={{ 
@@ -67,7 +66,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                     </Box>
 
                     {/* Navigation Links */}
-                    <Box >
+                    <Box className="h-full bg-main-pattern bg-cover bg-center bg-no-repeat bg-fixed">
                         <Link
                             to="/formules"
                             onClick={onClose}
