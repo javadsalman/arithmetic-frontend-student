@@ -74,6 +74,25 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
             {/* Resize Controls - Left side */}
             <div className="flex justify-center md:justify-start gap-2 order-2 md:order-1 md:flex-1">
                 <div className="flex gap-2">
+                <button
+                    title="Tam Ekran"
+                    onClick={handleFullscreen}
+                    className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
+                >
+                    <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        {isFullscreen ? <FullscreenExit fontSize="large" /> : <Fullscreen fontSize="large" />}
+                    </div>
+                </button>
+                <button
+                    title="Səs"
+                    onClick={toggleMute}
+                    className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
+                >
+                    <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        {isMuted ? <VolumeOff fontSize="large" /> : <VolumeUp fontSize="large" />}
+                    </div>
+                </button>
+                
                     <button
                         title="Artır"
                         onClick={() => onHeightChange?.('increase')}
@@ -109,24 +128,7 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
                         {buttonText}
                     </motion.button>
                 )}
-                <button
-                    title="Səs"
-                    onClick={toggleMute}
-                    className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
-                >
-                    <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                        {isMuted ? <VolumeOff fontSize="large" /> : <VolumeUp fontSize="large" />}
-                    </div>
-                </button>
-                <button
-                    title="Tam Ekran"
-                    onClick={handleFullscreen}
-                    className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
-                >
-                    <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                        {isFullscreen ? <FullscreenExit fontSize="large" /> : <Fullscreen fontSize="large" />}
-                    </div>
-                </button>
+                
             </div>
         </div>
     )
