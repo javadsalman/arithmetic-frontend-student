@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
 import Timer from "./components/Timer";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { useGameplayStore } from "../../stores/gameplayStore";
 import { useGameStore } from "../../stores/gameStore";
@@ -27,6 +27,15 @@ function InputScreen({onComplete}: InputScreenProps) {
 
     const inputRef = useRef<HTMLInputElement>(null);
     
+    const getFontSize = (length: number) => {
+        if (length > 10) return 'text-[25px] md:text-[50px]';
+        if (length > 8) return 'text-[50px] md:text-[100px]';
+        if (length > 5) return 'text-[75px] md:text-[150px]';
+        return 'text-[100px] md:text-[200px]';
+    };
+
+    const inputFontSize = useMemo(() => getFontSize(currentUserAnswer.length), [currentUserAnswer.length]);
+
     const focusInput = useCallback(() => {
         setTimeout(() => {
             inputRef.current?.focus();
@@ -76,8 +85,8 @@ function InputScreen({onComplete}: InputScreenProps) {
                 value={currentUserAnswer}
                 onChange={inputOnChange}
                 onKeyDown={onKeyPress}
-                className="bg-transparent text-center text-white text-[200px] font-pangolin w-10/12 border-4 border-dotted border-white/50 rounded-xl outline-none mb-10" 
-                initial={{opacity: 0, y: -100}}
+                className={`bg-transparent text-center text-white font-pangolin w-10/12 border-4 border-dotted border-white/50 rounded-xl outline-none mb-10 transition-all duration-300 ${inputFontSize}`}
+                initial={{opacity: 0, y: -30}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.7}}
             />

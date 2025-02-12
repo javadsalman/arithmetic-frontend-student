@@ -35,14 +35,12 @@ function DigitStep() {
     const { gameType, gameMode } = useParams();
 
 
-    const numbers = [1, 2, 4, 5, 6, 7, 8, 9, 10];
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 
     const handleNext = () => {
         navigate(`/game/${gameType}/${gameMode}/steps/number`);
     };
-
-
 
     const handleOpenVideo = (videoUrl: string) => {
         setCurrentVideo(videoUrl);
@@ -72,35 +70,33 @@ function DigitStep() {
             </div>
 
             {/* Forward button */}
-            <div className="flex justify-center mb-3">
+            <div className="max-w-md w-full mx-auto space-y-3">
                 <Button
                     variant="contained"
                     onClick={handleNext}
-                    className="w-64 py-3 mb-12 bg-[#1890FF] hover:bg-[#40A9FF]"
+                    className="bg-[#1890FF] hover:bg-[#40A9FF] py-3 text-lg"
                     size="large"
+                    fullWidth
                 >
-                    <Lang>İRƏLİ</Lang>
+                    <Lang>NÖVBƏTİ</Lang>
                 </Button>
-            </div>
 
-            <div className="flex justify-center mb-3">
                 <Button
                     variant="contained"
                     onClick={handleStart}
-                    className="w-64 py-3 mb-12 bg-[#1890FF] hover:bg-[#40A9FF]"
+                    className="bg-[#1890FF] hover:bg-[#40A9FF] py-3 text-lg"
                     size="large"
+                    fullWidth
                 >
-
                     <Lang>BAŞLA</Lang>
                 </Button>
-            </div>
 
-            <div className="flex justify-center">
                 <Button
                     variant="outlined"
                     onClick={() => navigate('/')}
-                    className="w-64 py-3 mb-12"
+                    className="py-3 text-lg"
                     size="large"
+                    fullWidth
                 >
                     <Lang>Formullar</Lang>
                 </Button>
@@ -112,29 +108,28 @@ function DigitStep() {
                 <p className="text-center mb-4 text-gray-600 text-lg font-bold">
                     <Lang>Formul izahı üçün</Lang>
                 </p>
-                <div className="space-y-2 w-1/3 mx-auto">
-
+                <div className="max-w-md mx-auto space-y-3">
                     <Button
                         variant="outlined"
                         startIcon={<PlayCircleOutlineIcon />}
                         fullWidth
                         size="large"
+                        className="py-3 text-lg"
                         onClick={() => handleOpenVideo('https://www.youtube.com/watch?v=UUga4-z7b6s')}
                     >
                         <Lang>ƏL İLƏ İZAH</Lang>
                     </Button>
                     <Button
-
                         variant="outlined"
                         startIcon={<PlayCircleOutlineIcon />}
                         fullWidth
                         size="large"
+                        className="py-3 text-lg"
                         onClick={() => handleOpenVideo('https://www.youtube.com/watch?v=UUga4-z7b6s')}
                     >
                         <Lang>ABAK İLƏ İZAH</Lang>
                     </Button>
                 </div>
-
             </div>
 
             {/* Video Modal */}

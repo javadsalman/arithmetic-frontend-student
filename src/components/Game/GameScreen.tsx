@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { tv } from "tailwind-variants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useGameplayStore } from "../../stores/gameplayStore";
@@ -23,6 +23,15 @@ const gameScreen = tv({
     }
 })
 
+const getFontSize = (number: number) => {
+    const length = String(number).length;
+    if (length < 4) return 'text-[100px] md:text-[200px]';
+    if (length < 6) return 'text-[80px] md:text-[200px]';
+    if (length < 8) return 'text-[60px] md:text-[170px]';
+    if (length < 10) return 'text-[50px] md:text-[140px]';
+    if (length < 12) return 'text-[40px] md:text-[110px]';
+    return 'text-[30px] md:text-[80px]';
+};
 
 const GameScreen = ({onComplete}: GameScreenProps) => {
     const {getCurrentCalcItems} = useGameplayStore();
@@ -31,6 +40,7 @@ const GameScreen = ({onComplete}: GameScreenProps) => {
     const [counter, setCounter] = useState<number>(0);
     const { betweenDuration } = useGameStore();
     
+    const numberFontSize = useMemo(() => getFontSize(currentItem), [currentItem]);
 
     useEffect(() => {
         if (calcItems.length === 0) return;
@@ -69,7 +79,7 @@ const GameScreen = ({onComplete}: GameScreenProps) => {
                         exit={{opacity: 0, scale: 0}}
                         transition={{duration: 0.3}}
                     >
-                        <div key={counter} className="text-white text-[200px] font-pangolin tracking-wider absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <div key={counter} className={`text-white font-pangolin tracking-wider absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${numberFontSize}`}>
                             <span>{currentItem ? currentItem : null}</span>
                         </div>
                     </motion.div>

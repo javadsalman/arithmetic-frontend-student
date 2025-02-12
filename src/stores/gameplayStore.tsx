@@ -96,7 +96,7 @@ export const restartGame = () => {
     clearRounds();
     setScreen("enterance");
     // temp
-    // setScreen("game");
+    // startGame();    
 }
 
 

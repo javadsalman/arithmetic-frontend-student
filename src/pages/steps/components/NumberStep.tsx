@@ -50,7 +50,6 @@ function NumberStep() {
                 <Lang>Neçə sayda ədəd ilə oyun oynamaq istəyirsiniz?</Lang>
             </h2>
 
-
             <div>
                 <div className='mb-6'>
                     <TextField
@@ -60,9 +59,6 @@ function NumberStep() {
                         onChange={handleNumberCountChange}
                         variant="outlined"
                         helperText={langContent[language]!['Oynamaq istədiyiniz ədəd sayını seçin']}
-
-
-
                     />
                 </div>
 
@@ -74,10 +70,6 @@ function NumberStep() {
                         onChange={handleGameCountChange}
                         variant="outlined"
                         helperText={langContent[language]!['Oyun sayını qeyd edin']}
-
-
-
-
                     />
                 </div>
                 <div className='mb-4'>
@@ -94,8 +86,6 @@ function NumberStep() {
                         label={langContent[language]!['Rəqəm sayı qarışıq olsun']}
                     />
                 </div>
-
-
                 <div className="pt-4 space-y-3">
                     <Button
                         fullWidth
@@ -104,7 +94,7 @@ function NumberStep() {
                         className="bg-[#1890FF] hover:bg-[#40A9FF] py-3 text-lg"
                         size="large"
                     >
-                        <Lang>İRƏLİ</Lang>
+                        <Lang>NÖVBƏTİ</Lang>
                     </Button>
                     <Button
 

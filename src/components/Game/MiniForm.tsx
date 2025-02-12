@@ -1,9 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select, TextField, Button } from "@mui/material";
 import { useGameStore } from "../../stores/gameStore";
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useForm, Controller } from "react-hook-form";
-import { KeyboardEvent } from "react";
+import { KeyboardEvent, useEffect } from "react";
 import { FORMULE_TITLES } from "../../pages/formules/constants";
 import { FormuleMode } from "../../lib/formules/types";
 import { restartGame } from "../../stores/gameplayStore";
@@ -21,8 +21,8 @@ interface FormuleValues {
 
 
 function MiniForm() {
-    const { gameType, gameMode } = useParams();
     const { language } = useLanguageStore();
+    const navigate = useNavigate();
     const { 
         digitCount, 
         numberCount, 
@@ -31,11 +31,13 @@ function MiniForm() {
         setDigitCount,
         setNumberCount,
         setBetweenDuration,
-        setAnswerDuration
+        setAnswerDuration,
+        gameType,
+        gameMode,
+        setGameMode
     } = useGameStore();
 
-
-    const { control, handleSubmit } = useForm<FormuleValues>({
+    const { control, handleSubmit, setValue } = useForm<FormuleValues>({
         defaultValues: {
             formuleMode: gameMode as FormuleMode,
             digitCount: digitCount,
@@ -51,6 +53,8 @@ function MiniForm() {
         setNumberCount(data.numberCount);
         setBetweenDuration(data.betweenDuration);
         setAnswerDuration(data.answerDuration);
+        setGameMode(data.formuleMode);
+        navigate(`/game/${gameType}/${data.formuleMode}/game`);
         restartGame();
     };
 
@@ -59,6 +63,10 @@ function MiniForm() {
             handleSubmit(onSubmit)();
         }
     }
+
+    useEffect(() => {
+        setValue('formuleMode', gameMode as FormuleMode);
+    }, [gameMode]);
     
     
     return (
@@ -148,13 +156,13 @@ function MiniForm() {
 
                     </div>
 
-                    <div className="ml-auto">
+                    <div className="w-full md:w-auto ml-auto">
                         <Button
                             variant="outlined"
                             onClick={handleSubmit(onSubmit)}
                             startIcon={<RefreshIcon />}
                             color="inherit"
-                            className="h-[56px] ml-auto"
+                            className="h-[56px] w-full"
                         >
                             <Lang>YENİLƏ</Lang>
                         </Button>

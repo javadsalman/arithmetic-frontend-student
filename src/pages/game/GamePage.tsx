@@ -14,7 +14,6 @@ function GamePage() {
     const { setGameType, setGameMode } = useGameStore();
 
 
-
     useEffect(() => {
         setGameType(gameType as "formules" | "actions");
         setGameMode(gameMode as FormuleMode | ActionMode);

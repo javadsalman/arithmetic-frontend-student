@@ -1,12 +1,17 @@
 import logoImage from "../../assets/images/logo.png"
 import { Link, useNavigate } from "react-router"
 import { useState } from "react"
-import { Box, Typography, Menu, MenuItem, AppBar, Container, Toolbar, Divider, Tooltip } from "@mui/material"
+import { Box, Typography, Menu, MenuItem, AppBar, Container, Toolbar, Divider, Tooltip, IconButton } from "@mui/material"
 import graduatedSvg from "../../assets/svg/graduated.svg"
 import { LanguageCode, useLanguageStore } from "../../stores/languageStore"
 import Lang from './Lang';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const Header = () => {
+interface HeaderProps {
+    onOpenSidebar: () => void;
+}
+
+const Header = ({ onOpenSidebar }: HeaderProps) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
@@ -46,8 +51,8 @@ const Header = () => {
                 <Toolbar 
                     disableGutters 
                     sx={{ 
-                        height: 64, 
-                        px: { xs: 2, sm: 3, lg: 4 },
+                        height: { xs: 56, md: 64 }, 
+                        px: { xs: 1, sm: 2, md: 3, lg: 4 },
                         position: 'relative'
                     }}
                 >
@@ -58,7 +63,10 @@ const Header = () => {
                                 component="img"
                                 src={logoImage}
                                 alt="Tiamo Kids"
-                                sx={{ height: 48, width: 'auto' }}
+                                sx={{ 
+                                    height: { xs: 36, sm: 40, md: 48 },
+                                    width: 'auto' 
+                                }}
                             />
                         </Link>
                     </Box>
@@ -67,8 +75,8 @@ const Header = () => {
                     <Box 
                         component="nav" 
                         sx={{ 
-                            display: { xs: 'none', md: 'flex' },
-                            gap: 12,
+                            display: { xs: 'none', lg: 'flex' },
+                            gap: { lg: 6, xl: 12 },
                             position: 'absolute',
                             left: '50%',
                             transform: 'translateX(-50%)'
@@ -94,7 +102,7 @@ const Header = () => {
                         </Link>
                     </Box>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto', gap: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto', gap: { xs: 1, sm: 2 } }}>
                         {/* Language Selector */}
                         <Box>
                             <Tooltip title="Change language">
@@ -102,8 +110,8 @@ const Header = () => {
                                     onClick={handleLangClick}
                                     sx={{
                                         cursor: 'pointer',
-                                        width: 40,
-                                        height: 40,
+                                        width: { xs: 32, sm: 36, md: 40 },
+                                        height: { xs: 32, sm: 36, md: 40 },
                                         borderRadius: '50%',
                                         overflow: 'hidden',
                                         transition: 'transform 0.2s',
@@ -189,23 +197,26 @@ const Header = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 cursor: 'pointer',
-                                bgcolor: '#E3F2FD',
+                                bgcolor: { xs: 'transparent', sm: '#E3F2FD' },
                                 borderRadius: '24px',
-                                py: 1,
-                                px: 2,
-                                gap: 1.5
+                                py: { xs: 0.5, sm: 0.75, md: 1 },
+                                px: { xs: 0, sm: 1.75, md: 2 },
+                                gap: { xs: 1, sm: 1.5 }
                             }}
                             onClick={handleClick}
                             aria-controls={open ? 'profile-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                         >
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ 
+                                display: { xs: 'none', sm: 'flex' }, 
+                                flexDirection: 'column' 
+                            }}>
                                 <Typography 
                                     variant="subtitle1" 
                                     sx={{ 
                                         color: 'black',
-                                        fontSize: '0.875rem',
+                                        fontSize: { sm: '0.8rem', md: '0.875rem' },
                                         fontWeight: 500,
                                         lineHeight: 1.2
                                     }}
@@ -216,7 +227,7 @@ const Header = () => {
                                     variant="body2" 
                                     sx={{ 
                                         color: 'text.secondary',
-                                        fontSize: '0.75rem',
+                                        fontSize: { sm: '0.7rem', md: '0.75rem' },
                                         lineHeight: 1.2
                                     }}
                                 >
@@ -227,11 +238,25 @@ const Header = () => {
                                 component="img"
                                 src={graduatedSvg}
                                 sx={{ 
-                                    width: 40,
-                                    height: 40
+                                    width: { xs: 45, sm: 36, md: 40 },
+                                    height: { xs: 45, sm: 36, md: 40 }
                                 }}
                             />
                         </Box>
+
+                        {/* Mobile Menu Button */}
+                        <IconButton
+                            onClick={onOpenSidebar}
+                            sx={{ 
+                                display: { xs: 'flex', lg: 'none' },
+                                color: '#f46b6b',
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: { xs: '2rem' }
+                                }
+                            }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
                     </Box>
 
                     {/* Dropdown Menu */}
@@ -242,7 +267,7 @@ const Header = () => {
                         onClose={handleClose}
                         PaperProps={{
                             sx: {
-                                width: 220,
+                                width: { xs: 180, sm: 200, md: 220 },
                                 '& .MuiList-root': {
                                     py: 1
                                 }
@@ -250,6 +275,36 @@ const Header = () => {
                         }}
                         disableAutoFocusItem
                     >
+                        {/* User Info Box - Visible only on xs screens */}
+                        <Box
+                            sx={{
+                                display: { xs: 'flex', sm: 'none' },
+                                flexDirection: 'column',
+                                p: 2,
+                                bgcolor: 'grey.50',
+                                borderBottom: '1px solid',
+                                borderColor: 'grey.200'
+                            }}
+                        >
+                            <Typography
+                                sx={{
+                                    color: 'text.primary',
+                                    fontSize: '0.875rem',
+                                    fontWeight: 500,
+                                    mb: 0.5
+                                }}
+                            >
+                                <Lang>Əli Resulzadə</Lang>
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: 'text.secondary',
+                                    fontSize: '0.75rem'
+                                }}
+                            >
+                                X <Lang>sinif şagirdi</Lang>
+                            </Typography>
+                        </Box>
                         <MenuItem 
                             sx={{ 
                                 py: 1.5,

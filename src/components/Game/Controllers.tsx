@@ -62,7 +62,7 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
     }, []);
     
     return (
-        <div className="py-5 flex justify-end gap-4">
+        <div className="py-5 flex justify-center md:justify-end gap-4">
             {showButton && (
                 <motion.button 
                     initial={{opacity: 0, scale: 0.9}}
