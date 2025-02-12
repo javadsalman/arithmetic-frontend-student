@@ -86,8 +86,8 @@ function InputScreen({onComplete}: InputScreenProps) {
                 onChange={inputOnChange}
                 onKeyDown={onKeyPress}
                 className={`bg-transparent text-center text-white font-pangolin w-10/12 border-4 border-dotted border-white/50 rounded-xl outline-none mb-10 transition-all duration-300 ${inputFontSize}`}
-                initial={{opacity: 0, y: -30}}
-                animate={{opacity: 1, y: 0}}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
                 transition={{duration: 0.7}}
             />
             <motion.div 
