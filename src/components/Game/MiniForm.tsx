@@ -70,7 +70,7 @@ function MiniForm() {
     
     
     return (
-        <div className="w-full max-w-6xl p-4 order-2 md:order-1 mt-10 md:mt-0">
+        <div className="w-full max-w-6xl p-4 order-2 md:order-1 mt-0 md:mt-0">
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row gap-4">
                     <div>
                         { gameType === 'formules' && <Controller
