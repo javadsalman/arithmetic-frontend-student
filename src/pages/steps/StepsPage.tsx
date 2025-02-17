@@ -9,7 +9,7 @@ import Lang from "../home/Lang";
 import TableStep from "./components/TableStep";
 import SoundList from "./components/SoundStep";
 import { useMemo } from "react";
-import { SIMPLE_MULTIPLICATION_ACTION, SQUARE_ACTION, REMAINDER_DIVISION_ACTION, SQUARE_ROOT_ACTION, SIMPLE_DIVISION_ACTION, MONEY_ACTION, MULTIPLE_MONEY_ACTION, MUSICAL_INSTRUMENTS_ACTION, ANIMAL_SOUNDS_ACTION } from "../actions/constants";
+import { SIMPLE_MULTIPLICATION_ACTION, SQUARE_ACTION, REMAINDER_DIVISION_ACTION, SQUARE_ROOT_ACTION, SIMPLE_DIVISION_ACTION,  MUSICAL_INSTRUMENTS_ACTION, ANIMAL_SOUNDS_ACTION } from "../actions/constants";
 import { ActionMode } from "../actions/types";
 
 function StepsPage() {
