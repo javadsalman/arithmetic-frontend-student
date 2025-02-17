@@ -11,6 +11,8 @@ import EndScreen from "./EndScreen";
 import EntranceScreen from "./EnteranceScreen";
 import { content as langContent } from "./Lang";
 import { useLanguageStore } from "../../stores/languageStore";
+import { useGameStore } from "../../stores/gameStore";
+import { FREE_WORK_FLIPPED_ACTION } from "../../pages/actions/constants";
 
 type ControllerProps = {
     showButton: boolean;
@@ -40,6 +42,7 @@ function GamePlay() {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const pageRef = useRef<HTMLDivElement>(null);
     const boardRef = useRef<HTMLDivElement>(null);
+    const { gameType, gameMode } = useGameStore();
     const {
         screen, 
         setScreen,
@@ -75,6 +78,15 @@ function GamePlay() {
         }
     }, [screen])
 
+    const [gameProps, inputProps] = useMemo(() => {
+        if (gameType === "actions") {
+            if (gameMode === FREE_WORK_FLIPPED_ACTION) {
+                return [{reversed: true}, {}] as const;
+            }
+        }
+        return [{}, {}] as const;
+    }, [gameType, gameMode])
+
     const onEnteranceComplete = useCallback(() => {
         startGame()
     }, [])
@@ -96,22 +108,32 @@ function GamePlay() {
             case "enterance":
                 return <EntranceScreen boardRef={boardRef} onComplete={onEnteranceComplete} duration={1000} wait={3000} disappear={500} />;
             case "game":
-                return <GameScreen onComplete={onGameComplete} />;
+                return <GameScreen onComplete={onGameComplete} {...gameProps} />;
             case "input":
-                return <InputScreen onComplete={onInputComplete} />;
+                return <InputScreen onComplete={onInputComplete} {...inputProps} />;
             case "result":
                 return <ResultScreen />;
             case "end":
                 return <EndScreen />;
         }
-    }, [screen]);
+    }, [screen, gameProps, inputProps]);
 
     return (
         <div ref={pageRef} className={page({fullscreen: isFullscreen})}>
             <div className={`w-full transition-all duration-300 ${heightVariants[heightSize]}`}>
                 <BoardLayout boardRef={boardRef}>
                     <AnimatePresence mode="wait">
-                        <motion.div className="w-full h-full" key={screen} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: 0.5}}> 
+                        <motion.div 
+                            className="w-full h-full" 
+                            key={screen} 
+                            initial={{opacity: 0}} 
+                            animate={{opacity: 1}} 
+                            exit={{opacity: 0}} 
+                            transition={{
+                                enter: {duration: 0.1},
+                                exit: {duration: 0.02}
+                            }}
+                        > 
                             {screenContent}
                         </motion.div>
                     </AnimatePresence>

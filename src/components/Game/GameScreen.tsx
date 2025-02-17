@@ -7,12 +7,6 @@ import { playIqSound, playNumberSound } from "../../stores/soundStore";
 
 
 
-
-
-interface GameScreenProps {
-    onComplete: () => void;
-}
-
 const gameScreen = tv({
     base: "flex flex-col items-center justify-center h-full w-full",
     variants: {
@@ -23,17 +17,41 @@ const gameScreen = tv({
     }
 })
 
+const numberVariants = tv({
+    base: "text-white font-leckerli-one tracking-wider absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+    variants: {
+        size: {
+            lessThan4: "text-[100px] md:text-[200px]",
+            lessThan6: "text-[80px] md:text-[200px]",
+            lessThan8: "text-[60px] md:text-[170px]",
+            lessThan10: "text-[50px] md:text-[140px]",
+            lessThan12: "text-[40px] md:text-[110px]",
+            biggerThan12: "text-[30px] md:text-[80px]",
+        },
+        flipped: {
+            true: "rotate-180",
+            false: "",
+        }
+    }
+})
+
 const getFontSize = (number: number) => {
     const length = String(number).length;
-    if (length < 4) return 'text-[100px] md:text-[200px]';
-    if (length < 6) return 'text-[80px] md:text-[200px]';
-    if (length < 8) return 'text-[60px] md:text-[170px]';
-    if (length < 10) return 'text-[50px] md:text-[140px]';
-    if (length < 12) return 'text-[40px] md:text-[110px]';
-    return 'text-[30px] md:text-[80px]';
+    if (length < 4) return 'lessThan4';
+    if (length < 6) return 'lessThan6';
+    if (length < 8) return 'lessThan8';
+    if (length < 10) return 'lessThan10';
+    if (length < 12) return 'lessThan12';
+    return 'biggerThan12';
 };
 
-const GameScreen = ({onComplete}: GameScreenProps) => {
+
+interface GameScreenProps {
+    onComplete: () => void;
+    reversed?: boolean;
+}
+
+const GameScreen = ({onComplete, reversed = false}: GameScreenProps) => {
     const {getCurrentCalcItems} = useGameplayStore();
     const calcItems = getCurrentCalcItems();
     const [currentItem, setCurrentItem] = useState<number>(0);
@@ -67,6 +85,11 @@ const GameScreen = ({onComplete}: GameScreenProps) => {
         playIqSound();
     }, []);
 
+    const currentItemString = useMemo(() => {
+        if (!currentItem) return "";
+        if (currentItem > 0) return "+" + currentItem;
+        return currentItem;
+    }, [currentItem]);
 
     return (
         <div className={gameScreen({show: true})}>
@@ -79,8 +102,8 @@ const GameScreen = ({onComplete}: GameScreenProps) => {
                         exit={{opacity: 0, scale: 0}}
                         transition={{duration: 0.3}}
                     >
-                        <div key={counter} className={`text-white font-pangolin tracking-wider absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${numberFontSize}`}>
-                            <span>{currentItem ? currentItem : null}</span>
+                        <div key={counter} className={numberVariants({size: numberFontSize, flipped: reversed})}>
+                            <span>{currentItemString}</span>
                         </div>
                     </motion.div>
                 </AnimatePresence>

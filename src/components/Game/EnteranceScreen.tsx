@@ -19,7 +19,7 @@ function Entrance({boardRef, onComplete, duration=1000, wait=3000, disappear=500
         (async () => {
             if (!beReadyRef.current || !startRef.current || !boardRef.current) return;
             await draw({elementToDraw: beReadyRef.current, container: boardRef.current, duration: duration, wait: wait, disappear: disappear});
-            await draw({elementToDraw: startRef.current, container: boardRef.current, duration: duration, wait: wait, disappear: disappear});
+            // await draw({elementToDraw: startRef.current, container: boardRef.current, duration: duration, wait: wait, disappear: disappear});
             onComplete();
         })();
     }, [onComplete]);

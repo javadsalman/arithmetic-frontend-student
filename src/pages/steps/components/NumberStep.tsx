@@ -5,11 +5,6 @@ import Lang, { content as langContent } from '../Lang';
 import { useLanguageStore } from '../../../stores/languageStore';
 
 
-
-
-
-
-
 function NumberStep() {
     const navigate = useNavigate();
     const { 

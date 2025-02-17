@@ -1,1 +1,1 @@
-export type StepType = 'digit' | 'number' | 'time';
+export type StepType = 'digit' | 'number' | 'time' | 'table-muldiv' | 'table-power' | 'sound-instruments' | 'sound-animals';

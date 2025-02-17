@@ -4,6 +4,8 @@ import { useGameStore } from './gameStore';
 import { immer } from 'zustand/middleware/immer';
 import Generator from '../lib/formules/generator';
 import { FormuleMode } from '../lib/formules/types';
+import { FREE_WORK_ACTION } from '../pages/actions/constants';
+import { MIXED_ADD_SUB } from '../lib/formules/constants';
 
 
 const generator = new Generator();
@@ -86,10 +88,30 @@ export const createFormuleRound = () => {
     addRound(newRound);
 }
 
+export const createActionRound = () => {
+    const { digitCount, numberCount, isMixedDigits, gameMode } = useGameStore.getState();
+    const { addRound, getCurrentRound } = useGameplayStore.getState();
+    const currentRound = getCurrentRound();
+    if (currentRound && !currentRound.finished) {
+        return;
+    }
+    let calcItems: number[] = [];
+    if (gameMode === FREE_WORK_ACTION) {
+        calcItems = generator.generate({digitCount, numberCount, mixedCount: isMixedDigits, mode: MIXED_ADD_SUB});
+    }
+    const correctAnswer = calcItems.reduce((acc, item) => acc + item, 0);
+    const newRound: Round = {calcItems, userAnswer: null, correctAnswer, finished: false};
+    addRound(newRound);
+}
+
 export const createNewRound = () => {
     const { gameType } = useGameStore.getState();
     if (gameType === "formules") {
         createFormuleRound();
+    } else if (gameType === "actions") {
+        createActionRound();
+    } else {
+        throw new Error("Invalid game type");
     }
 }
 

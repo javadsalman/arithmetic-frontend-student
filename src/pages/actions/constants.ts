@@ -1,37 +1,63 @@
 import { ActionMode } from "./types";
 
 export const COLOR_PALETTES = [
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#00BCD4", back: "#0097A7" }, // Cyan
-    { front: "#FF6B6B", back: "#E95555" }, // Red
-    { front: "#009688", back: "#00796B" }, // Teal
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#8BC34A", back: "#689F38" }, // Light Green
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#00BCD4", back: "#0097A7" }, // Cyan
-    { front: "#FF6B6B", back: "#E95555" }, // Red
-    { front: "#009688", back: "#00796B" }, // Teal
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#8BC34A", back: "#689F38" }, // Light Green
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#00BCD4", back: "#0097A7" }, // Cyan
-    { front: "#FF6B6B", back: "#E95555" }, // Red
-    { front: "#009688", back: "#00796B" }, // Teal
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#8BC34A", back: "#689F38" }, // Light Green
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#00BCD4", back: "#0097A7" }, // Cyan
-    { front: "#FF6B6B", back: "#E95555" }, // Red
-    { front: "#009688", back: "#00796B" }, // Teal
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#8BC34A", back: "#689F38" }, // Light Green
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#00BCD4", back: "#0097A7" }, // Cyan
-    { front: "#FF6B6B", back: "#E95555" }, // Red
-    { front: "#009688", back: "#00796B" }, // Teal
-    { front: "#F4A940", back: "#D88C2A" }, // Orange
-    { front: "#8BC34A", back: "#689F38" }, // Light Green
-   
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    { front: "#f29c1f", back: "#f3d541" }, // Orange
+    { front: "#fe5c45", back: "#fe9282" }, // Red
+    { front: "#0c6c2c", back: "#4f9e34" }, // Green
+    { front: "#ed5575", back: "#f7bac7" }, // Pink
+    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
+    { front: "#6b271d", back: "#b44131" }, // Brown
+    { front: "#5169cd", back: "#9daae0" }, // Purple
+    { front: "#49b668", back: "#9fd479" }, // Lime
+    
    
 ]
 

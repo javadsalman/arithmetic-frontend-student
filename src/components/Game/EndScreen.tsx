@@ -1,7 +1,7 @@
 import medalImageSource from '../../assets/images/medal.png';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../stores/gameStore';
-import { useGameplayStore } from '../../stores/gameplayStore';
+import { restartGame, useGameplayStore } from '../../stores/gameplayStore';
 import { playIqSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
@@ -19,6 +19,19 @@ function EndScreen() {
     useEffect(() => {
         playIqSound();
     }, []);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                restartGame();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+    
 
     return (
             <div className="flex flex-col items-center justify-center w-full h-full gap-2 lg:gap-8 p-4">

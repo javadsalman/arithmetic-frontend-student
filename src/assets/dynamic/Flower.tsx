@@ -18,8 +18,8 @@ function Flower({ frontColor, backColor, size }: FlowerProps) {
         >
             <defs>
                 <style>
-                    {`.cls-${key}-1 { fill: ${frontColor}; }
-                      .cls-${key}-2 { fill: ${backColor}; }`}
+                    {`.cls-${key}-1 { fill: ${backColor}; }
+                      .cls-${key}-2 { fill: ${frontColor}; }`}
                 </style>
             </defs>
             <g id="Warstwa_1-2" data-name="Warstwa 1">

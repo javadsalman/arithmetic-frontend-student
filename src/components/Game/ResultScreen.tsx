@@ -5,7 +5,7 @@ import wellDoneImageSource from '../../assets/images/well-done.png';
 import { tv } from 'tailwind-variants';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useGameplayStore } from '../../stores/gameplayStore';
+import { startGame, useGameplayStore } from '../../stores/gameplayStore';
 import { useGameStore } from '../../stores/gameStore';
 import { playTrueSound, playFalseSound } from '../../stores/soundStore';
 import Lang from './Lang';
@@ -61,6 +61,19 @@ function ResultScreen() {
             playFalseSound();
         }
     }, [isCorrect]);
+
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                startGame();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
     
     
     return (

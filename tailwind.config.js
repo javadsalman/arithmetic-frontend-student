@@ -10,7 +10,9 @@ export default {
         'main-pattern': "url('/src/assets/images/background.png')"
       },
       fontFamily: {
-        'pangolin': ["Pangolin", "serif"]
+        'pangolin': ["Pangolin", "serif"],
+        'leckerli-one': ["Leckerli One", "serif"],
+        'nunito': ["Nunito", "sans-serif"]
       }
     },
   },
