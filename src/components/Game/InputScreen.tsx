@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
 import { useEffect } from "react";
-import { useGamePlayStore } from "../../stores/gamePlayStore";
+import { useGameplayStore } from "../../stores/gameplayStore";
 import { useGameStore } from "../../stores/gameStore";
 import InputForm from "./components/InputForm";
 
@@ -45,7 +45,7 @@ function InputScreen({onComplete, doubleInput}: InputScreenProps) {
     const { container, input, timer } = inputVariants({doubleInput});
 
     const { answerDuration } = useGameStore();
-    const { currentUserAnswer, setCurrentUserAnswer, answerCurrentRound, secondUserAnswer, setSecondUserAnswer } = useGamePlayStore();
+    const { currentUserAnswer, setCurrentUserAnswer, answerCurrentRound, secondUserAnswer, setSecondUserAnswer } = useGameplayStore();
 
 
     useEffect(() => {

@@ -5,7 +5,7 @@ import GameScreen from "./GameScreen";
 import InputScreen from "./InputScreen";
 import Controllers from "./Controllers";
 import { AnimatePresence, motion } from "framer-motion";
-import { restartGame, startGame, useGamePlayStore, changeHeightSize, HeightSize, showResult, showEnd, showInput, isAllRoundsFinished } from "../../stores/gamePlayStore";
+import { restartGame, startGame, useGameplayStore, changeHeightSize, HeightSize, showResult, showEnd, showInput, isAllRoundsFinished } from "../../stores/gameplayStore";
 import ResultScreen from "./ResultScreen";
 import EndScreen from "./EndScreen";
 import EntranceScreen from "./EnteranceScreen";
@@ -41,7 +41,7 @@ export const heightVariants: Record<HeightSize, string> = {
     xl: 'h-[calc(100vh-100px)]'
 } as const;
 
-function GamePlay() {
+function Gameplay() {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const pageRef = useRef<HTMLDivElement>(null);
     const boardRef = useRef<HTMLDivElement>(null);
@@ -49,7 +49,7 @@ function GamePlay() {
     const {
         screen, 
         heightSize,
-    } = useGamePlayStore();
+    } = useGameplayStore();
     const { language } = useLanguageStore();
     const allRoundsFinished = isAllRoundsFinished();
 
@@ -160,5 +160,5 @@ function GamePlay() {
     );
 }
 
-export default GamePlay;
+export default Gameplay;
 

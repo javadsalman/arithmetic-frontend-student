@@ -5,11 +5,11 @@ import wellDoneImageSource from '../../assets/images/well-done.png';
 import { tv } from 'tailwind-variants';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
-import { useGamePlayStore } from '../../stores/gamePlayStore';
+import { useGameplayStore } from '../../stores/gameplayStore';
 import { useGameStore } from '../../stores/gameStore';
 import { playTrueSound, playFalseSound } from '../../stores/soundStore';
 import Lang from './Lang';
-import { Round } from '../../stores/gamePlayStore';
+import { Round } from '../../stores/gameplayStore';
 interface RoundReport {
     remainingGames: number;
     userAnswer: number|null;
@@ -32,7 +32,7 @@ interface ResultScreenProps {
 }
 
 function ResultScreen({double, onComplete}: ResultScreenProps) {
-    const { rounds, getCurrentRound, transformValue } = useGamePlayStore();
+    const { rounds, getCurrentRound, transformValue } = useGameplayStore();
     const { gameCount } = useGameStore();
     const currentRound = getCurrentRound();
     const [report, setReport] = useState<RoundReport>();

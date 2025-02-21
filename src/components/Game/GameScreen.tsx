@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { tv } from "tailwind-variants";
 import { AnimatePresence, motion } from "framer-motion";
-import { useGamePlayStore } from "../../stores/gamePlayStore";
+import { useGameplayStore } from "../../stores/gameplayStore";
 import { useGameStore } from "../../stores/gameStore";
 import { playNumberSound } from "../../stores/soundStore";
 import { ModeFeatures } from "../../helpers/types";
@@ -107,7 +107,7 @@ interface GameScreenProps extends ModeFeatures {
 
 const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, randomPosition, doubleInput, doubleColumn, doubleRow, soundNumbers, inputTitles, randomRotate}: GameScreenProps) => {
     const {input, container, timer, inputContainer} = inputVariants({doubleInput: doubleInput, inputTitles: !!inputTitles});
-    const {getCurrentCalcItems, getCurrentSecondCalcItems} = useGamePlayStore();
+    const {getCurrentCalcItems, getCurrentSecondCalcItems} = useGameplayStore();
     const calcItems = getCurrentCalcItems();
     const secondCalcItems = getCurrentSecondCalcItems();
     const [currentItem, setCurrentItem] = useState<CalcItem|null>(null);
@@ -116,7 +116,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     // const [setNumberPositions, setSetNumberPositions] = useState<[number, number]>([50, 50]);
     // const [setRotate, setSetRotate] = useState<number>(0);
     const { betweenDuration } = useGameStore();
-    const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGamePlayStore();
+    const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
     const { answerDuration } = useGameStore();
     const displayString = useMemo(() => {
         if (currentItem && secondCurrentItem) {

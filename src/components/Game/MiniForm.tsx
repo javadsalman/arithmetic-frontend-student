@@ -6,7 +6,7 @@ import { useForm, Controller, FieldErrors } from "react-hook-form";
 import { KeyboardEvent, useEffect, useMemo } from "react";
 import { FORMULE_TITLES } from "../../pages/formules/constants";
 import { FormuleMode } from "../../lib/formules/types";
-import { restartGame } from "../../stores/gamePlayStore";
+import { restartGame } from "../../stores/gameplayStore";
 import Lang, { content as langContent } from "./Lang";
 import { useLanguageStore } from "../../stores/languageStore";
 import { useNotificationStore } from "../../stores/notificationStore";

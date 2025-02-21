@@ -1,18 +1,18 @@
 import medalImageSource from '../../assets/images/medal.png';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../stores/gameStore';
-import { restartGame, useGamePlayStore } from '../../stores/gamePlayStore';
+import { restartGame, useGameplayStore } from '../../stores/gameplayStore';
 import { playIqSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
-import { Round } from '../../stores/gamePlayStore';
+import { Round } from '../../stores/gameplayStore';
 
 interface EndScreenProps {
     double: boolean;
 }
 
 function EndScreen({double}: EndScreenProps) {
-    const {rounds} = useGamePlayStore();
+    const {rounds} = useGameplayStore();
     const {gameCount} = useGameStore();
 
 

@@ -25,7 +25,7 @@ const actionGenerator = new ActionGenerator();
 
 export type HeightSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-interface GamePlayState {
+interface GameplayState {
     rounds: Round[];
     currentUserAnswer: string;
     secondUserAnswer: string;
@@ -49,7 +49,7 @@ interface GamePlayState {
     setTimestamp: (timestamp: number) => void;
 }
 
-export const useGamePlayStore = create<GamePlayState>()(
+export const useGameplayStore = create<GameplayState>()(
     persist(
         immer((set, get) => ({
             rounds: [],
@@ -111,7 +111,7 @@ export const useGamePlayStore = create<GamePlayState>()(
 
 export const createFormuleRound = () => {
     const { digitCount, numberCount, isMixedDigits, gameMode } = useGameStore.getState();
-    const { addRound, getCurrentRound } = useGamePlayStore.getState();
+    const { addRound, getCurrentRound } = useGameplayStore.getState();
     const currentRound = getCurrentRound();
     if (currentRound && !currentRound.finished) {
         return;
@@ -126,7 +126,7 @@ export const createFormuleRound = () => {
 
 export const createActionRound = () => {
     const { digitCount, numberCount, isMixedDigits, gameMode, secondDigitCount } = useGameStore.getState();
-    const { addRound, getCurrentRound, setTransformValue, setTransformColsToValue } = useGamePlayStore.getState();
+    const { addRound, getCurrentRound, setTransformValue, setTransformColsToValue } = useGameplayStore.getState();
     const currentRound = getCurrentRound();
     if (currentRound && !currentRound.finished) {
         return;
@@ -198,14 +198,14 @@ export const createNewRound = () => {
 }
 
 export const startGame = () => {
-    const { setScreen, setTimestamp } = useGamePlayStore.getState();
+    const { setScreen, setTimestamp } = useGameplayStore.getState();
     setScreen("game");
     setTimestamp(Date.now());
     createNewRound();
 }
 
 export const restartGame = () => {
-    const { clearRounds, setScreen } = useGamePlayStore.getState();
+    const { clearRounds, setScreen } = useGameplayStore.getState();
     clearRounds();
     setScreen("enterance");
     // temp
@@ -213,28 +213,28 @@ export const restartGame = () => {
 }
 
 export const showInput = () => {
-    const { setScreen } = useGamePlayStore.getState();
+    const { setScreen } = useGameplayStore.getState();
     setScreen("input");
 }
 
 export const showEnd = () => {
-    const { setScreen } = useGamePlayStore.getState();
+    const { setScreen } = useGameplayStore.getState();
     setScreen("end");
 }
 
 export const showResult = () => {
-    const { setScreen } = useGamePlayStore.getState();
+    const { setScreen } = useGameplayStore.getState();
     setScreen("result");
 }
 
 export const isAllRoundsFinished = () => {
     const { gameCount } = useGameStore.getState();
-    const { rounds } = useGamePlayStore.getState();
+    const { rounds } = useGameplayStore.getState();
     return rounds.length === gameCount;
 }
 
 export const changeHeightSize = (type: 'increase' | 'decrease') => {
-    const { heightSize, setHeightSize } = useGamePlayStore.getState();
+    const { heightSize, setHeightSize } = useGameplayStore.getState();
     const sizes: HeightSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
     const currentIndex = sizes.indexOf(heightSize);
     if (type === 'increase' && currentIndex < sizes.length - 1) {
