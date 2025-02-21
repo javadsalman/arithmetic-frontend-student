@@ -1,6 +1,5 @@
 import attachSvg from '../../../assets/svg/attach.svg'
-import { Snackbar, Alert } from '@mui/material';
-import { useState } from 'react';
+import { useNotificationStore } from '../../../stores/notificationStore';
 
 interface NoteProps {
   title: string;
@@ -29,11 +28,11 @@ const Note: React.FC<NoteProps> = ({
   disabled = false,
   className = ''
 }) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const { setNotification } = useNotificationStore();
 
   const handleClick = () => {
     if (disabled) {
-      setSnackbarOpen(true);
+      setNotification('Bu işəməliyyat mümkün deyil', 'error', 'filled', { vertical: 'bottom', horizontal: 'center' });
     } else if (onClick) {
       onClick();
     }
@@ -123,22 +122,6 @@ const Note: React.FC<NoteProps> = ({
         `} />
       </div>
       </div>
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity="warning"
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          Bu bölmə hələ aktiv deyil
-        </Alert>
-      </Snackbar>
     </>
   );
 };

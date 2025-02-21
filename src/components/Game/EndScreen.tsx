@@ -1,18 +1,30 @@
 import medalImageSource from '../../assets/images/medal.png';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../stores/gameStore';
-import { restartGame, useGameplayStore } from '../../stores/gameplayStore';
+import { restartGame, useGamePlayStore } from '../../stores/gamePlayStore';
 import { playIqSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
 
-function EndScreen() {
-    const {rounds} = useGameplayStore();
+interface EndScreenProps {
+    double: boolean;
+}
+
+function EndScreen({double}: EndScreenProps) {
+    const {rounds} = useGamePlayStore();
     const {gameCount} = useGameStore();
 
-    const totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer).length;
-    const totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer).length;
-    const totalGames = gameCount;
+
+    let totalCorrect, totalIncorrect, totalGames;
+    if (double) {
+        totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
+        totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
+        totalGames = gameCount;
+    } else {
+        totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer).length;
+        totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer).length;
+        totalGames = gameCount;
+    }
     const correctAnswers = totalCorrect;
     const wrongAnswers = totalIncorrect;
 

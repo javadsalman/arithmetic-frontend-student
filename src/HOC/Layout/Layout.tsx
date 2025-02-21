@@ -1,9 +1,9 @@
 import { ReactNode, useState } from 'react';
-import { Box, styled } from '@mui/material';
+import { Alert, Box, Snackbar, styled } from '@mui/material';
 import backgroundImage from '../../assets/images/background.png';
 import Header from './Header';
 import Sidebar from './Sidebar';
-
+import { useNotificationStore } from '../../stores/notificationStore';
 interface LayoutProps {
   children: ReactNode;
 }
@@ -19,6 +19,8 @@ const MainContent = styled(Box)(() => ({
 
 const Layout = ({ children }: LayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { notification, type, variant, position, open: notificationOpen, setOpen: setNotificationOpen } = useNotificationStore();
+
 
   return (
     <MainContent>
@@ -32,6 +34,21 @@ const Layout = ({ children }: LayoutProps) => {
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
+      <Snackbar
+        open={notificationOpen}
+        autoHideDuration={3000}
+        onClose={() => setNotificationOpen(false)}
+        anchorOrigin={position}
+      >
+        <Alert
+          onClose={() => setNotificationOpen(false)}
+          severity={type}
+          variant={variant}
+          sx={{ width: '100%' }}
+        >
+          {notification}
+        </Alert>
+      </Snackbar>
     </MainContent>
   );
 };

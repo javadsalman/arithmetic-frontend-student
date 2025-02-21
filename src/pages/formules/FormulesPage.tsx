@@ -13,11 +13,17 @@ import {
 } from '../../lib/formules/constants';
 import Lang, {content as langContent } from './Lang';
 import { useLanguageStore } from '../../stores/languageStore';
+import { useGameStore } from '../../stores/gameStore';
+import { FormuleMode } from '../../lib/formules/types';
+
 function FormulesPage() {
     const navigate = useNavigate();
     const { language } = useLanguageStore();
+    const { setGameType, setGameMode } = useGameStore();
 
     const handleNoteClick = (formule: string) => {
+        setGameType("formules");
+        setGameMode(formule as FormuleMode);
         navigate(`/game/formules/${formule}/steps/digit`);
     }
 

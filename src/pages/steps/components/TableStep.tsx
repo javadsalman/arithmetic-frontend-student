@@ -47,6 +47,10 @@ function TableStep({ tableType }: TableStepProps) {
         navigate(`/game/${gameType}/${gameMode}/steps/${DIGIT_STEP}`);
     }
 
+    const handleStart = () => {
+        navigate(`/game/${gameType}/${gameMode}/game`);
+    }
+
     return (
         <div className="mx-auto">
             <h2 className="text-2xl font-semibold text-[#FF4D4F] mb-8 text-center">
@@ -88,6 +92,28 @@ function TableStep({ tableType }: TableStepProps) {
                     onClick={handleNext}
                 >
                     <Lang>NÖVBƏTİ</Lang>
+                </Button>
+            </div>
+            <div className="flex justify-center max-w-md mx-auto mt-2"> 
+                <Button
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleStart}
+                >
+                    <Lang>BAŞLA</Lang>
+                </Button>
+            </div>
+            <div className="flex justify-center max-w-md mx-auto mt-2"> 
+                <Button
+                    fullWidth
+                    size="large"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate(`/actions`)}
+                >
+                    <Lang>Geri</Lang>
                 </Button>
             </div>
         </div>

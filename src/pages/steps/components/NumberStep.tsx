@@ -3,6 +3,9 @@ import { useNavigate, useParams } from 'react-router';
 import { useGameStore } from '../../../stores/gameStore';
 import Lang, { content as langContent } from '../Lang';
 import { useLanguageStore } from '../../../stores/languageStore';
+import { useMemo } from 'react';
+import { ACTIONS_FEATURES } from '../../actions/constants';
+import { ActionMode } from '../../actions/types';
 
 
 function NumberStep() {
@@ -19,6 +22,9 @@ function NumberStep() {
     const { gameType, gameMode } = useParams();
     const { language } = useLanguageStore();
 
+    const isSingleQuestion = useMemo(() => {
+        return gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion;
+    }, [gameType, gameMode]);
 
     const handleNext = () => {
         navigate(`/game/${gameType}/${gameMode}/steps/time`);
@@ -46,16 +52,18 @@ function NumberStep() {
             </h2>
 
             <div>
+                {!isSingleQuestion && (
                 <div className='mb-6'>
                     <TextField
-                            fullWidth
+                        fullWidth
                         label={langContent[language]!['Ədəd sayı']}
                         value={numberCount || ""}
                         onChange={handleNumberCountChange}
                         variant="outlined"
                         helperText={langContent[language]!['Oynamaq istədiyiniz ədəd sayını seçin']}
-                    />
-                </div>
+                        />
+                    </div>
+                )}
 
                 <div className='mb-2'>
                     <TextField

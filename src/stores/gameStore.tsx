@@ -6,6 +6,7 @@ import { immer } from 'zustand/middleware/immer';
 
 interface GameState {
     digitCount: number;
+    secondDigitCount: number;   
     numberCount: number;
     isMixedDigits: boolean;
     gameCount: number;
@@ -14,6 +15,7 @@ interface GameState {
     gameType: "formules" | "actions"| null;
     gameMode: FormuleMode|ActionMode|null;
     setDigitCount: (count: number) => void;
+    setSecondDigitCount: (count: number) => void;
     setNumberCount: (count: number) => void;
     setIsMixedDigits: (isRandom: boolean) => void;
     setGameCount: (count: number) => void;
@@ -27,6 +29,7 @@ interface GameState {
 
 const initialState = {
     digitCount: 1,
+    secondDigitCount: 1,
     numberCount: 3,
     isMixedDigits: false,
     gameCount: 10,
@@ -40,11 +43,12 @@ const initialState = {
 
 export const useGameStore = create<GameState>()(
     persist(
-        immer((set) => ({
+        immer((set, get) => ({
             ...initialState,
             setGameType: (gameType: "formules" | "actions") => set({ gameType }),
             setGameMode: (gameMode: FormuleMode|ActionMode) => set({ gameMode }),
             setDigitCount: (count: number) => set({ digitCount: count }),
+            setSecondDigitCount: (count: number) => get().digitCount >= count && set({ secondDigitCount: count }),
             setNumberCount: (count: number) => set({ numberCount: count }),
             setIsMixedDigits: (isRandom: boolean) => set({ isMixedDigits: isRandom }),
             setGameCount: (count: number) => set({ gameCount: count }),

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, Modal, Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -6,6 +6,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGameStore } from '../../../stores/gameStore';
 import NumberSelector from '../../../components/GameForm/NumberSelector';
 import Lang from '../../home/Lang';
+import { ACTIONS_FEATURES } from '../../actions/constants';
+import { ActionMode } from '../../actions/types';
 
 
 // Utility function to convert YouTube URL to embed URL
@@ -28,11 +30,13 @@ const modalStyle = {
 };
 
 function DigitStep() {
-    const { digitCount, setDigitCount } = useGameStore();
+    const { digitCount, setDigitCount, secondDigitCount, setSecondDigitCount } = useGameStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentVideo, setCurrentVideo] = useState('');
     const navigate = useNavigate();
     const { gameType, gameMode } = useParams();
+
+    const isSecondDigitAvailable = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].doubleDigitCount, [gameType, gameMode]);
 
 
     const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -53,8 +57,7 @@ function DigitStep() {
     };
 
     const handleStart = () => {
-        const timestamp = new Date().getTime();
-        navigate(`/game/${gameType}/${gameMode}/game?timestamp=${timestamp}`);
+        navigate(`/game/${gameType}/${gameMode}/game`);
     }
 
     return (
@@ -64,12 +67,16 @@ function DigitStep() {
             </h2>
 
 
-            {/* Number selector with connected line */}
             <div className="w-full mb-12">
                 <NumberSelector numbers={numbers} digitCount={digitCount} setDigitCount={setDigitCount} />
             </div>
 
-            {/* Forward button */}
+            {isSecondDigitAvailable && (
+                <div className="w-full mb-12">
+                    <NumberSelector numbers={numbers} digitCount={secondDigitCount} setDigitCount={setSecondDigitCount} />
+                </div>
+            )}
+
             <div className="max-w-md w-full mx-auto space-y-3">
                 <Button
                     variant="contained"
@@ -90,7 +97,17 @@ function DigitStep() {
                 >
                     <Lang>BAŞLA</Lang>
                 </Button>
-
+                {gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].steps.length > 3 && (
+                    <Button
+                        variant="outlined"
+                        onClick={() => navigate(`/game/${gameType}/${gameMode}/steps/${ACTIONS_FEATURES[gameMode as ActionMode].steps[0]}`)}
+                        className="py-3 text-lg"
+                        size="large"
+                        fullWidth
+                >
+                        <Lang>Geri</Lang>
+                    </Button>
+                )}
                 <Button
                     variant="outlined"
                     onClick={() => navigate('/')}

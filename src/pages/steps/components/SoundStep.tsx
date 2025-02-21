@@ -33,6 +33,10 @@ function SoundList({ soundsType }: SoundListProps) {
         navigate(`/game/${gameType}/${gameMode}/steps/${DIGIT_STEP}`);
     }
 
+    const handleStart = () => {
+        navigate(`/game/${gameType}/${gameMode}/game`);
+    }
+
     useEffect(() => {
         setIsMuted(false);
     }, [setIsMuted]);
@@ -55,6 +59,28 @@ function SoundList({ soundsType }: SoundListProps) {
                     onClick={handleNext}
                 >
                     <Lang>NÖVBƏTİ</Lang>
+                </Button>
+            </div>
+            <div className="flex justify-center max-w-md mx-auto mt-2"> 
+                <Button
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleStart}
+                >
+                    <Lang>BAŞLA</Lang>
+                </Button>
+            </div>
+            <div className="flex justify-center max-w-md mx-auto mt-2"> 
+                <Button
+                    fullWidth
+                    size="large"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate(`/actions`)}
+                >
+                    <Lang>Geri</Lang>
                 </Button>
             </div>
         </div>

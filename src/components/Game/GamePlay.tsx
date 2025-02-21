@@ -5,14 +5,17 @@ import GameScreen from "./GameScreen";
 import InputScreen from "./InputScreen";
 import Controllers from "./Controllers";
 import { AnimatePresence, motion } from "framer-motion";
-import { finishInput, restartGame, startGame, useGameplayStore, changeHeightSize, HeightSize } from "../../stores/gameplayStore";
+import { restartGame, startGame, useGamePlayStore, changeHeightSize, HeightSize, showResult, showEnd, showInput, isAllRoundsFinished } from "../../stores/gamePlayStore";
 import ResultScreen from "./ResultScreen";
 import EndScreen from "./EndScreen";
 import EntranceScreen from "./EnteranceScreen";
 import { content as langContent } from "./Lang";
 import { useLanguageStore } from "../../stores/languageStore";
 import { useGameStore } from "../../stores/gameStore";
-import { FREE_WORK_FLIPPED_ACTION } from "../../pages/actions/constants";
+import { ACTIONS_FEATURES } from "../../pages/actions/constants";
+import { FORMULES_FEATURES } from "../../pages/formules/constants";
+import { FormuleMode } from "../../lib/formules/types";
+import { ActionMode } from "../../pages/actions/types";
 
 type ControllerProps = {
     showButton: boolean;
@@ -45,24 +48,41 @@ function GamePlay() {
     const { gameType, gameMode } = useGameStore();
     const {
         screen, 
-        setScreen,
         heightSize,
-    } = useGameplayStore();
+    } = useGamePlayStore();
     const { language } = useLanguageStore();
+    const allRoundsFinished = isAllRoundsFinished();
 
+    const gameFeatures = useMemo(() => {
+        if (gameType === 'formules') {
+            return FORMULES_FEATURES[gameMode as FormuleMode];
+        } else if (gameType === 'actions') {
+            return ACTIONS_FEATURES[gameMode as ActionMode];
+        } else {
+            throw new Error("Invalid game type");
+        }
+    }, [gameType, gameMode])
 
     const controllerProps: ControllerProps = useMemo(() => {
         if (screen === "input") {
             return {
                 showButton: true,
                 buttonText: langContent[language]!['Cavabla'],
-                buttonOnClick: finishInput
+                buttonOnClick: showResult
             }
         } else if (screen === 'result') {
-            return {
-                showButton: true,
-                buttonText: langContent[language]!['Növbəti'],
-                buttonOnClick: startGame
+            if (allRoundsFinished) {
+                return {
+                    showButton: true,
+                    buttonText: langContent[language]!['Nəticə'],
+                    buttonOnClick: showEnd
+                }
+            } else {
+                return {
+                    showButton: true,
+                    buttonText: langContent[language]!['Növbəti'],
+                    buttonOnClick: startGame
+                }
             }
         } else if (screen === 'end') {
             return {
@@ -76,47 +96,37 @@ function GamePlay() {
             buttonText: "",
             buttonOnClick: () => {}
         }
-    }, [screen])
+    }, [screen, allRoundsFinished])
 
-    const [gameProps, inputProps] = useMemo(() => {
-        if (gameType === "actions") {
-            if (gameMode === FREE_WORK_FLIPPED_ACTION) {
-                return [{reversed: true}, {}] as const;
-            }
-        }
-        return [{}, {}] as const;
-    }, [gameType, gameMode])
-
-    const onEnteranceComplete = useCallback(() => {
-        startGame()
-    }, [])
 
     const onGameComplete = useCallback(() => {
-        setScreen("input");
+        if (gameFeatures.singleQuestion) {
+            showResult();
+        } else {
+            showInput();
+        }
     }, [])
 
-    const onInputComplete = useCallback(() => {
-        finishInput()
-    }, [])
 
     useEffect(() => {
         restartGame();
     }, [])
 
+
     const screenContent = useMemo(() => {
         switch (screen) {
             case "enterance":
-                return <EntranceScreen boardRef={boardRef} onComplete={onEnteranceComplete} duration={1000} wait={3000} disappear={500} />;
+                return <EntranceScreen boardRef={boardRef} onComplete={startGame} duration={1000} wait={3000} disappear={500} />;
             case "game":
-                return <GameScreen onComplete={onGameComplete} {...gameProps} />;
+                return <GameScreen onComplete={onGameComplete} onInputComplete={showResult} {...gameFeatures} />;
             case "input":
-                return <InputScreen onComplete={onInputComplete} {...inputProps} />;
+                return <InputScreen onComplete={showResult} doubleInput={gameFeatures.doubleInput} />;
             case "result":
-                return <ResultScreen />;
+                return <ResultScreen double={gameFeatures.doubleColumn} onComplete={allRoundsFinished ? showEnd : startGame} />;
             case "end":
-                return <EndScreen />;
+                return <EndScreen double={gameFeatures.doubleColumn} />;
         }
-    }, [screen, gameProps, inputProps]);
+    }, [screen, gameFeatures, allRoundsFinished]);
 
     return (
         <div ref={pageRef} className={page({fullscreen: isFullscreen})}>

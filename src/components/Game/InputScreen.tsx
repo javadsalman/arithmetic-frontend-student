@@ -1,12 +1,10 @@
 import { tv } from "tailwind-variants";
-import Timer from "./components/Timer";
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import { motion } from "framer-motion";
-import { useGameplayStore } from "../../stores/gameplayStore";
+import { useEffect } from "react";
+import { useGamePlayStore } from "../../stores/gamePlayStore";
 import { useGameStore } from "../../stores/gameStore";
+import InputForm from "./components/InputForm";
 
-
-const inputScreen = tv({
+const inputScreenVariants = tv({
     base: "flex flex-col items-center justify-center h-full w-full transition-all duration-500",
     variants: {
         show: {
@@ -16,98 +14,65 @@ const inputScreen = tv({
     }
 })
 
+const inputVariants = tv({
+    slots: {
+        container: "",
+        input: "",
+        timer: "",
+    },
+    variants: {
+        doubleInput: {
+            true: {
+                container: "grid grid-cols-2 gap-8 gap-y-10 w-11/12",
+                input: "w-full text-[40px]",
+                timer: "col-span-2"
+            },
+            false: {
+                container: "w-10/12",
+                input: "w-full",
+                timer: "mt-8"
+            }
+        }
+    }
+})
+
 interface InputScreenProps {
     onComplete: () => void;
+    doubleInput: boolean;
 }
 
-function InputScreen({onComplete}: InputScreenProps) {
+function InputScreen({onComplete, doubleInput}: InputScreenProps) {
+    const { container, input, timer } = inputVariants({doubleInput});
 
     const { answerDuration } = useGameStore();
-    const { currentUserAnswer, setCurrentUserAnswer, answerCurrentRound } = useGameplayStore();
+    const { currentUserAnswer, setCurrentUserAnswer, answerCurrentRound, secondUserAnswer, setSecondUserAnswer } = useGamePlayStore();
 
-    const inputRef = useRef<HTMLInputElement>(null);
-    
-    const getFontSize = (length: number) => {
-        if (length > 10) return 'text-[25px] md:text-[50px]';
-        if (length > 8) return 'text-[50px] md:text-[70px]';
-        if (length > 5) return 'text-[75px] md:text-[100px]';
-        return 'text-[100px] md:text-[120px]';
-    };
-
-    const inputFontSize = useMemo(() => getFontSize(currentUserAnswer.length), [currentUserAnswer.length]);
-
-    const focusInput = useCallback(() => {
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 200);
-    }, []);
-
-    useEffect(() => {
-        return focusInput();
-    }, [focusInput]);
-
-    const timerOnComplete = () => {
-        onComplete();
-    }
 
     useEffect(() => {
         setCurrentUserAnswer("");
-    }, [onComplete]);
-
-    useEffect(() => {
         return () => {
             answerCurrentRound();
         }
-    }, [])
+    }, [onComplete]);
 
-
-    const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (value === '' || /^\d+$/.test(value)) {
-            setCurrentUserAnswer(value);
-        }
-    }
-
-    const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            onComplete();
-        }
-    }
 
     return (
-        <div className={inputScreen({show: true})}>
-
-
-            <motion.input 
-                title="Enter your answer" 
-                ref={inputRef} 
-                type="text" 
-                value={currentUserAnswer}
-                onChange={inputOnChange}
-                onKeyDown={onKeyPress}
-                className={`bg-transparent text-center text-white font-pangolin w-10/12 border-4 border-dotted border-white/50 rounded-xl outline-none mb-10 transition-all duration-300 ${inputFontSize}`}
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.7}}
-            />
-            <motion.div 
-                className="relative"
-                initial={{opacity: 0, y: 100}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.7}}
-            >
-                <div className="flex items-center justify-center">
-                    <Timer 
-                        duration={answerDuration * 1000} 
-                        redAlertSeconds={Math.floor(answerDuration / 2)} 
-                        showText 
-                        size={80} 
-                        sound 
-                        start={true} 
-                        onComplete={timerOnComplete}
-                    />
-                </div>
-            </motion.div>
+        <div className={inputScreenVariants({show: true})}>
+                <InputForm 
+                    currentUserAnswer={currentUserAnswer} 
+                    secondUserAnswer={secondUserAnswer}
+                    onChange={setCurrentUserAnswer} 
+                    secondOnChange={setSecondUserAnswer}
+                    onComplete={onComplete} 
+                    answerDuration={answerDuration} 
+                    classes={{
+                        container: container(),
+                        input: input(),
+                        timer: timer()
+                    }}
+                    autoFontScale={doubleInput ? false : true}
+                    doubleInput={doubleInput}
+                />
         </div>
     )
 }

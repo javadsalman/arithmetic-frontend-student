@@ -14,7 +14,6 @@ import {
     EQUATION_ACTION,
     PERCENTAGE_ACTION,
     MONEY_ACTION,
-    MULTIPLE_MONEY_ACTION,
     TIME_ACTION,
     LENGTH_ACTION,
     MASS_ACTION,
@@ -23,12 +22,12 @@ import {
     SQUARE_ACTION,
     REMAINDER_DIVISION_ACTION,
     SQUARE_ROOT_ACTION,
-    MUSICAL_INSTRUMENTS_ACTION,
+    INSTRUMENT_SOUNDS_ACTION,
     ANIMAL_SOUNDS_ACTION,
 } from "./constants";
 import { DIGIT_STEP, TABLE_MUL_DIV_STEP, TABLE_POWER_STEP, SOUND_INSTRUMENTS_STEP, SOUND_ANIMALS_STEP } from "../steps/constants";
-
-
+import { useGameStore } from "../../stores/gameStore";
+import { ActionMode } from "./types";
 const actionCard = tv({
     base: "relative flex items-center justify-center p-4 cursor-pointer hover:scale-105 transition-transform",
     variants: {
@@ -99,8 +98,11 @@ const number = tv({
 
 function ActionsPage() {
     const navigate = useNavigate();
+    const { setGameType, setGameMode } = useGameStore();
 
     const handleNoteClick = (action: string, step: string = DIGIT_STEP) => {
+        setGameType("actions");
+        setGameMode(action as ActionMode);
         navigate(`/game/actions/${action}/steps/${step}`);
     }
     
@@ -211,7 +213,7 @@ function ActionsPage() {
                         <p className={text({ size: "large" })}>Pul vahidi</p>
                     </div>
                 </div>
-                <div onClick={() => handleNoteClick(MULTIPLE_MONEY_ACTION)} className={actionCard({ size: "default" })}>
+                {/* <div onClick={() => handleNoteClick(MULTIPLE_MONEY_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[11].front} backColor={COLOR_PALETTES[11].back} size={250} />
                     </div>
@@ -220,7 +222,7 @@ function ActionsPage() {
                         <div className={number({ size: "small" })}>82qəp</div>
                         <p className={text({ size: "large" })}>Çoxlu pul vahidi</p>
                     </div>
-                </div>
+                </div> */}
                 <div onClick={() => handleNoteClick(TIME_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[12].front} backColor={COLOR_PALETTES[12].back} size={250} />
@@ -296,7 +298,7 @@ function ActionsPage() {
                         <p className={text()}>Kvadrat kök</p>
                     </div>
                 </div>
-                <div onClick={() => handleNoteClick(MUSICAL_INSTRUMENTS_ACTION, SOUND_INSTRUMENTS_STEP)} className={actionCard({ size: "default" })}>
+                <div onClick={() => handleNoteClick(INSTRUMENT_SOUNDS_ACTION, SOUND_INSTRUMENTS_STEP)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[20].front} backColor={COLOR_PALETTES[20].back} size={250} />
                     </div>

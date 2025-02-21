@@ -9,8 +9,8 @@ import Lang from "../home/Lang";
 import TableStep from "./components/TableStep";
 import SoundList from "./components/SoundStep";
 import { useMemo } from "react";
-import { SIMPLE_MULTIPLICATION_ACTION, SQUARE_ACTION, REMAINDER_DIVISION_ACTION, SQUARE_ROOT_ACTION, SIMPLE_DIVISION_ACTION,  MUSICAL_INSTRUMENTS_ACTION, ANIMAL_SOUNDS_ACTION } from "../actions/constants";
 import { ActionMode } from "../actions/types";
+import { ACTIONS_FEATURES } from "../actions/constants";
 
 function StepsPage() {
     const { gameType, gameMode, step} = useParams();
@@ -18,16 +18,16 @@ function StepsPage() {
 
     const stepOrders: StepType[] = useMemo(() => {
         if (gameType === 'actions') {
-            if ([SIMPLE_MULTIPLICATION_ACTION, REMAINDER_DIVISION_ACTION, SIMPLE_DIVISION_ACTION].includes(gameMode as ActionMode)) {
+            if (ACTIONS_FEATURES[gameMode as ActionMode].steps.includes(TABLE_MUL_DIV_STEP)) {
                 return [TABLE_MUL_DIV_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
             }
-            if ([SQUARE_ACTION, SQUARE_ROOT_ACTION].includes(gameMode as ActionMode)) {
+            if (ACTIONS_FEATURES[gameMode as ActionMode].steps.includes(TABLE_POWER_STEP)) {
                 return [TABLE_POWER_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
             }
-            if (gameMode === MUSICAL_INSTRUMENTS_ACTION) {
+            if (ACTIONS_FEATURES[gameMode as ActionMode].steps.includes(SOUND_INSTRUMENTS_STEP)) {
                 return [SOUND_INSTRUMENTS_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
             }
-            if (gameMode === ANIMAL_SOUNDS_ACTION) {
+            if (ACTIONS_FEATURES[gameMode as ActionMode].steps.includes(SOUND_ANIMALS_STEP)) {
                 return [SOUND_ANIMALS_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
             }
         }

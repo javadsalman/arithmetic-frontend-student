@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
-import { TextField, Button, Snackbar, Alert } from '@mui/material';
+import { useState, useEffect, useMemo } from 'react';
+import { TextField, Button } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { loadNewGameParams, useGameStore } from '../../../stores/gameStore';
 import { generateQueryString } from '../../../stores/gameStore';
 import Lang, {content as langContent} from '../Lang';
 import { useLanguageStore } from '../../../stores/languageStore';
-
+import { ACTIONS_FEATURES } from '../../actions/constants';
+import { ActionMode } from '../../actions/types';
+import { useNotificationStore } from '../../../stores/notificationStore';
 
 
 function TimeStep() {
     const navigate = useNavigate();
     const { gameType, gameMode } = useParams();
     const { language } = useLanguageStore();
-
+    const { setNotification } = useNotificationStore();
     const [searchParams] = useSearchParams();
     const { 
         betweenDuration,
@@ -21,6 +23,10 @@ function TimeStep() {
         setAnswerDuration,
     } = useGameStore();
 
+    const isSingleQuestion = useMemo(() => {
+        return gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion;
+    }, [gameType, gameMode]);
+
 
 
     const [formData, setFormData] = useState({
@@ -28,7 +34,6 @@ function TimeStep() {
         answerDuration: String(answerDuration)
     });
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
 
     useEffect(() => {
@@ -68,7 +73,7 @@ function TimeStep() {
         const queryString = generateQueryString();
         const fullUrl = `${window.location.origin}${window.location.pathname}?${queryString}`;
         navigator.clipboard.writeText(fullUrl);
-        setSnackbarOpen(true);
+        setNotification('Link kopyalandı', 'success', 'filled', { vertical: 'bottom', horizontal: 'center' });
     };
 
 
@@ -85,41 +90,26 @@ function TimeStep() {
 
     return (
         <div className="max-w-md mx-auto">
-            <Snackbar 
-                open={snackbarOpen} 
-                autoHideDuration={6000} 
-                onClose={() => setSnackbarOpen(false)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            >
-                <Alert
-                onClose={() => setSnackbarOpen(false)}
-                severity="success"
-                variant="filled"
-                sx={{ width: '100%' }}
-                >
-                <Lang>Link kopyalandı</Lang>
-                </Alert>
-      </Snackbar>
-
-
             <h2 className="text-2xl font-semibold text-[#FF4D4F] mb-8 text-center">
                 <Lang>ƏDƏD və CAVAB gəlmə müddətini seçin.</Lang>
             </h2>
 
 
             <div className="space-y-6">
-                <div>
-                    <TextField
-                        fullWidth
-                        label={langContent[language]!['Ədədlərarası saniyə']}
-                        value={formData.betweenDuration}
-                        onChange={handleChange('betweenDuration')}
-                        variant="outlined"
+                {!isSingleQuestion && (
+                    <div>
+                        <TextField
+                            fullWidth
+                            label={langContent[language]!['Ədədlərarası saniyə']}
+                            value={formData.betweenDuration}
+                            onChange={handleChange('betweenDuration')}
+                            variant="outlined"
                         type="number"
                         inputProps={{ min: 1 }}
 
-                    />
-                </div>
+                        />
+                    </div>
+                )}
 
                 <div>
                     <TextField
