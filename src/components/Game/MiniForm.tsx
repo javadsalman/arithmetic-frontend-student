@@ -61,7 +61,7 @@ function MiniForm() {
     
     const watchDigitCount = watch('digitCount');
 
-    const { doubleDigitCount: isDoubleDigitCount, singleQuestion: isSingleQuestion } = useMemo(() => gameType === 'actions' ? ACTIONS_FEATURES[gameMode as ActionMode] : {doubleDigitCount: false, singleQuestion: false}, [gameType, gameMode]);
+    const { doubleDigitCount: isDoubleDigitCount, singleQuestion: isSingleQuestion, soundNumbers: isSoundNumbers } = useMemo(() => gameType === 'actions' ? ACTIONS_FEATURES[gameMode as ActionMode] : {doubleDigitCount: false, singleQuestion: false, soundNumbers: false}, [gameType, gameMode]);
 
 
     const onSubmit = (data: FormuleValues) => {
@@ -94,7 +94,7 @@ function MiniForm() {
 
 
     const showFormuleInput = gameType === 'formules'
-    const showDigitCountInput = true
+    const showDigitCountInput = !isSoundNumbers
     const showSecondDigitCountInput = isDoubleDigitCount
     const showNumberCountInput = !isSingleQuestion
     const showGameCountInput = isSingleQuestion
@@ -144,7 +144,6 @@ function MiniForm() {
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
-
                                     />
                                 )}
                             />

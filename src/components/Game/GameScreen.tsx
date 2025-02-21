@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useGameplayStore } from "../../stores/gameplayStore";
 import { useGameStore } from "../../stores/gameStore";
-import { playNumberSound } from "../../stores/soundStore";
+import { playNumberSound, stopCurrentSound } from "../../stores/soundStore";
 import { ModeFeatures } from "../../helpers/types";
 import InputForm from "./components/InputForm";
 import Random from "../../lib/formules/random";
@@ -201,6 +201,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     useEffect(() => {
         if (soundNumbers && currentItem) {
             soundNumbers[currentItem.value]();
+            return () => stopCurrentSound();
         } else {
             playNumberSound();
         }

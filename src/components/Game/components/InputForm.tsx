@@ -38,6 +38,7 @@ const getFontSize = (length: number) => {
 function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChange, onComplete, answerDuration, classes, autoFontScale, doubleInput, titles }: InputFormProps) {
 
     const inputRef = useRef<HTMLInputElement>(null);
+    const secondInputRef = useRef<HTMLInputElement>(null);
     const inputFontSize = useMemo(() => autoFontScale ? getFontSize(currentUserAnswer.length) : '', [currentUserAnswer.length, autoFontScale]);
 
     const focusInput = useCallback(() => {
@@ -66,10 +67,24 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
 
     const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            onComplete();
+            if (doubleInput) {
+                secondInputRef.current?.focus();
+            } else {
+                onComplete();
+            }
+        } else if (e.key === 'ArrowRight') {
+            secondInputRef.current?.focus();
         }
     }
 
+    const onSecondKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onComplete();
+        } else if (e.key === 'ArrowLeft') {
+            inputRef.current?.focus();
+        }
+    }
+    
     return (
         <motion.div className={`relative ${classes.container}`}
             initial={{opacity: 0}}
@@ -92,10 +107,11 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
                 <div className={`flex items-center ${classes.inputContainer} ${classes.inputContainer2}`}>
                     <input 
                         title="Enter your answer" 
+                        ref={secondInputRef}
                         type="text" 
                         value={secondUserAnswer}
                         onChange={secondInputOnChange}
-                        onKeyDown={onKeyPress}
+                        onKeyDown={onSecondKeyPress}
                     className={`d-block bg-transparent text-center text-white font-pangolin border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input2}`}
                     
                 />
