@@ -41,7 +41,7 @@ export const heightVariants: Record<HeightSize, string> = {
     xl: 'h-[calc(100vh-100px)]'
 } as const;
 
-function Gameplay() {
+function GamePlay() {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const pageRef = useRef<HTMLDivElement>(null);
     const boardRef = useRef<HTMLDivElement>(null);
@@ -160,5 +160,5 @@ function Gameplay() {
     );
 }
 
-export default Gameplay;
+export default GamePlay;
 
