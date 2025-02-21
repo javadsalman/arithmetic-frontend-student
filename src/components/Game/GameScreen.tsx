@@ -243,7 +243,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                         initial={{opacity: 0, scale: 0, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         animate={{opacity: 1, scale: 1, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         exit={{opacity: 0, scale: 0, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
-                        transition={{duration: 0.3}}
+                        transition={{duration: 0.1, exit: {duration: 0.01}, ease: "easeInOut"}}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                     >
                         <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true})}>
