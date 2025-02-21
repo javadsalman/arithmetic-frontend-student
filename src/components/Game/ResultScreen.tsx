@@ -9,7 +9,7 @@ import { useGamePlayStore } from '../../stores/gamePlayStore';
 import { useGameStore } from '../../stores/gameStore';
 import { playTrueSound, playFalseSound } from '../../stores/soundStore';
 import Lang from './Lang';
-
+import { Round } from '../../stores/gamePlayStore';
 interface RoundReport {
     remainingGames: number;
     userAnswer: number|null;
@@ -50,12 +50,12 @@ function ResultScreen({double, onComplete}: ResultScreenProps) {
                 const isFirstCorrect = userAnswer === correctAnswer;
                 const isSecondCorrect = userSecondAnswer === correctSecondAnswer;
                 isCorrect = double ? isFirstCorrect && isSecondCorrect : isFirstCorrect;
-                totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
-                totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
+                totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
+                totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
             } else {
                 isCorrect = userAnswer === correctAnswer;
-                totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer).length;
-                totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer).length;
+                totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
+                totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
             }
             setReport({
                 remainingGames,
