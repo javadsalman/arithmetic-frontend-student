@@ -23,9 +23,7 @@ function TimeStep() {
         setAnswerDuration,
     } = useGameStore();
 
-    const isSingleQuestion = useMemo(() => {
-        return gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion;
-    }, [gameType, gameMode]);
+    const isSingleQuestion = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion, [gameType, gameMode]);
 
 
 
@@ -96,7 +94,7 @@ function TimeStep() {
 
 
             <div className="space-y-6">
-                {!isSingleQuestion && (
+                {isSingleQuestion || (
                     <div>
                         <TextField
                             fullWidth

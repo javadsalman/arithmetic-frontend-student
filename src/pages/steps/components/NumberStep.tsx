@@ -22,9 +22,7 @@ function NumberStep() {
     const { gameType, gameMode } = useParams();
     const { language } = useLanguageStore();
 
-    const isSingleQuestion = useMemo(() => {
-        return gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion;
-    }, [gameType, gameMode]);
+    const isSingleQuestion = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion, [gameType, gameMode]);
 
     const handleNext = () => {
         navigate(`/game/${gameType}/${gameMode}/steps/time`);
@@ -52,7 +50,7 @@ function NumberStep() {
             </h2>
 
             <div>
-                {!isSingleQuestion && (
+                {isSingleQuestion || (
                 <div className='mb-6'>
                     <TextField
                         fullWidth
