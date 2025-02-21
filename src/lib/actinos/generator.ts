@@ -5,9 +5,13 @@ import { FormuleMode } from "../formules/types";
 class Generator {
     random: Random;
     formuleGenerator: FormuleGenerator;
+    num1: number;
+    num2: number;
     constructor() {
         this.random = new Random();
         this.formuleGenerator = new FormuleGenerator();
+        this.num1 = 0;
+        this.num2 = 0;
     }
 
     generateAddSub = ({digitCount, numberCount, mixedCount, formuleMode}: {digitCount: number, numberCount: number, mixedCount: boolean, formuleMode: FormuleMode}): CalcItem[] => {
@@ -309,6 +313,21 @@ class Generator {
     transformLengthToValue = (m: number, cm: number) => {
         return m * 100 + cm;
     }
+    generateRemainderDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): CalcItem[] => {
+        this.num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount);
+        this.num2 = this.random.getRandomInt(10**(secondDigitCount-1), this.num1);
+        const text = `${this.num1} : ${this.num2}`;
+        const value = this.num1 / this.num2;
+        return [{text, value}];
+    }
+    transformRemainderDivision = () => {
+        const result = Math.floor(this.num1 / this.num2);
+        const remainder = this.num1 % this.num2;
+        return `${result} remainder ${remainder}`;
+    }
+    transformRemainderDivisionToValue = (result: number, remainder: number) => {
+        return result + remainder / this.num2;
+    }
     generatePercentAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
         // Function to ensure number has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
@@ -374,11 +393,6 @@ class Generator {
         // Calculate the range of multipliers that would give firstDigitCount digits when multiplied with divisor
         const minMultiplier = Math.ceil(10**(firstDigitCount-1) / divisor);  // Smallest number that gives firstDigitCount digits
         const maxMultiplier = Math.floor((10**firstDigitCount - 1) / divisor);  // Largest number that gives firstDigitCount digits
-        
-        // // If no valid multiplier exists, try again
-        // if (minMultiplier > maxMultiplier) {
-        //     return this.generateDivision({firstDigitCount, secondDigitCount});
-        // }
         
         // Choose a random multiplier from the valid range
         const multiplier = this.random.getRandomInt(minMultiplier, maxMultiplier);

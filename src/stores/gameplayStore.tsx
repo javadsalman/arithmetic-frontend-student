@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { useGameStore } from './gameStore';
 import { immer } from 'zustand/middleware/immer';
 import { FormuleMode } from '../lib/formules/types';
-import { FREE_WORK_ACTION, FREE_WORK_FLIPPED_ACTION, RANDOM_NUMBERS_ACTION, RANDOM_NUMBERS_ROTATED_ACTION, COMBINED_OPERATIONS_ACTION, ANIMAL_SOUNDS_ACTION, INSTRUMENT_SOUNDS_ACTION, DOUBLE_CALCULATION_ACTION, DOUBLE_CALCULATION_FLIPPED_ACTION, SQUARE_ROOT_ACTION, SQUARE_ACTION, PARENTHESES_ACTION, EQUATION_ACTION, PERCENTAGE_ACTION, SIMPLE_MULTIPLICATION_ACTION, SIMPLE_DIVISION_ACTION, MASS_ACTION, MONEY_ACTION, TIME_ACTION, LENGTH_ACTION } from '../pages/actions/constants';
+import { FREE_WORK_ACTION, FREE_WORK_FLIPPED_ACTION, RANDOM_NUMBERS_ACTION, RANDOM_NUMBERS_ROTATED_ACTION, COMBINED_OPERATIONS_ACTION, ANIMAL_SOUNDS_ACTION, INSTRUMENT_SOUNDS_ACTION, DOUBLE_CALCULATION_ACTION, DOUBLE_CALCULATION_FLIPPED_ACTION, SQUARE_ROOT_ACTION, SQUARE_ACTION, PARENTHESES_ACTION, EQUATION_ACTION, PERCENTAGE_ACTION, SIMPLE_MULTIPLICATION_ACTION, SIMPLE_DIVISION_ACTION, MASS_ACTION, MONEY_ACTION, TIME_ACTION, LENGTH_ACTION, REMAINDER_DIVISION_ACTION } from '../pages/actions/constants';
 import FormuleGenerator from '../lib/formules/generator';
 import ActionGenerator from '../lib/actinos/generator';
 import { CalcItem } from '../helpers/types';
@@ -32,7 +32,7 @@ interface GameplayState {
     screen: "enterance" | "game" | "input" | "result" | "end";
     heightSize: HeightSize;
     transformValue: ((value: number) => string) | null;
-    transformColsToValue: ((col1: number, col2: number) => number) | null;   
+    transformColsToValue: ((col1: number, col2: number, col3?: number) => number) | null;   
     timestamp: number;
     setCurrentUserAnswer: (answer: string) => void;
     setSecondUserAnswer: (answer: string) => void;
@@ -45,7 +45,7 @@ interface GameplayState {
     setScreen: (screen: "enterance" | "game" | "input" | "result" | "end") => void;
     setHeightSize: (size: HeightSize) => void;
     setTransformValue: (transformValue: ((value: number) => string) | null) => void;
-    setTransformColsToValue: (transformColsToValue: ((col1: number, col2: number) => number) | null) => void;
+    setTransformColsToValue: (transformColsToValue: ((col1: number, col2: number, col3?: number) => number) | null) => void;
     setTimestamp: (timestamp: number) => void;
 }
 
@@ -178,6 +178,10 @@ export const createActionRound = () => {
         calcItems = actionGenerator.generateLengthAddSub({digitCount});
         transformValue = actionGenerator.transformLengthValue;
         transformColsToValue = actionGenerator.transformLengthToValue;
+    } else if (gameMode === REMAINDER_DIVISION_ACTION) {
+        calcItems = actionGenerator.generateRemainderDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
+        transformValue = actionGenerator.transformRemainderDivision;
+        transformColsToValue = actionGenerator.transformRemainderDivisionToValue;
     }
     const correctAnswer = calcItems.reduce((acc, item) => acc + item.value, 0);
     const newRound: Round = {calcItems, userAnswer: null, correctAnswer, finished: false};
