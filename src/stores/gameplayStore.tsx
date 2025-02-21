@@ -9,11 +9,8 @@ import ActionGenerator from '../lib/actinos/generator';
 import { CalcItem } from '../helpers/types';
 import { ActionMode } from '../pages/actions/types';
 import { MIXED_ADD_SUB } from '../lib/formules/constants';
-const formuleGenerator = new FormuleGenerator();
-const actionGenerator = new ActionGenerator();
 
-
-interface Round {
+export interface Round {
     calcItems: CalcItem[];
     secondCalcItems?: CalcItem[];
     userAnswer: number|null;
@@ -23,6 +20,8 @@ interface Round {
     finished: boolean;
 }
 
+const formuleGenerator = new FormuleGenerator();
+const actionGenerator = new ActionGenerator();
 
 export type HeightSize = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -49,7 +48,6 @@ interface GamePlayState {
     setTransformColsToValue: (transformColsToValue: ((col1: number, col2: number) => number) | null) => void;
     setTimestamp: (timestamp: number) => void;
 }
-
 
 export const useGamePlayStore = create<GamePlayState>()(
     persist(
