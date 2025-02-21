@@ -232,7 +232,6 @@ function MiniForm() {
                                         {...field}
                                         fullWidth
                                         label={langContent[language]!['Cavab üçün saniyə']}
-                                        type="number"
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
@@ -253,7 +252,6 @@ function MiniForm() {
                                     {...field}
                                     fullWidth
                                     label={langContent[language]!['Ədədlərarası saniyə']}
-                                    type="number"
                                     value={field.value}
                                     onChange={field.onChange}
                                     onKeyDown={onEnterPress}
