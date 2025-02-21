@@ -102,7 +102,6 @@ function TimeStep() {
                             value={formData.betweenDuration}
                             onChange={handleChange('betweenDuration')}
                             variant="outlined"
-                        type="number"
                         inputProps={{ min: 1 }}
 
                         />
@@ -116,7 +115,6 @@ function TimeStep() {
                         value={formData.answerDuration}
                         onChange={handleChange('answerDuration')}
                         variant="outlined"
-                        type="number"
                         inputProps={{ min: 1 }}
 
                     />
