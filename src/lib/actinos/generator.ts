@@ -315,7 +315,8 @@ class Generator {
     }
     generateRemainderDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): CalcItem[] => {
         this.num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount);
-        this.num2 = this.random.getRandomInt(10**(secondDigitCount-1), this.num1);
+        // const maxNum2Value = 10**secondDigitCount - 1 < this.num1 ? 10**secondDigitCount - 1 : this.num1;
+        this.num2 = this.random.getRandomInt(10**(secondDigitCount-1), secondDigitCount < firstDigitCount ? 10**secondDigitCount - 1 : this.num1);
         const text = `${this.num1} : ${this.num2}`;
         const value = this.num1 / this.num2;
         return [{text, value}];

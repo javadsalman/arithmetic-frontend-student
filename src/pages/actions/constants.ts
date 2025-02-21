@@ -385,7 +385,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleInput: true,
         doubleColumn: false,
         doubleRow: false,
-        doubleDigitCount: false,
+        doubleDigitCount: true,
         soundNumbers: null,
         inputTitles: ["tam", "qalıq"]
     },
