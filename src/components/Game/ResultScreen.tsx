@@ -85,6 +85,11 @@ function ResultScreen({double, onComplete}: ResultScreenProps) {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            // Skip if any input element is focused
+            if (document.activeElement?.tagName.toLowerCase() === 'input') {
+                return;
+            }
+            
             if (e.key === 'Enter') {
                 onComplete();
             }
