@@ -5,6 +5,7 @@ import { restartGame, useGamePlayStore } from '../../stores/gamePlayStore';
 import { playIqSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
+import { Round } from '../../stores/gamePlayStore';
 
 interface EndScreenProps {
     double: boolean;
@@ -17,12 +18,12 @@ function EndScreen({double}: EndScreenProps) {
 
     let totalCorrect, totalIncorrect, totalGames;
     if (double) {
-        totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
-        totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
+        totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
+        totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
         totalGames = gameCount;
     } else {
-        totalCorrect = rounds.filter(round => round.userAnswer === round.correctAnswer).length;
-        totalIncorrect = rounds.filter(round => round.userAnswer !== round.correctAnswer).length;
+        totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
+        totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
         totalGames = gameCount;
     }
     const correctAnswers = totalCorrect;
