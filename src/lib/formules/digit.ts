@@ -400,20 +400,21 @@ class Digit {
     }
 
     getSubtractAvailablesFor5KBasedAdd = (isFirstDigit: boolean) => {
-        const availables5Based = this.get5BasedSubtractAvailables()
+        // const availables5Based = this.get5BasedSubtractAvailables()
+        // const allAvailables = [...availables5Based, ...availablesSimple].sort((a, b) => a - b)
         const availablesSimple = this.getSimpleSubtractAvailables()
-        const allAvailables = [...availables5Based, ...availablesSimple].sort((a, b) => a - b)
+        const allAvailables = [...availablesSimple].sort((a, b) => a - b)
         if (isFirstDigit && allAvailables.includes(0)) {
             allAvailables.shift()
         }
-        return {allAvailables, availables5Based, availablesSimple}
+        return {allAvailables, availablesSimple}
     }
 
     getRandomSubractAvailablesFor5KBasedAdd = (index: number) => {
-        const {allAvailables, availables5Based, availablesSimple} = this.getSubtractAvailablesFor5KBasedAdd(index === 0)
+        const {allAvailables, availablesSimple} = this.getSubtractAvailablesFor5KBasedAdd(index === 0)
         const weights = allAvailables.map(value => this._getWeightForSubtractAvailablesFor5KBasedAdd(value))
         const result = this.random.choice(allAvailables, weights)
-        logReport('getRandomSubractAvailablesFor5KBasedAdd', allAvailables, availables5Based, availablesSimple, weights, this.order, result)
+        logReport('getRandomSubractAvailablesFor5KBasedAdd', allAvailables, availablesSimple, weights, this.order, result)
         return result
     }
 

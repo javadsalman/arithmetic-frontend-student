@@ -140,6 +140,31 @@ const ANIMAL_SOUND_NUMBERS = [
     playWolfSound
 ]
 
+export const ACTION_TITLES: Record<ActionMode, string> = {
+    [FREE_WORK_ACTION]: 'Sərbəst iş',
+    [FREE_WORK_FLIPPED_ACTION]: 'Sərbəst iş',
+    [COMBINED_OPERATIONS_ACTION]: 'Qarışıq əməllər',
+    [DOUBLE_CALCULATION_ACTION]: 'İki ədədin toplanması',
+    [DOUBLE_CALCULATION_FLIPPED_ACTION]: 'İki ədədin toplanması',
+    [RANDOM_NUMBERS_ACTION]: 'Rəqəm sayı qarışıq olsun',
+    [RANDOM_NUMBERS_ROTATED_ACTION]: 'Rəqəm sayı qarışıq olsun',
+    [PARENTHESES_ACTION]: 'Ədədlərin qabıqları',
+    [EQUATION_ACTION]: 'Tənlik',
+    [PERCENTAGE_ACTION]: 'Faiz',
+    [MONEY_ACTION]: 'Manat',
+    [MULTIPLE_MONEY_ACTION]: 'Manat',
+    [TIME_ACTION]: 'Saat',
+    [LENGTH_ACTION]: 'Metr',
+    [MASS_ACTION]: 'Kq',
+    [SIMPLE_MULTIPLICATION_ACTION]: 'Vurma',
+    [SIMPLE_DIVISION_ACTION]: 'Vurma',
+    [SQUARE_ACTION]: 'Vurma',
+    [REMAINDER_DIVISION_ACTION]: 'Vurma',
+    [SQUARE_ROOT_ACTION]: 'Vurma',
+    [INSTRUMENT_SOUNDS_ACTION]: 'Musiqi',
+    [ANIMAL_SOUNDS_ACTION]: 'Heyvanlar',
+}
+
 
 export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
     [FREE_WORK_ACTION]: {

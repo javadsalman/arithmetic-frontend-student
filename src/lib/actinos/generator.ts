@@ -2,6 +2,7 @@ import Random from "../formules/random";
 import { default as FormuleGenerator } from "../formules/generator";
 import { CalcItem } from "../../helpers/types";
 import { FormuleMode } from "../formules/types";
+
 class Generator {
     random: Random;
     formuleGenerator: FormuleGenerator;
@@ -14,86 +15,84 @@ class Generator {
         this.num2 = 0;
     }
 
-    generateAddSub = ({digitCount, numberCount, mixedCount, formuleMode}: {digitCount: number, numberCount: number, mixedCount: boolean, formuleMode: FormuleMode}): CalcItem[] => {
+    generateAddSub = ({digitCount, numberCount, mixedCount, formuleMode}: {digitCount: number, numberCount: number, mixedCount: boolean, formuleMode: FormuleMode}): [CalcItem[], number] => {
         const calcItems = this.formuleGenerator.generate({digitCount, numberCount, mixedCount, mode: formuleMode});
-        return calcItems.map(item => ({text: item > 0 ? `+${item}` : item.toString(), value: item}));
+        const correctAnswer = calcItems.reduce((acc, item) => acc + item, 0);
+        const calcItemsWithText = calcItems.map(item => ({text: item > 0 ? `+${item}` : item.toString(), value: item}));
+        return [calcItemsWithText, correctAnswer];
     }
-    generateRandomAdd = ({numberCount}: {numberCount: number}): CalcItem[] => {
-        return Array.from({length: numberCount}, () => {
+    generateRandomAdd = ({numberCount}: {numberCount: number}): [CalcItem[], number] => {
+        const calcItems = Array.from({length: numberCount}, () => {
             const value = this.random.getRandomInt(0, 9);
             return {text: '+' + value.toString(), value};
         });
+        const correctAnswer = calcItems.reduce((acc, item) => acc + item.value, 0);
+        return [calcItems, correctAnswer];
     }
         
-    generateCombinedOperations = ({digitCount, mixedCount, formuleMode}: {digitCount: number, mixedCount: boolean, formuleMode: FormuleMode}): CalcItem[] => {
+    generateCombinedOperations = ({digitCount, mixedCount, formuleMode}: {digitCount: number, mixedCount: boolean, formuleMode: FormuleMode}): [CalcItem[], number] => {
         const [firstValue, secondValue] = this.formuleGenerator.generate({digitCount, numberCount: 2, mixedCount, mode: formuleMode});
-        const randomMulValue = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
+        const randomMulValue = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
         const paranthesis = `(${firstValue}${secondValue > 0 ? "+" : "-"}${Math.abs(secondValue)})`;
         const text = this.random.getRandomInt(0, 1) ? `${paranthesis}·${randomMulValue}` : `${randomMulValue}·${paranthesis}`;
         const value = (firstValue + secondValue) * randomMulValue;
-        return [{text, value}];
+        const calcItem = {text, value};
+        return [[calcItem], value];
     }
 
-    generateSquare = ({digitCount}: {digitCount: number}): CalcItem[] => {
-        const randomValue = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
+    generateSquare = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
+        const randomValue = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
         const text = `${randomValue}²`;
         const value = randomValue ** 2;
-        return [{text, value}];
+        const calcItem = {text, value};
+        return [[calcItem], value];
     }
 
-    generateSquareRoot = ({digitCount}: {digitCount: number}): CalcItem[] => {
-        const randomValue = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
+    generateSquareRoot = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
+        const randomValue = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
         const text = `√${randomValue**2}`;
-        return [{text, value: randomValue}];
+        const calcItem = {text, value: randomValue};
+        return [[calcItem], randomValue];
     }
-    generateMassAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+    generateMassAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number, number] => {
         // Function to ensure kg has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
         
-        // Generate random kg values with specified digit count
-        const kg1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
-        const kg2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
-        
-        // Generate random gram values (0-999)
-        const gr1 = this.random.getRandomInt(0, 999);
-        const gr2 = this.random.getRandomInt(0, 999);
-        
+        // // Generate random kg values with specified digit count
+        // const kg1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+        // const kg2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+
+        const grDigitCount = digitCount + 3;
+
         // Randomly choose operator (+ or -)
         const operator = this.random.choice(['+', '-']);
+
+        const totalGrams1 = this.random.getRandomInt(10**(grDigitCount-1), 10**grDigitCount - 1);
+        const totalGrams2 = this.random.getRandomInt(10**(grDigitCount-1), operator === '+' ? 10**grDigitCount - 1 : totalGrams1);
         
-        // Convert everything to grams for calculation
-        const totalGrams1 = kg1 * 1000 + gr1;
-        const totalGrams2 = kg2 * 1000 + gr2;
+        const kg1 = Math.floor(totalGrams1 / 1000);
+        const kg2 = Math.floor(totalGrams2 / 1000);
+        const gr1 = totalGrams1 % 1000;
+        const gr2 = totalGrams2 % 1000;
+
         
         // Calculate result
         let resultGrams;
         if (operator === '+') {
             resultGrams = totalGrams1 + totalGrams2;
         } else {
-            // For subtraction, check if result would be negative
-            if (totalGrams1 < totalGrams2) {
-                // Try again if result would be negative
-                return this.generateMassAddSub({digitCount});
-            }
             resultGrams = totalGrams1 - totalGrams2;
         }
         
         // Format the expression text
         const text = `${formatNumber(kg1)}kg ${gr1}q ${operator} ${formatNumber(kg2)}kg ${gr2}q`;
-        return [{
-            text,
-            value: resultGrams,  // Store total grams as value for easy comparison
-        }];
+        const calcItem = {text, value: resultGrams};
+        const correctKg = Math.floor(resultGrams / 1000);
+        const correctGr = resultGrams % 1000;
+        return [[calcItem], correctKg, correctGr];
     }
-    transformMassValue = (value: number) => {
-        const kg = Math.floor(value / 1000);
-        const gr = value % 1000;
-        return `${kg}kg ${gr}q`;
-    }
-    transformMassToValue = (kg: number, gr: number) => {
-        return kg * 1000 + gr;
-    }
-    generateMoneyAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+
+    generateMoneyAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number, number] => {
         // Function to ensure dollar has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
         
@@ -127,22 +126,14 @@ class Generator {
         
         // Format the expression text
         const text = `${formatNumber(dollar1)} dollar ${cent1} cent ${operator} ${formatNumber(dollar2)} dollar ${cent2} cent`;
-        
-        return [{
-            text,
-            value: resultCents  // Store total cents as value for easy comparison
-        }];
-    }
-    transformMoneyValue = (value: number) => {
-        const dollar = Math.floor(value / 100);
-        const cent = value % 100;
-        return `${dollar} dollar ${cent} cent`;
-    }
-    transformMoneyToValue = (dollar: number, cent: number) => { 
-        return dollar * 100 + cent;
+        const calcItem = {text, value: resultCents};
+        const correctDollar = Math.floor(resultCents / 100);
+        const correctCent = resultCents % 100;
+        return [[calcItem], correctDollar, correctCent];
     }
 
-    generateTimeAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+
+    generateTimeAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number, number] => {
         // Function to ensure hour has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
         
@@ -176,26 +167,17 @@ class Generator {
         
         // Format the expression text
         const text = `${formatNumber(hour1)}h ${minute1}min ${operator} ${formatNumber(hour2)}h ${minute2}min`;
-        
-        return [{
-            text,
-            value: resultMinutes  // Store total minutes as value for easy comparison
-        }];
-    }
-    transformTimeValue = (value: number) => {
-        const hour = Math.floor(value / 60);
-        const minute = value % 60;
-        return `${hour}h ${minute}min`;
-    }
-    transformTimeToValue = (hour: number, minute: number) => {
-        return hour * 60 + minute;
+        const calcItem = {text, value: resultMinutes};
+        const correctHour = Math.floor(resultMinutes / 60);
+        const correctMinute = resultMinutes % 60;
+        return [[calcItem], correctHour, correctMinute];
     }
     
-    generatePharantesisAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+    generatePharantesisAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
         // Generate three random numbers with specified digit count
-        const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
-        const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
-        const num3 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
+        const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
+        const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
+        const num3 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
 
         // Function to ensure number has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
@@ -230,10 +212,10 @@ class Generator {
             // If both are negative, retry with different operators
             return this.generatePharantesisAddSub({digitCount});
         }
-
-        return [result];
+        const calcItem = {text: result.text, value: result.value};
+        return [[calcItem], result.value];
     }
-    generateEquationAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+    generateEquationAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
         // Function to ensure number has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
 
@@ -260,12 +242,10 @@ class Generator {
         // Format the equation text, only padding the operands, not the result
         const equationText = `${formatNumber(num1)} ${operator} x = ${result}`;
         
-        return [{
-            text: equationText,
-            value: xValue // The value property will hold the value of x
-        }];
+        const calcItem = {text: equationText, value: xValue};
+        return [[calcItem], xValue];
     }
-    generateLengthAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+    generateLengthAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number, number] => {
         // Function to ensure meter has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
         
@@ -300,42 +280,29 @@ class Generator {
         // Format the expression text
         const text = `${formatNumber(m1)}m ${cm1}cm ${operator} ${formatNumber(m2)}m ${cm2}cm`;
         
-        return [{
-            text,
-            value: resultCm  // Store total centimeters as value for easy comparison
-        }];
+        const calcItem = {text, value: resultCm};
+        const correctM = Math.floor(resultCm / 100);
+        const correctCm = resultCm % 100;
+        return [[calcItem], correctM, correctCm];
     }
-    transformLengthValue = (value: number) => {
-        const m = Math.floor(value / 100);
-        const cm = value % 100;
-        return `${m}m ${cm}cm`;
-    }
-    transformLengthToValue = (m: number, cm: number) => {
-        return m * 100 + cm;
-    }
-    generateRemainderDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): CalcItem[] => {
-        this.num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount);
+    generateRemainderDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): [[CalcItem], number, number] => {
+        this.num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount-1);
         // const maxNum2Value = 10**secondDigitCount - 1 < this.num1 ? 10**secondDigitCount - 1 : this.num1;
         this.num2 = this.random.getRandomInt(10**(secondDigitCount-1), secondDigitCount < firstDigitCount ? 10**secondDigitCount - 1 : this.num1);
         const text = `${this.num1} : ${this.num2}`;
         const value = this.num1 / this.num2;
-        return [{text, value}];
+        const calcItem = {text, value};
+        const correctResult = Math.floor(this.num1 / this.num2);
+        const correctRemainder = this.num1 % this.num2;
+        return [[calcItem], correctResult, correctRemainder];
     }
-    transformRemainderDivision = () => {
-        const result = Math.floor(this.num1 / this.num2);
-        const remainder = this.num1 % this.num2;
-        return `${result} remainder ${remainder}`;
-    }
-    transformRemainderDivisionToValue = (result: number, remainder: number) => {
-        return result + remainder / this.num2;
-    }
-    generatePercentAddSub = ({digitCount}: {digitCount: number}): CalcItem[] => {
+    generatePercentAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
         // Function to ensure number has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
 
         // Generate random numbers with specified digit count
-        const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
-        const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount);
+        const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
+        const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
         
         // Randomly choose operator (+ or -)
         const operator = this.random.choice(['+', '-']);
@@ -370,19 +337,18 @@ class Generator {
         // Format the expression text
         const text = `(${formatNumber(num1)} ${operator} ${formatNumber(num2)}) ${percentage}%`;
         
-        return [{
-            text,
-            value
-        }];
+        const calcItem = {text, value};
+        return [[calcItem], value];
     }
-    generateMultiply = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): CalcItem[] => {
-        const num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount);
-        const num2 = this.random.getRandomInt(10**(secondDigitCount-1), 10**secondDigitCount);
-        const text = `${num1}·${num2}`;
+    generateMultiply = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): [[CalcItem], number] => {
+        const num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount-1);
+        const num2 = this.random.getRandomInt(10**(secondDigitCount-1), 10**secondDigitCount-1);
+        const text = `${num1}×${num2}`;
         const value = num1 * num2;
-        return [{text, value}];
+        const calcItem = {text, value};
+        return [[calcItem], value];
     }
-    generateDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): CalcItem[] => {
+    generateDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): [[CalcItem], number] => {
         // Generate the divisor (second number) with secondDigitCount digits
         let divisor;
         if (firstDigitCount === secondDigitCount) {
@@ -404,7 +370,8 @@ class Generator {
         const text = `${dividend} : ${divisor}`;
         const value = multiplier;
         
-        return [{text, value}];
+        const calcItem = {text, value};
+        return [[calcItem], value];
     }
 }
 

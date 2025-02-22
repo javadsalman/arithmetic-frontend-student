@@ -12,6 +12,8 @@ interface GameState {
     gameCount: number;
     betweenDuration: number;
     answerDuration: number;
+    enterAnimationDuration: number;
+    exitAnimationDuration: number;
     gameType: "formules" | "actions"| null;
     gameMode: FormuleMode|ActionMode|null;
     setDigitCount: (count: number) => void;
@@ -24,6 +26,8 @@ interface GameState {
     resetStore: () => void;
     setGameType: (gameType: "formules" | "actions") => void;
     setGameMode: (gameMode: FormuleMode|ActionMode) => void;
+    setEnterAnimationDuration: (time: number) => void;
+    setExitAnimationDuration: (time: number) => void;
 }
 
 
@@ -37,6 +41,8 @@ const initialState = {
     answerDuration: 10,
     gameMode: null,
     gameType: null,
+    enterAnimationDuration: 0,
+    exitAnimationDuration: 0,
 }
 
 
@@ -56,6 +62,8 @@ export const useGameStore = create<GameState>()(
             setAnswerDuration: (time: number) => set({ answerDuration: time }),
             resetStore: () => set(initialState),
             setNewState: (newState: GameState) => set(newState),
+            setEnterAnimationDuration: (time: number) => set({ enterAnimationDuration: time }),
+            setExitAnimationDuration: (time: number) => set({ exitAnimationDuration: time }),
         })), 
         {
             name: 'game',

@@ -7,15 +7,17 @@ import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { useGameplayStore } from '../../stores/gameplayStore';
 import { useGameStore } from '../../stores/gameStore';
-import { playTrueSound, playFalseSound } from '../../stores/soundStore';
+import { playTrueSound, playFalseSound, stopCurrentSound } from '../../stores/soundStore';
 import Lang from './Lang';
 import { Round } from '../../stores/gameplayStore';
+import { ModeFeatures } from '../../helpers/types';
+
 interface RoundReport {
     remainingGames: number;
     userAnswer: number|null;
-    userSecondAnswer?: number|null;
+    userSecondAnswer: number|null;
     correctAnswer: number;
-    correctSecondAnswer?: number;
+    correctSecondAnswer: number|null;
     isCorrect: boolean;
     totalCorrect: number;
     totalIncorrect: number;
@@ -26,13 +28,12 @@ const reportItemVariant = tv({
     base: 'flex items-center justify-between text-white text-2xl font-semibold py-4 lg:text-xl lg:text-2xl',
 })
 
-interface ResultScreenProps {
-    double: boolean;
+interface ResultScreenProps extends ModeFeatures {
     onComplete: () => void;
 }
 
-function ResultScreen({double, onComplete}: ResultScreenProps) {
-    const { rounds, getCurrentRound, transformValue } = useGameplayStore();
+function ResultScreen({doubleInput, inputTitles, onComplete}: ResultScreenProps) {
+    const { rounds, getCurrentRound } = useGameplayStore();
     const { gameCount } = useGameStore();
     const currentRound = getCurrentRound();
     const [report, setReport] = useState<RoundReport>();
@@ -45,18 +46,9 @@ function ResultScreen({double, onComplete}: ResultScreenProps) {
             const userSecondAnswer = currentRound.secondUserAnswer;
             const correctAnswer = currentRound.correctAnswer;
             const correctSecondAnswer = currentRound.secondCorrectAnswer;
-            let isCorrect, totalCorrect, totalIncorrect;
-            if (double) {
-                const isFirstCorrect = userAnswer === correctAnswer;
-                const isSecondCorrect = userSecondAnswer === correctSecondAnswer;
-                isCorrect = double ? isFirstCorrect && isSecondCorrect : isFirstCorrect;
-                totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
-                totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
-            } else {
-                isCorrect = userAnswer === correctAnswer;
-                totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
-                totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
-            }
+            const isCorrect = currentRound.isCorrect;
+            const totalCorrect = rounds.filter((round: Round) => round.isCorrect).length;
+            const totalIncorrect = rounds.filter((round: Round) => !round.isCorrect).length;
             setReport({
                 remainingGames,
                 userAnswer,
@@ -68,7 +60,7 @@ function ResultScreen({double, onComplete}: ResultScreenProps) {
                 totalIncorrect
             })
         }
-    }, [currentRound, double])
+    }, [currentRound, doubleInput, inputTitles])
 
 
     const firstImageSource = isCorrect ? likeImageSource : dislikeImageSource;
@@ -80,6 +72,7 @@ function ResultScreen({double, onComplete}: ResultScreenProps) {
         } else {
             playFalseSound();
         }
+        return () => stopCurrentSound();
     }, [isCorrect]);
 
 
@@ -102,25 +95,25 @@ function ResultScreen({double, onComplete}: ResultScreenProps) {
     
     const userAnswerContent = useMemo(() => {
         const userAnswerString = userAnswer === null ? "-" : userAnswer;
-        if (double) {
+        if (doubleInput) {
             const userSecondAnswerString = userSecondAnswer === null ? "-" : userSecondAnswer;
+            if (inputTitles) {
+                return `${userAnswerString} ${inputTitles[0]} və ${userSecondAnswerString} ${inputTitles[1]}`;
+            }
             return `${userAnswerString} və ${userSecondAnswerString}`;
         }
-        if (userAnswer && transformValue) {
-            return transformValue(userAnswer);
-        }
         return userAnswerString;
-    }, [userSecondAnswer, userAnswer, double, transformValue]);
+    }, [userSecondAnswer, userAnswer, doubleInput, inputTitles]);
 
     const correctAnswerContent = useMemo(() => {
-        if (double) {
-            return `${correctSecondAnswer} və ${correctSecondAnswer}`;
-        }
-        if (correctAnswer && transformValue) {
-            return transformValue(correctAnswer);
+        if (doubleInput) {
+            if (inputTitles) {
+                return `${correctAnswer} ${inputTitles[0]} və ${correctSecondAnswer} ${inputTitles[1]}`;
+            }
+            return `${correctAnswer} və ${correctSecondAnswer}`;
         }
         return correctAnswer;
-    }, [correctSecondAnswer, correctAnswer, double, transformValue]);
+    }, [correctSecondAnswer, correctAnswer, doubleInput, inputTitles]);
     
     return (
         <div className="flex flex-col px-4 sm:px-10 lg:px-0 lg:flex-row gap-4 lg:gap-8 items-center justify-evenly h-full w-full">

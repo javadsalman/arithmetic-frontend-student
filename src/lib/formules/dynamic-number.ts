@@ -459,6 +459,7 @@ class DynamicNumber {
 
 
         const history = this.parent.history
+        addChangeNumber *= 10
         if (history.getLastOperationType() === 'subtract' || history.getOperationCount() < 3) {
             subtractChangeNumber /= 20
             addChangeNumber *= 4

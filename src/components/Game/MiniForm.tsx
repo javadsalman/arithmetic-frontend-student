@@ -10,11 +10,11 @@ import { restartGame } from "../../stores/gameplayStore";
 import Lang, { content as langContent } from "./Lang";
 import { useLanguageStore } from "../../stores/languageStore";
 import { useNotificationStore } from "../../stores/notificationStore";
-import { ACTIONS_FEATURES } from "../../pages/actions/constants";
+import { ACTIONS_FEATURES, ACTION_TITLES } from "../../pages/actions/constants";
 import { ActionMode } from "../../pages/actions/types";
 
 interface FormuleValues {
-    formuleMode: FormuleMode;
+    mode: FormuleMode|ActionMode;
     digitCount: number;
     secondDigitCount: number;
     numberCount: number;
@@ -45,11 +45,14 @@ function MiniForm() {
         setGameMode
     } = useGameStore();
 
+    console.log(gameMode);
+    console.log(ACTION_TITLES)
+
     const { setNotification } = useNotificationStore();
 
     const { control, handleSubmit, setValue, watch } = useForm<FormuleValues>({
         defaultValues: {
-            formuleMode: gameMode as FormuleMode,
+            mode: gameMode as FormuleMode|ActionMode,
             digitCount: digitCount,
             secondDigitCount: secondDigitCount,
             numberCount: numberCount,
@@ -71,8 +74,8 @@ function MiniForm() {
         setGameCount(+data.gameCount);
         setBetweenDuration(+data.betweenDuration);
         setAnswerDuration(+data.answerDuration);
-        setGameMode(data.formuleMode);
-        navigate(`/game/${gameType}/${data.formuleMode}/game`);
+        setGameMode(data.mode);
+        navigate(`/game/${gameType}/${data.mode}/game`);
         restartGame();
     };
 
@@ -89,11 +92,11 @@ function MiniForm() {
     }
 
     useEffect(() => {
-        setValue('formuleMode', gameMode as FormuleMode);
+        setValue('mode', gameMode as FormuleMode|ActionMode);
     }, [gameMode]);
 
-
-    const showFormuleInput = gameType === 'formules'
+    const titles = gameType === 'formules' ? FORMULE_TITLES : ACTION_TITLES;
+    const showFormuleInput = true
     const showDigitCountInput = !isSoundNumbers
     const showSecondDigitCountInput = isDoubleDigitCount
     const showNumberCountInput = !isSingleQuestion
@@ -109,19 +112,19 @@ function MiniForm() {
                     <div>
                         {showFormuleInput && <Controller
                             control={control}
-                            name="formuleMode"
+                            name="mode"
                             render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel><Lang>Formul</Lang></InputLabel>
+                                <FormControl style={{width: 200}}>
+                                    <InputLabel>Mode</InputLabel>
                                     <Select
                                         {...field}
                                         value={field.value}
-                                        label={langContent[language]!['Formul']}
+                                        label={"Mode"}
                                         onChange={field.onChange}
                                     >
 
-                                        {Object.entries(FORMULE_TITLES).map(([key, title]) => (
-                                            <MenuItem key={key} value={key}>{langContent[language]![title]}</MenuItem>
+                                        {Object.entries(titles).map(([key, title]) => (
+                                            <MenuItem key={key} value={key}>{title}</MenuItem>
                                         ))}
                                     </Select>
 

@@ -122,9 +122,9 @@ function GamePlay() {
             case "input":
                 return <InputScreen onComplete={showResult} doubleInput={gameFeatures.doubleInput} />;
             case "result":
-                return <ResultScreen double={gameFeatures.doubleColumn} onComplete={allRoundsFinished ? showEnd : startGame} />;
+                return <ResultScreen {...gameFeatures} onComplete={allRoundsFinished ? showEnd : startGame} />;
             case "end":
-                return <EndScreen double={gameFeatures.doubleColumn} />;
+                return <EndScreen />;
         }
     }, [screen, gameFeatures, allRoundsFinished]);
 

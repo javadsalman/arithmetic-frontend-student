@@ -12,12 +12,13 @@ import { MIXED_ADD_SUB } from '../lib/formules/constants';
 
 export interface Round {
     calcItems: CalcItem[];
-    secondCalcItems?: CalcItem[];
+    secondCalcItems: CalcItem[]|null;
     userAnswer: number|null;
-    secondUserAnswer?: number|null;
+    secondUserAnswer: number|null;
     correctAnswer: number;
-    secondCorrectAnswer?: number;
+    secondCorrectAnswer: number|null;
     finished: boolean;
+    isCorrect: boolean;
 }
 
 const formuleGenerator = new FormuleGenerator();
@@ -31,8 +32,6 @@ interface GameplayState {
     secondUserAnswer: string;
     screen: "enterance" | "game" | "input" | "result" | "end";
     heightSize: HeightSize;
-    transformValue: ((value: number) => string) | null;
-    transformColsToValue: ((col1: number, col2: number, col3?: number) => number) | null;   
     timestamp: number;
     setCurrentUserAnswer: (answer: string) => void;
     setSecondUserAnswer: (answer: string) => void;
@@ -44,8 +43,6 @@ interface GameplayState {
     clearRounds: () => void;
     setScreen: (screen: "enterance" | "game" | "input" | "result" | "end") => void;
     setHeightSize: (size: HeightSize) => void;
-    setTransformValue: (transformValue: ((value: number) => string) | null) => void;
-    setTransformColsToValue: (transformColsToValue: ((col1: number, col2: number, col3?: number) => number) | null) => void;
     setTimestamp: (timestamp: number) => void;
 }
 
@@ -57,8 +54,6 @@ export const useGameplayStore = create<GameplayState>()(
             secondUserAnswer: "",
             screen: "enterance",
             heightSize: 'md',
-            transformValue: null,
-            transformColsToValue: null,
             timestamp: 0,
             setCurrentUserAnswer: (answer: string) => set(state => {
                 state.currentUserAnswer = answer;
@@ -73,13 +68,10 @@ export const useGameplayStore = create<GameplayState>()(
             answerCurrentRound: () => set(state => {
                 const currentRound = state.rounds[state.rounds.length-1];
                 if (currentRound) {
-                    if (state.transformColsToValue) {
-                        currentRound.userAnswer = state.transformColsToValue(+state.currentUserAnswer, +state.secondUserAnswer);
-                    } else {
-                        currentRound.userAnswer = state.currentUserAnswer ? +state.currentUserAnswer : null;
-                    }
+                    currentRound.userAnswer = state.currentUserAnswer ? +state.currentUserAnswer : null;
                     currentRound.secondUserAnswer = state.secondUserAnswer ? +state.secondUserAnswer : null;
                     currentRound.finished = true;
+                    currentRound.isCorrect = currentRound.userAnswer === currentRound.correctAnswer && currentRound.secondUserAnswer === currentRound.secondCorrectAnswer;
                 }
 
             }),
@@ -93,12 +85,6 @@ export const useGameplayStore = create<GameplayState>()(
             }),
             setHeightSize: (size: HeightSize) => set(state => {
                 state.heightSize = size;
-            }),
-            setTransformValue: (transformValue: ((value: number) => string) | null) => set(state => {
-                state.transformValue = transformValue;
-            }),
-            setTransformColsToValue: (transformColsToValue: ((col1: number, col2: number) => number) | null) => set(state => {
-                state.transformColsToValue = transformColsToValue;
             }),
             setTimestamp: (timestamp: number) => set(state => {
                 state.timestamp = timestamp;
@@ -120,74 +106,67 @@ export const createFormuleRound = () => {
     const calcItems = calcValues.map(value => ({text: value > 0 ? `+${value}` : value.toString(), value}));
 
     const correctAnswer = calcItems.reduce((acc, item) => acc + item.value, 0);
-    const newRound: Round = {calcItems, userAnswer: null, correctAnswer, finished: false};
+    const newRound: Round = {calcItems, userAnswer: null, correctAnswer, secondCalcItems: null, secondUserAnswer: null, secondCorrectAnswer: null, finished: false, isCorrect: false};
     addRound(newRound);
 }
 
 export const createActionRound = () => {
     const { digitCount, numberCount, isMixedDigits, gameMode, secondDigitCount } = useGameStore.getState();
-    const { addRound, getCurrentRound, setTransformValue, setTransformColsToValue } = useGameplayStore.getState();
+    const { addRound, getCurrentRound } = useGameplayStore.getState();
     const currentRound = getCurrentRound();
     if (currentRound && !currentRound.finished) {
         return;
     }
     let calcItems: CalcItem[] = [];
-    let transformValue = null;
-    let transformColsToValue = null;
+    let correctAnswer: number = NaN;
+    let secondCorrectAnswer: number|null = null;
+    let secondCalcItems: CalcItem[] = [];
     if ([FREE_WORK_ACTION, FREE_WORK_FLIPPED_ACTION, RANDOM_NUMBERS_ACTION, RANDOM_NUMBERS_ROTATED_ACTION].includes(gameMode as ActionMode)) {
-        calcItems = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
+        [calcItems, correctAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
     } else if ([ANIMAL_SOUNDS_ACTION, INSTRUMENT_SOUNDS_ACTION].includes(gameMode as ActionMode)) {
-        calcItems = actionGenerator.generateRandomAdd({numberCount});
+        [calcItems, correctAnswer] = actionGenerator.generateRandomAdd({numberCount});
     } else if (gameMode === COMBINED_OPERATIONS_ACTION) {
-        calcItems = actionGenerator.generateCombinedOperations({digitCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
+        [calcItems, correctAnswer] = actionGenerator.generateCombinedOperations({digitCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
     } else if ([DOUBLE_CALCULATION_ACTION, DOUBLE_CALCULATION_FLIPPED_ACTION].includes(gameMode as ActionMode)) {
-        const firstCalcItems = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
-        const secondCalcItems = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
-        const firstCorrectAnswer = firstCalcItems.reduce((acc, item) => acc + item.value, 0);
-        const secondCorrectAnswer = secondCalcItems.reduce((acc, item) => acc + item.value, 0);
-        const newRound: Round = {calcItems: firstCalcItems, secondCalcItems, userAnswer: null, secondUserAnswer: null, correctAnswer: firstCorrectAnswer, secondCorrectAnswer, finished: false};
-        addRound(newRound);
-        return;
+        [calcItems, correctAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
+        [secondCalcItems, secondCorrectAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
     } else if (gameMode === SQUARE_ACTION) {
-        calcItems = actionGenerator.generateSquare({digitCount});
+        [calcItems, correctAnswer] = actionGenerator.generateSquare({digitCount});
     } else if (gameMode === SQUARE_ROOT_ACTION) {
-        calcItems = actionGenerator.generateSquareRoot({digitCount});
+        [calcItems, correctAnswer] = actionGenerator.generateSquareRoot({digitCount});
     } else if (gameMode === PARENTHESES_ACTION) {
-        calcItems = actionGenerator.generatePharantesisAddSub({digitCount});
+        [calcItems, correctAnswer] = actionGenerator.generatePharantesisAddSub({digitCount});
     } else if (gameMode === EQUATION_ACTION) {
-        calcItems = actionGenerator.generateEquationAddSub({digitCount});
+        [calcItems, correctAnswer] = actionGenerator.generateEquationAddSub({digitCount});
     } else if (gameMode === PERCENTAGE_ACTION) {
-        calcItems = actionGenerator.generatePercentAddSub({digitCount});
+        [calcItems, correctAnswer] = actionGenerator.generatePercentAddSub({digitCount});
     } else if (gameMode === SIMPLE_MULTIPLICATION_ACTION) {
-        calcItems = actionGenerator.generateMultiply({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
+        [calcItems, correctAnswer] = actionGenerator.generateMultiply({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
     } else if (gameMode === SIMPLE_DIVISION_ACTION) {
-        calcItems = actionGenerator.generateDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
+        [calcItems, correctAnswer] = actionGenerator.generateDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
     } else if (gameMode === MASS_ACTION) {
-        calcItems = actionGenerator.generateMassAddSub({digitCount});
-        transformValue = actionGenerator.transformMassValue;
-        transformColsToValue = actionGenerator.transformMassToValue;
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateMassAddSub({digitCount});
+        
     } else if (gameMode === MONEY_ACTION) {
-        calcItems = actionGenerator.generateMoneyAddSub({digitCount});
-        transformValue = actionGenerator.transformMoneyValue;
-        transformColsToValue = actionGenerator.transformMoneyToValue;
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateMoneyAddSub({digitCount});
     } else if (gameMode === TIME_ACTION) {
-        calcItems = actionGenerator.generateTimeAddSub({digitCount});
-        transformValue = actionGenerator.transformTimeValue;
-        transformColsToValue = actionGenerator.transformTimeToValue;
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateTimeAddSub({digitCount});
     } else if (gameMode === LENGTH_ACTION) {
-        calcItems = actionGenerator.generateLengthAddSub({digitCount});
-        transformValue = actionGenerator.transformLengthValue;
-        transformColsToValue = actionGenerator.transformLengthToValue;
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateLengthAddSub({digitCount});
     } else if (gameMode === REMAINDER_DIVISION_ACTION) {
-        calcItems = actionGenerator.generateRemainderDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
-        transformValue = actionGenerator.transformRemainderDivision;
-        transformColsToValue = actionGenerator.transformRemainderDivisionToValue;
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateRemainderDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
     }
-    const correctAnswer = calcItems.reduce((acc, item) => acc + item.value, 0);
-    const newRound: Round = {calcItems, userAnswer: null, correctAnswer, finished: false};
+    const newRound: Round = {
+        calcItems, 
+        userAnswer: null, 
+        correctAnswer, 
+        secondCalcItems,
+        secondUserAnswer: null,
+        secondCorrectAnswer,
+        finished: false,
+        isCorrect: false
+    };
     addRound(newRound);
-    setTransformValue(transformValue);
-    setTransformColsToValue(transformColsToValue);
 }
 
 export const createNewRound = () => {

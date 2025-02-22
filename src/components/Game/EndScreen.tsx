@@ -2,35 +2,24 @@ import medalImageSource from '../../assets/images/medal.png';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../stores/gameStore';
 import { restartGame, useGameplayStore } from '../../stores/gameplayStore';
-import { playIqSound } from '../../stores/soundStore';
+import { playIqSound, stopCurrentSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
 import { Round } from '../../stores/gameplayStore';
 
-interface EndScreenProps {
-    double: boolean;
-}
 
-function EndScreen({double}: EndScreenProps) {
+function EndScreen() {
     const {rounds} = useGameplayStore();
     const {gameCount} = useGameStore();
 
 
-    let totalCorrect, totalIncorrect, totalGames;
-    if (double) {
-        totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer && round.secondUserAnswer === round.secondCorrectAnswer).length;
-        totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer || round.secondUserAnswer !== round.secondCorrectAnswer).length;
-        totalGames = gameCount;
-    } else {
-        totalCorrect = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
-        totalIncorrect = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
-        totalGames = gameCount;
-    }
-    const correctAnswers = totalCorrect;
-    const wrongAnswers = totalIncorrect;
+    const totalGames = gameCount;
+    const correctAnswers = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
+    const wrongAnswers = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
 
     useEffect(() => {
         playIqSound();
+        return () => stopCurrentSound();
     }, []);
 
     useEffect(() => {

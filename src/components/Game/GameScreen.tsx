@@ -115,9 +115,8 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     const [counter, setCounter] = useState<number>(0);
     // const [setNumberPositions, setSetNumberPositions] = useState<[number, number]>([50, 50]);
     // const [setRotate, setSetRotate] = useState<number>(0);
-    const { betweenDuration } = useGameStore();
     const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
-    const { answerDuration } = useGameStore();
+    const { betweenDuration, answerDuration, enterAnimationDuration, exitAnimationDuration } = useGameStore();
     const displayString = useMemo(() => {
         if (currentItem && secondCurrentItem) {
             return `${currentItem.text} | ${secondCurrentItem.text}`;
@@ -212,7 +211,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
             const displayStrings = displayString.split(' | ');
             return (<div className="flex items-center justify-center">
                 <div className={columnVariants({flipped: flipped})}>{displayStrings[0]}</div>
-                <div className="text-center mx-5">|</div>
+                <div className="text-center mx-16 w-1 h-96 bg-white"></div>
                 <div className={columnVariants({flipped: flipped})}>{displayStrings[1]}</div>
             </div>)
         }
@@ -243,7 +242,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                         initial={{opacity: 0, scale: 0, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         animate={{opacity: 1, scale: 1, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         exit={{opacity: 0, scale: 0, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
-                        transition={{duration: 0.1, exit: {duration: 0.01}, ease: "easeInOut"}}
+                        transition={{duration: enterAnimationDuration, exit: {duration: exitAnimationDuration}, ease: "easeInOut"}}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                     >
                         <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true})}>
