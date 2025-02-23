@@ -105,7 +105,7 @@ function DigitStep() {
                         size="large"
                         fullWidth
                 >
-                        <Lang>Geri</Lang>
+                        <Lang>GERİ</Lang>
                     </Button>
                 )}
                 <Button
