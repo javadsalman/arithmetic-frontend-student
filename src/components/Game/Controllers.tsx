@@ -119,14 +119,15 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
                 <AnimatePresence mode="wait">
                     {showButton && (
                         <motion.button 
-                        initial={{opacity: 0, scale: 0.9}}
-                        animate={{opacity: 1, scale: 1}}
-                        exit={{opacity: 0, scale: 0.9}}
-                        transition={{duration: 0.5}}
-                        onClick={buttonOnClick}
-                        className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-8 rounded-full text-lg shadow-lg transition-colors duration-200"
-                    >
-                        {buttonText}
+                            key={buttonText}
+                            initial={{opacity: 0, scale: 0.9}}
+                            animate={{opacity: 1, scale: 1}}
+                            exit={{opacity: 0, scale: 0.9}}
+                            transition={{duration: 0.5}}
+                            onClick={buttonOnClick}
+                            className="bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium py-2 px-8 rounded-full text-lg shadow-lg transition-colors duration-200"
+                        >
+                            {buttonText}
                         </motion.button>
                     )}
                 </AnimatePresence>

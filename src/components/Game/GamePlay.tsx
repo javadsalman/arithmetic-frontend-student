@@ -96,7 +96,7 @@ function GamePlay() {
             buttonText: "",
             buttonOnClick: () => {}
         }
-    }, [screen, allRoundsFinished])
+    }, [screen, allRoundsFinished, language])
 
 
     const onGameComplete = useCallback(() => {

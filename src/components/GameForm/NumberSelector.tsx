@@ -23,7 +23,7 @@ function NumberSelector({ numbers, digitCount, setDigitCount }: NumberSelectorPr
                     <button
                         title={`${num} seç`}
                         onClick={() => setDigitCount(num)}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all
+                        className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all
                             ${num <= digitCount 
                                 ? 'bg-[#FF4D4F] border-[#FF4D4F]' 
                                 : 'bg-white border-2 border-gray-300'}`}

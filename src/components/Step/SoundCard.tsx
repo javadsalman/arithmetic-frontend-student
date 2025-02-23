@@ -22,7 +22,6 @@ function SoundCard({
 }: SoundCardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
     const bgColor = NUMBER_COLORS[index % NUMBER_COLORS.length];
-    
     return (
         <div className="bg-white rounded-[28px] p-6 w-[230px] font-nunito shadow-lg">
             {/* First row - Image/Number with flip animation */}
@@ -58,7 +57,7 @@ function SoundCard({
                             className="w-full h-full rounded-full flex items-center justify-center"
                             style={{ backgroundColor: bgColor }}
                         >
-                            <span className="text-4xl font-bold text-white">{index}</span>
+                            <div className="text-6xl font-bold text-white">{index}</div>
                         </motion.div>
                     )}
                 </AnimatePresence>

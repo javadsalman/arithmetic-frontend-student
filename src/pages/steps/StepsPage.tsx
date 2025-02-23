@@ -5,7 +5,7 @@ import NumberStep from "./components/NumberStep";
 import TimeStep from "./components/TimeStep";
 import { StepType } from "./types";
 import { DIGIT_STEP, NUMBER_STEP, TIME_STEP, TABLE_MUL_DIV_STEP, TABLE_POWER_STEP, SOUND_INSTRUMENTS_STEP, SOUND_ANIMALS_STEP, STEP_TITLES } from "./constants";
-import Lang from "../home/Lang";
+import Lang from "./Lang";
 import TableStep from "./components/TableStep";
 import SoundList from "./components/SoundStep";
 import { useMemo } from "react";

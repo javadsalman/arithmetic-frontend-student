@@ -5,7 +5,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGameStore } from '../../../stores/gameStore';
 import NumberSelector from '../../../components/GameForm/NumberSelector';
-import Lang from '../../home/Lang';
+import Lang from '../Lang';
 import { ACTIONS_FEATURES } from '../../actions/constants';
 import { ActionMode } from '../../actions/types';
 
@@ -39,7 +39,7 @@ function DigitStep() {
     const isSecondDigitAvailable = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].doubleDigitCount, [gameType, gameMode]);
 
 
-    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 
     const handleNext = () => {

@@ -1,5 +1,6 @@
 import { LangContent, getTranslationWithContent } from "../../HOC/Translation.tsx/Translation";
 import { content as formulaLangContent } from "../../pages/formules/Lang";
+import { content as actionLangContent } from "../../pages/actions/Lang";
 
 export const content: LangContent = {
     'az': {
@@ -27,8 +28,11 @@ export const content: LangContent = {
         'Növbəti': 'Növbəti',
         'Yenidən oyna': 'Yenidən oyna',
         'Nəticə': 'Nəticə',
+        'Mod': 'Mod',
+        'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'Birinci rəqəm sayı ikincidən kiçik ola bilməz',
         ...formulaLangContent['az'],
-        
+        ...actionLangContent['az'],
+
     },
     'en': {
         'Formul': 'Formula',
@@ -55,7 +59,10 @@ export const content: LangContent = {
         'Növbəti': 'Next',
         'Yenidən oyna': 'Play Again',
         'Nəticə': 'Result',
+        'Mod': 'Mode',
+        'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'First digit count cannot be less than second digit count',
         ...formulaLangContent['en'],
+        ...actionLangContent['en'],
     },
     'ru': {
         'Formul': 'Формула',
@@ -82,7 +89,10 @@ export const content: LangContent = {
         'Növbəti': 'Следующий',
         'Yenidən oyna': 'Играть снова',
         'Nəticə': 'Результат',
+        'Mod': 'Режим',
+        'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'Количество первых цифр не может быть меньше вторых',
         ...formulaLangContent['ru'],
+        ...actionLangContent['ru'],
     },
     'tr': {
         'Formul': 'Formül',
@@ -109,7 +119,10 @@ export const content: LangContent = {
         'Növbəti': 'Sonraki',
         'Yenidən oyna': 'Tekrar Oyna',
         'Nəticə': 'Sonuç',
+        'Mod': 'Mod',
+        'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'Birinci rakam sayısı ikinciden küçük olamaz',
         ...formulaLangContent['tr'],
+        ...actionLangContent['tr'],
     },
     'pl': {
         'Formul': 'Formuła',
@@ -136,7 +149,10 @@ export const content: LangContent = {
         'Növbəti': 'Następny',
         'Yenidən oyna': 'Zagraj Ponownie',
         'Nəticə': 'Wynik',
+        'Mod': 'Tryb',
+        'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'Liczba pierwszych cyfr nie może być mniejsza niż drugich',
         ...formulaLangContent['pl'],
+        ...actionLangContent['pl'],
     },
     'kz': {
         'Formul': 'Формула',
@@ -163,7 +179,10 @@ export const content: LangContent = {
         'Növbəti': 'Келесі',
         'Yenidən oyna': 'Қайта ойнау',
         'Nəticə': 'Нәтиже',
+        'Mod': 'Режим',
+        'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'Бірінші сандар саны екіншіден кем болмауы керек',
         ...formulaLangContent['kz'],
+        ...actionLangContent['kz'],
     },
 }
 

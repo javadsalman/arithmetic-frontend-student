@@ -24,10 +24,12 @@ import {
     SQUARE_ROOT_ACTION,
     INSTRUMENT_SOUNDS_ACTION,
     ANIMAL_SOUNDS_ACTION,
+    ACTION_TITLES,
 } from "./constants";
 import { DIGIT_STEP, TABLE_MUL_DIV_STEP, TABLE_POWER_STEP, SOUND_INSTRUMENTS_STEP, SOUND_ANIMALS_STEP } from "../steps/constants";
 import { useGameStore } from "../../stores/gameStore";
 import { ActionMode } from "./types";
+import Lang from "./Lang";
 const actionCard = tv({
     base: "relative flex items-center justify-center p-4 cursor-pointer hover:scale-105 transition-transform",
     variants: {
@@ -110,7 +112,7 @@ function ActionsPage() {
         <div className="container mx-auto px-4 pb-10">
             {/* Title */}
             <h1 className="text-center text-4xl font-bold text-red-500 mt-10 mb-16">
-                Sənə uyğun əməli seç!
+                <Lang>Sənə uyğun əməli seç!</Lang>
             </h1>
             <div className="flex flex-wrap justify-evenly lg:grid-cols-4 gap-4 gap-y-10 px-5">
                 <div onClick={() => handleNoteClick(FREE_WORK_ACTION)} className={actionCard({ size: "default" })}>
@@ -119,7 +121,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "large" })}>+2</span>
-                        <p className={text()}>SƏRBƏST ÇALIŞMA</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[FREE_WORK_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(FREE_WORK_FLIPPED_ACTION)} className={actionCard({ size: "default" })}>
@@ -128,7 +130,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "large", transform: "flip" })}>2+</span>
-                        <p className={text()}>SƏRBƏST ÇALIŞMA TƏRSİNƏ ƏDƏDLƏR</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[FREE_WORK_FLIPPED_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(COMBINED_OPERATIONS_ACTION)} className={actionCard({ size: "default" })}>
@@ -136,8 +138,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[2].front} backColor={COLOR_PALETTES[2].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <span className={number({ size: "mediumLarge" })}>(8+9)*1</span>
-                        <p className={text()}>Toplama və çıxma və vurma əməlləri birgə hesabla</p>
+                        <span className={number({ size: "medium" })}>(8+9)*1</span>
+                        <p className={text()}><Lang>{ACTION_TITLES[COMBINED_OPERATIONS_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(DOUBLE_CALCULATION_ACTION)} className={actionCard({ size: "default" })}>
@@ -145,8 +147,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[3].front} backColor={COLOR_PALETTES[3].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <span className={number({ size: "mediumLarge" })}>+49 | -68</span>
-                        <p className={text({ size: "large" })}>İkili hesab</p>
+                        <span className={number({ size: "medium" })}>+49 | -68</span>
+                        <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[DOUBLE_CALCULATION_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(DOUBLE_CALCULATION_FLIPPED_ACTION)} className={actionCard({ size: "default" })}>
@@ -154,8 +156,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[4].front} backColor={COLOR_PALETTES[4].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <span className={number({ size: "medium", transform: "flip" })}>+49 | -68</span>
-                        <p className={text({ size: "medium" })}>İkili hesab üzrə təsinə ədədlər</p>
+                        <span className={number({ size: "mediumSmall", transform: "flip" })}>+49 | -68</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[DOUBLE_CALCULATION_FLIPPED_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(RANDOM_NUMBERS_ACTION)} className={actionCard({ size: "default" })}>
@@ -164,7 +166,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "medium" })}>+49 |</span>
-                        <p className={text()}>Oradan-buradan ədədlər</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[RANDOM_NUMBERS_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(RANDOM_NUMBERS_ROTATED_ACTION)} className={actionCard({ size: "default" })}>
@@ -173,7 +175,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "large", transform: "rotate" })}>+49</span>
-                        <p className={text()}>Oradan-buradan dönən ədədlər</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[RANDOM_NUMBERS_ROTATED_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(PARENTHESES_ACTION)} className={actionCard({ size: "default" })}>
@@ -182,7 +184,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "mediumSmall" })}>84+(17+15)</span>
-                        <p className={text()}>Mötərizəli misallar</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[PARENTHESES_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(EQUATION_ACTION)} className={actionCard({ size: "default" })}>
@@ -191,7 +193,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "large" })}>5-x=2</span>
-                        <p className={text()}>Məhculun tapılması</p>
+                        <p className={text()}><Lang>{ACTION_TITLES[EQUATION_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(PERCENTAGE_ACTION)} className={actionCard({ size: "default" })}>
@@ -200,7 +202,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "medium" })}>3+2(29%)</span>
-                        <p className={text()}>Faiz olan misallar hesabla</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[PERCENTAGE_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(MONEY_ACTION)} className={actionCard({ size: "default" })}>
@@ -210,37 +212,7 @@ function ActionsPage() {
                     <div className={contentContainer()}>
                         <div className={number({ size: "small" })}>+ 15man 82qəp</div>
                         <div className={number({ size: "small" })}>15man 82qəp</div>
-                        <p className={text({ size: "large" })}>Pul vahidi</p>
-                    </div>
-                </div>
-                {/* <div onClick={() => handleNoteClick(MULTIPLE_MONEY_ACTION)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[11].front} backColor={COLOR_PALETTES[11].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <div className={number({ size: "small" })}>+ 15man</div>
-                        <div className={number({ size: "small" })}>82qəp</div>
-                        <p className={text({ size: "large" })}>Çoxlu pul vahidi</p>
-                    </div>
-                </div> */}
-                <div onClick={() => handleNoteClick(TIME_ACTION)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[12].front} backColor={COLOR_PALETTES[12].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <div className={number({ size: "small" })}>+ 2saat 54dəq</div>
-                        <div className={number({ size: "small" })}>2saat 12dəq</div>
-                        <p className={text({ size: "large" })}>Zaman vahidi</p>
-                    </div>
-                </div>
-                <div onClick={() => handleNoteClick(LENGTH_ACTION)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[13].front} backColor={COLOR_PALETTES[13].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <div className={number({ size: "small" })}>+ 1m 12sm</div>
-                        <div className={number({ size: "small" })}>1m 12sm</div>
-                        <p className={text({ size: "large" })}>Uzunluq vahidi</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[MONEY_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(MASS_ACTION)} className={actionCard({ size: "default" })}>
@@ -250,7 +222,45 @@ function ActionsPage() {
                     <div className={contentContainer()}>
                         <div className={number({ size: "small" })}>+ 1kg 856q</div>
                         <div className={number({ size: "small" })}>6kg 126q</div>
-                        <p className={text({ size: "large" })}>Kütlə vahidi</p>
+                        <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[MASS_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                <div onClick={() => handleNoteClick(INSTRUMENT_SOUNDS_ACTION, SOUND_INSTRUMENTS_STEP)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[20].front} backColor={COLOR_PALETTES[20].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "medium" })}>🎸🎺🎹</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[INSTRUMENT_SOUNDS_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                <div onClick={() => handleNoteClick(ANIMAL_SOUNDS_ACTION, SOUND_ANIMALS_STEP)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[21].front} backColor={COLOR_PALETTES[21].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "mediumLarge" })}>🐶🐱🐮</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[ANIMAL_SOUNDS_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                <div onClick={() => handleNoteClick(TIME_ACTION)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[12].front} backColor={COLOR_PALETTES[12].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <div className={number({ size: "small" })}>+ 2saat 54dəq</div>
+                        <div className={number({ size: "small" })}>2saat 12dəq</div>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[TIME_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                <div onClick={() => handleNoteClick(LENGTH_ACTION)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[13].front} backColor={COLOR_PALETTES[13].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <div className={number({ size: "mediumSmall" })}>+ 1m 12sm</div>
+                        <div className={number({ size: "mediumSmall" })}>1m 12sm</div>
+                        <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[LENGTH_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(SIMPLE_MULTIPLICATION_ACTION, TABLE_MUL_DIV_STEP)} className={actionCard({ size: "default" })}>
@@ -259,7 +269,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "mediumLarge" })}>12 * 23</span>
-                        <p className={text({ size: "large" })}>Sadə Vurma</p>
+                        <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[SIMPLE_MULTIPLICATION_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(SIMPLE_DIVISION_ACTION, TABLE_MUL_DIV_STEP)} className={actionCard({ size: "default" })}>
@@ -268,7 +278,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "mediumLarge" })}>64 : 16</span>
-                        <p className={text({ size: "large" })}>Sadə Bölmə</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[SIMPLE_DIVISION_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(SQUARE_ACTION, TABLE_POWER_STEP)} className={actionCard({ size: "default" })}>
@@ -277,7 +287,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "large" })}>64<sup>2</sup></span>
-                        <p className={text({ size: "large" })}>Kvadrata Yüksəltmə</p>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[SQUARE_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(REMAINDER_DIVISION_ACTION, TABLE_MUL_DIV_STEP)} className={actionCard({ size: "default" })}>
@@ -286,7 +296,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "mediumLarge" })}>64 : 13</span>
-                        <p className={text()}>Qalıqlı bölmə</p>
+                        <p className={text()}><Lang>{ACTION_TITLES[REMAINDER_DIVISION_ACTION]}</Lang></p>
                     </div>
                 </div>
                 <div onClick={() => handleNoteClick(SQUARE_ROOT_ACTION, TABLE_POWER_STEP)} className={actionCard({ size: "default" })}>
@@ -295,25 +305,7 @@ function ActionsPage() {
                     </div>
                     <div className={contentContainer()}>
                         <span className={number({ size: "large" })}>√64</span>
-                        <p className={text()}>Kvadrat kök</p>
-                    </div>
-                </div>
-                <div onClick={() => handleNoteClick(INSTRUMENT_SOUNDS_ACTION, SOUND_INSTRUMENTS_STEP)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[20].front} backColor={COLOR_PALETTES[20].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "large" })}>🎸🎹🎺</span>
-                        <p className={text()}>Musiqi alətləri üzrə</p>
-                    </div>
-                </div>
-                <div onClick={() => handleNoteClick(ANIMAL_SOUNDS_ACTION, SOUND_ANIMALS_STEP)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[21].front} backColor={COLOR_PALETTES[21].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "large" })}>🐶🐱🐮</span>
-                        <p className={text()}>Heyvan səsləri üzrə</p>
+                        <p className={text()}><Lang>{ACTION_TITLES[SQUARE_ROOT_ACTION]}</Lang></p>
                     </div>
                 </div>
             </div>

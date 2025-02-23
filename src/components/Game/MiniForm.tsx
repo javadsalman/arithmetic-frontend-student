@@ -45,9 +45,6 @@ function MiniForm() {
         setGameMode
     } = useGameStore();
 
-    console.log(gameMode);
-    console.log(ACTION_TITLES)
-
     const { setNotification } = useNotificationStore();
 
     const { control, handleSubmit, setValue, watch } = useForm<FormuleValues>({
@@ -107,24 +104,24 @@ function MiniForm() {
 
     
     return (
-        <div className="w-full max-w-6xl p-4 order-2 md:order-1 mt-0 md:mt-0">
+        <div className="w-full p-4 order-2 md:order-1 mt-0 md:mt-0">
                 <form onSubmit={handleSubmit(onSubmit, onError)} className="flex flex-col md:flex-row gap-4">
                     <div>
                         {showFormuleInput && <Controller
                             control={control}
                             name="mode"
                             render={({ field }) => (
-                                <FormControl style={{width: 200}}>
-                                    <InputLabel>Mode</InputLabel>
+                                <FormControl fullWidth>
+                                    <InputLabel><Lang>Mod</Lang></InputLabel>
                                     <Select
                                         {...field}
                                         value={field.value}
-                                        label={"Mode"}
+                                        label={<Lang>Mod</Lang>}
                                         onChange={field.onChange}
                                     >
 
                                         {Object.entries(titles).map(([key, title]) => (
-                                            <MenuItem key={key} value={key}>{title}</MenuItem>
+                                            <MenuItem key={key} value={key}><Lang>{title}</Lang></MenuItem>
                                         ))}
                                     </Select>
 

@@ -66,11 +66,12 @@ const numberVariants = tv({
     variants: {
         size: {
             lessThan4: "text-[100px] md:text-[200px]",
-            lessThan6: "text-[80px] md:text-[180px]",
-            lessThan8: "text-[60px] md:text-[150px]",
-            lessThan10: "text-[50px] md:text-[120px]",
-            lessThan12: "text-[40px] md:text-[80px]",
-            biggerThan12: "text-[30px] md:text-[60px]",
+            lessThan6: "text-[90px] md:text-[180px]",
+            lessThan8: "text-[80px] md:text-[150px]",
+            lessThan10: "text-[70px] md:text-[120px]",
+            lessThan12: "text-[60px] md:text-[80px]",
+            lessThan14: "text-[50px] md:text-[60px]",
+            restBigger: "text-[40px] md:text-[40px]",
         },
         doubleQuestion: {
             true: "flex gap-1",
@@ -96,7 +97,8 @@ const getFontSize = (text: string) => {
     if (length < 8) return 'lessThan8';
     if (length < 10) return 'lessThan10';
     if (length < 12) return 'lessThan12';
-    return 'biggerThan12';
+    if (length < 14) return 'lessThan14';
+    return 'restBigger';
 };
 
 
@@ -113,8 +115,6 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     const [currentItem, setCurrentItem] = useState<CalcItem|null>(null);
     const [secondCurrentItem, setSecondCurrentItem] = useState<CalcItem|null>(null);
     const [counter, setCounter] = useState<number>(0);
-    // const [setNumberPositions, setSetNumberPositions] = useState<[number, number]>([50, 50]);
-    // const [setRotate, setSetRotate] = useState<number>(0);
     const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
     const { betweenDuration, answerDuration, enterAnimationDuration, exitAnimationDuration } = useGameStore();
     const displayString = useMemo(() => {
@@ -177,16 +177,6 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
             }
             const currentItem = calcItems[counter];
 
-            // if (randomPosition) {
-            //     setSetNumberPositions([random.getRandomInt(25, 75), random.getRandomInt(25, 75)]);
-            // }
-            // if (randomRotate) {
-            //     setSetRotate(random.getRandomInt(0, 360));
-            // } else if (flipped && !doubleColumn) {
-            //     setSetRotate(180);
-            // }
-
-
             setCurrentItem(currentItem);
             secondCalcItems && setSecondCurrentItem(secondCalcItems[counter]);
             setCounter(counter);
@@ -206,28 +196,29 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         }
     }, [currentItem, soundNumbers]);
 
+
     const displayContent = useMemo(() => {
         if (doubleColumn && displayString) {
-            const displayStrings = displayString.split(' | ');
+            const [firstString, secondString] = displayString.split(' | ');
             return (<div className="flex items-center justify-center">
-                <div className={columnVariants({flipped: flipped})}>{displayStrings[0]}</div>
-                <div className="text-center mx-16 w-1 h-96 bg-white"></div>
-                <div className={columnVariants({flipped: flipped})}>{displayStrings[1]}</div>
+                <div className={`${columnVariants({flipped: flipped})} ${getFontSize(firstString)}`}>{firstString}</div>
+                <div className="text-center mx-3 sm:mx-7 md:mx-10 lg:mx-16 w-1 h-96 bg-white"></div>
+                <div className={`${columnVariants({flipped: flipped})} ${getFontSize(secondString)}`}>{secondString}</div>
             </div>)
         }
         if (doubleRow && displayString) {
-            let firstNumber, secondNumber, operator;
+            let firstString: string = '', secondString: string = '', operator: string = '';
             if (displayString.includes('+')) {
-                [firstNumber, secondNumber] = displayString.split('+');
+                [firstString, secondString] = displayString.split('+');
                 operator = '+';
             } else if (displayString.includes('-')) {
-                [firstNumber, secondNumber] = displayString.split('-');
+                [firstString, secondString] = displayString.split('-');
                 operator = '-';
             }
             return (<div className="">
-                <div className="text-5xl">{firstNumber}</div>
+                <div className={`${getFontSize(firstString)}`}>{firstString}</div>
                 <div className="text-center text-6xl">{operator}</div>
-                <div className="text-5xl">{secondNumber}</div>
+                <div className={`${getFontSize(secondString)}`}>{secondString}</div>
             </div>)
         }
         return displayString;

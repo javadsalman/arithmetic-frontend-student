@@ -1,10 +1,10 @@
-import Lang from "../../home/Lang"
+import Lang, { content as langContent } from "../Lang"
 import { tv } from "tailwind-variants"
 import { DIGIT_STEP, MULTIPY_DIVIDE_TABLE, POWER_TABLE } from "../constants"
 import Button from "@mui/material/Button"
 import { useNavigate } from "react-router";
 import { useGameStore } from "../../../stores/gameStore";
-
+import { useLanguageStore } from "../../../stores/languageStore";   
 const cellStyles = tv({
     base: "p-3 text-center border transition-colors duration-150 w-24 min-w-[6rem] select-none",
     variants: {
@@ -30,13 +30,15 @@ interface TableStepProps {
     tableType: "multiply-divide" | "power";
 }
 
+
 function TableStep({ tableType }: TableStepProps) {
     const navigate = useNavigate();
     const { gameType, gameMode } = useGameStore();
+    const { language } = useLanguageStore();
     const table = tableType === "multiply-divide" ? MULTIPY_DIVIDE_TABLE : POWER_TABLE;
     const title = tableType === "multiply-divide" 
-        ? "Vurma və bölmə cədvəlini öyrənək"
-        : "Qüvvət cədvəlini öyrənək";
+        ? langContent[language]!["Vurma və bölmə cədvəlini öyrənək"]
+        : langContent[language]!["Qüvvət cədvəlini öyrənək"];
 
     const getIsHighlighted = (rowIndex: number, cellIndex: number, isHeader: boolean) => {
         if (isHeader || tableType === "power") return false;
@@ -74,7 +76,7 @@ function TableStep({ tableType }: TableStepProps) {
                                                 isHighlighted 
                                             })}
                                         >
-                                            {cellValue}
+                                            {cellValue in langContent[language]! ? langContent[language]![cellValue] : cellValue}
                                         </td>
                                     );
                                 })}
@@ -113,7 +115,7 @@ function TableStep({ tableType }: TableStepProps) {
                     color="primary"
                     onClick={() => navigate(`/actions`)}
                 >
-                    <Lang>Geri</Lang>
+                    <Lang>GERİ</Lang>
                 </Button>
             </div>
         </div>

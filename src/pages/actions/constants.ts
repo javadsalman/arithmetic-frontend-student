@@ -41,22 +41,6 @@ export const COLOR_PALETTES = [
     { front: "#6b271d", back: "#b44131" }, // Brown
     { front: "#5169cd", back: "#9daae0" }, // Purple
     { front: "#49b668", back: "#9fd479" }, // Lime
-    { front: "#f29c1f", back: "#f3d541" }, // Orange
-    { front: "#fe5c45", back: "#fe9282" }, // Red
-    { front: "#0c6c2c", back: "#4f9e34" }, // Green
-    { front: "#ed5575", back: "#f7bac7" }, // Pink
-    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
-    { front: "#6b271d", back: "#b44131" }, // Brown
-    { front: "#5169cd", back: "#9daae0" }, // Purple
-    { front: "#49b668", back: "#9fd479" }, // Lime
-    { front: "#f29c1f", back: "#f3d541" }, // Orange
-    { front: "#fe5c45", back: "#fe9282" }, // Red
-    { front: "#0c6c2c", back: "#4f9e34" }, // Green
-    { front: "#ed5575", back: "#f7bac7" }, // Pink
-    { front: "#1c96f9", back: "#6eb9f6" }, // Blue
-    { front: "#6b271d", back: "#b44131" }, // Brown
-    { front: "#5169cd", back: "#9daae0" }, // Purple
-    { front: "#49b668", back: "#9fd479" }, // Lime
 ]
 
 export const FREE_WORK_ACTION: ActionMode = 'free-work';
@@ -116,53 +100,53 @@ import { ModeFeatures } from "../../helpers/types";
 const STANDARD_STEPS: StepType[] = [DIGIT_STEP, NUMBER_STEP, TIME_STEP];
 const INSTRUMENT_SOUND_NUMBERS = [
     playTarSound,
-    playTutekSound,
-    playUdSound,
-    playFortePianoSound,
     playKamanSound,
     playNagaraSound,
+    playFortePianoSound,
+    playQarmonSound,
+    playSazSound,
+    playTutekSound,
     playQanunSound,
     playQaraZurnaSound,
-    playQarmonSound,
-    playSazSound
+    playUdSound,
 ]
 
 const ANIMAL_SOUND_NUMBERS = [
-    playBeeSound,
-    playBirdSound,
-    playCatSound,
-    playCowSound,
     playDogSound,
-    playFrogSound,
-    playHorseSound,
     playRoosterSound,
     playSheepSound,
-    playWolfSound
+    playWolfSound,
+    playBirdSound,
+    playCowSound,
+    playBeeSound,
+    playCatSound,
+    playFrogSound,
+    playHorseSound,
 ]
 
 export const ACTION_TITLES: Record<ActionMode, string> = {
-    [FREE_WORK_ACTION]: 'Sərbəst iş',
-    [FREE_WORK_FLIPPED_ACTION]: 'Sərbəst iş',
-    [COMBINED_OPERATIONS_ACTION]: 'Qarışıq əməllər',
-    [DOUBLE_CALCULATION_ACTION]: 'İki ədədin toplanması',
-    [DOUBLE_CALCULATION_FLIPPED_ACTION]: 'İki ədədin toplanması',
-    [RANDOM_NUMBERS_ACTION]: 'Rəqəm sayı qarışıq olsun',
-    [RANDOM_NUMBERS_ROTATED_ACTION]: 'Rəqəm sayı qarışıq olsun',
-    [PARENTHESES_ACTION]: 'Ədədlərin qabıqları',
-    [EQUATION_ACTION]: 'Tənlik',
-    [PERCENTAGE_ACTION]: 'Faiz',
-    [MONEY_ACTION]: 'Manat',
-    [MULTIPLE_MONEY_ACTION]: 'Manat',
-    [TIME_ACTION]: 'Saat',
-    [LENGTH_ACTION]: 'Metr',
-    [MASS_ACTION]: 'Kq',
-    [SIMPLE_MULTIPLICATION_ACTION]: 'Vurma',
-    [SIMPLE_DIVISION_ACTION]: 'Vurma',
-    [SQUARE_ACTION]: 'Vurma',
-    [REMAINDER_DIVISION_ACTION]: 'Vurma',
-    [SQUARE_ROOT_ACTION]: 'Vurma',
-    [INSTRUMENT_SOUNDS_ACTION]: 'Musiqi',
-    [ANIMAL_SOUNDS_ACTION]: 'Heyvanlar',
+    [FREE_WORK_ACTION]: 'SƏRBƏST ÇALIŞMA',
+    [FREE_WORK_FLIPPED_ACTION]: 'SƏRBƏST ÇALIŞMA TƏRSINE ƏDƏDLƏR',
+    [COMBINED_OPERATIONS_ACTION]: 'TOPLAMA, ÇIXMA VƏ VURMA ƏMƏLLƏRİ BİRGƏ HESABLA',
+    [DOUBLE_CALCULATION_ACTION]: 'İKİLİ HESAB',
+    [DOUBLE_CALCULATION_FLIPPED_ACTION]: 'İKİLİ HESAB üzrə TƏRSINE ƏDƏDLƏR',
+    [RANDOM_NUMBERS_ACTION]: 'ORDAN-BURDAN ƏDƏDLƏR',
+    [RANDOM_NUMBERS_ROTATED_ACTION]: 'ORDAN-BURDAN DÖNƏN ƏDƏDLƏR',
+    [PARENTHESES_ACTION]: 'MÖTƏRİZƏLİ MİSALLAR',
+    [EQUATION_ACTION]: 'MƏCHULUN TAPILMASI',
+    [PERCENTAGE_ACTION]: 'FAİZ OLAN MİSALLAR',
+    [MONEY_ACTION]: 'PUL VAHİDİ',
+    [MULTIPLE_MONEY_ACTION]: 'ÇOXLU PUL VAHİDİ',
+    [TIME_ACTION]: 'ZAMAN VAHİDLƏRİ',
+    [LENGTH_ACTION]: 'UZUNLUQ VAHİDİ',
+    [MASS_ACTION]: 'KÜTLƏ VAHİDLƏRİ ÜZRƏ HESABLA',
+    [SIMPLE_MULTIPLICATION_ACTION]: 'SADƏ VURMA',
+    [SIMPLE_DIVISION_ACTION]: 'SADƏ BÖLMƏ',
+    [SQUARE_ACTION]: 'KVADRATA YÜKSƏLTMƏ',
+    [REMAINDER_DIVISION_ACTION]: 'QALIQLI BÖLMƏ',
+    [SQUARE_ROOT_ACTION]: 'KVADRAT KÖK MİSALLARI',
+    [INSTRUMENT_SOUNDS_ACTION]: 'MUSİQİ SƏSLƏRİ İLƏ HESABLA',
+    [ANIMAL_SOUNDS_ACTION]: 'HEYVAN SƏSLƏRİ ÜZRƏ'
 }
 
 
@@ -403,7 +387,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
     },
     [REMAINDER_DIVISION_ACTION]: {
         flipped: false,
-        steps: STANDARD_STEPS,
+        steps: [TABLE_MUL_DIV_STEP, ...STANDARD_STEPS],
         singleQuestion: true,
         randomPosition: false,
         randomRotate: false,

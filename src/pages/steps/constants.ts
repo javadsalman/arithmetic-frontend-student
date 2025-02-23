@@ -12,10 +12,10 @@ export const STEP_TITLES: Record<StepType, string> = {
     [DIGIT_STEP]: 'Rəqəm sayı',
     [NUMBER_STEP]: 'Ədəd sayı',
     [TIME_STEP]: 'Cavab müddəti',
-    [TABLE_MUL_DIV_STEP]: 'Sadə Vurma',
-    [TABLE_POWER_STEP]: 'Sadə Vurma',
-    [SOUND_INSTRUMENTS_STEP]: 'Səs',
-    [SOUND_ANIMALS_STEP]: 'Səs'
+    [TABLE_MUL_DIV_STEP]: 'Vurma Cədvəli',
+    [TABLE_POWER_STEP]: 'Qüvvət Cədvəli',
+    [SOUND_INSTRUMENTS_STEP]: 'Alət Səsləri',
+    [SOUND_ANIMALS_STEP]: 'Heyvan Səsləri'
 }
 
 
@@ -79,21 +79,6 @@ export const INSTRUMENTS = [
         onPlay: playTarSound
     },
     {
-        title: 'Tutek',
-        iconSrc: tutekIconSource,
-        onPlay: playTutekSound
-    },
-    {
-        title: 'Ud',
-        iconSrc: udIconSource,
-        onPlay: playUdSound
-    },
-    {
-        title: 'Forte Piano',
-        iconSrc: fortePianoIconSource,
-        onPlay: playFortePianoSound
-    },
-    {
         title: 'Kaman',
         iconSrc: kamanIconSource,
         onPlay: playKamanSound
@@ -102,6 +87,26 @@ export const INSTRUMENTS = [
         title: 'Nagara',
         iconSrc: nagaraIconSource,
         onPlay: playNagaraSound
+    },
+    {
+        title: 'Forte Piano',
+        iconSrc: fortePianoIconSource,
+        onPlay: playFortePianoSound
+    },
+    {
+        title: 'Qarmon',
+        iconSrc: qarmonIconSource,
+        onPlay: playQarmonSound
+    },
+    {
+        title: 'Saz',
+        iconSrc: sazIconSource,
+        onPlay: playSazSound
+    },
+    {
+        title: 'Tutek',
+        iconSrc: tutekIconSource,
+        onPlay: playTutekSound
     },
     {
         title: 'Qanun',
@@ -114,14 +119,9 @@ export const INSTRUMENTS = [
         onPlay: playQaraZurnaSound
     },
     {
-        title: 'Qarmon',
-        iconSrc: qarmonIconSource,
-        onPlay: playQarmonSound
-    },
-    {
-        title: 'Saz',
-        iconSrc: sazIconSource,
-        onPlay: playSazSound
+        title: 'Ud',
+        iconSrc: udIconSource,
+        onPlay: playUdSound
     },
 ]
 
@@ -151,54 +151,54 @@ import {
 
 export const ANIMALS = [
     {
-        title: 'Bee',
-        iconSrc: beeIconSource,
-        onPlay: playBeeSound
-    },
-    {
-        title: 'Bird',
-        iconSrc: birdIconSource,
-        onPlay: playBirdSound
-    },
-    {
-        title: 'Cat',
-        iconSrc: catIconSource,
-        onPlay: playCatSound
-    },
-    {
-        title: 'Cow',
-        iconSrc: cowIconSource,
-        onPlay: playCowSound
-    },
-    {
-        title: 'Dog',
+        title: 'İt',
         iconSrc: dogIconSource,
         onPlay: playDogSound
     },
     {
-        title: 'Frog',
-        iconSrc: frogIconSource,
-        onPlay: playFrogSound
-    },
-    {
-        title: 'Horse',
-        iconSrc: horseIconSource,
-        onPlay: playHorseSound
-    },
-    {
-        title: 'Rooster',
+        title: 'Xoruz',
         iconSrc: roosterIconSource,
         onPlay: playRoosterSound
     },
     {
-        title: 'Sheep',
+        title: 'Quzu',
         iconSrc: sheepIconSource,
         onPlay: playSheepSound
     },
     {
-        title: 'Wolf',
+        title: 'Canavar',
         iconSrc: wolfIconSource,
         onPlay: playWolfSound
+    },
+    {
+        title: 'Bülbül',
+        iconSrc: birdIconSource,
+        onPlay: playBirdSound
+    },
+    {
+        title: 'İnək',
+        iconSrc: cowIconSource,
+        onPlay: playCowSound
+    },
+    {
+        title: 'Arı',
+        iconSrc: beeIconSource,
+        onPlay: playBeeSound
+    },
+    {
+        title: 'Pişik',
+        iconSrc: catIconSource,
+        onPlay: playCatSound
+    },
+    {
+        title: 'Qurbağa',
+        iconSrc: frogIconSource,
+        onPlay: playFrogSound
+    },
+    {
+        title: 'At',
+        iconSrc: horseIconSource,
+        onPlay: playHorseSound
     }
 ]
 

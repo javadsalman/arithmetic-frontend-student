@@ -1,4 +1,4 @@
-import Lang from "../../home/Lang";
+import Lang, { content as langContent } from "../Lang";
 import SoundCard from "../../../components/Step/SoundCard";
 import { INSTRUMENTS, ANIMALS, DIGIT_STEP } from "../constants";
 import { useSoundStore } from "../../../stores/soundStore";
@@ -7,6 +7,7 @@ import { stopCurrentSound } from "../../../stores/soundStore";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router";
 import { useGameStore } from "../../../stores/gameStore";
+import { useLanguageStore } from "../../../stores/languageStore";
 
 interface SoundListProps {
     soundsType: 'instruments' | 'animals';
@@ -18,6 +19,7 @@ function SoundList({ soundsType }: SoundListProps) {
     const currentPlaylist = soundsType === 'instruments' ? INSTRUMENTS : ANIMALS;
     const navigate = useNavigate();
     const { gameType, gameMode } = useGameStore();
+    const { language } = useLanguageStore();
 
     const handlePlay = (index: number) => {
         if (playingIndex === index) {
@@ -39,6 +41,7 @@ function SoundList({ soundsType }: SoundListProps) {
 
     useEffect(() => {
         setIsMuted(false);
+        return () => stopCurrentSound();
     }, [setIsMuted]);
     return (
         <div className="mx-auto">
@@ -47,7 +50,7 @@ function SoundList({ soundsType }: SoundListProps) {
             </h2>
             <div className="flex flex-wrap gap-10 justify-center">
                 {currentPlaylist.map((item, index) => (
-                    <SoundCard key={item.title} {...item} index={index} isPlaying={playingIndex === index} onPlay={() => handlePlay(index)} />
+                    <SoundCard key={item.title} title={langContent[language]![item.title]} iconSrc={item.iconSrc}  index={index} isPlaying={playingIndex === index} onPlay={() => handlePlay(index)} />
                 ))}
             </div>
             <div className="flex justify-center max-w-md mx-auto mt-7"> 
@@ -80,7 +83,7 @@ function SoundList({ soundsType }: SoundListProps) {
                     color="primary"
                     onClick={() => navigate(`/actions`)}
                 >
-                    <Lang>Geri</Lang>
+                    <Lang>GERİ</Lang>
                 </Button>
             </div>
         </div>
