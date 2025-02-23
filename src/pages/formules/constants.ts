@@ -26,7 +26,7 @@ const FORMULE_FEATURE: ModeFeatures = {
     doubleDigitCount: false,
     soundNumbers: null,
     randomRotate: false,
-    inputTitles: null,
+    inputUnits: null,
     doubleColumn: false,
     doubleRow: false,
 }

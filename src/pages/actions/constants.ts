@@ -162,7 +162,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [FREE_WORK_FLIPPED_ACTION]: {
         flipped: true,
@@ -175,7 +175,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [COMBINED_OPERATIONS_ACTION]: {
         flipped: false,
@@ -188,7 +188,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [DOUBLE_CALCULATION_ACTION]: {
         flipped: false,
@@ -201,7 +201,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [DOUBLE_CALCULATION_FLIPPED_ACTION]: {
         flipped: true,
@@ -214,7 +214,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [RANDOM_NUMBERS_ACTION]: {
         flipped: false,
@@ -227,7 +227,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [RANDOM_NUMBERS_ROTATED_ACTION]: {
         flipped: true,
@@ -240,7 +240,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [PARENTHESES_ACTION]: {
         flipped: false,
@@ -253,7 +253,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [EQUATION_ACTION]: {
         flipped: false,
@@ -266,7 +266,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [PERCENTAGE_ACTION]: {
         flipped: false,
@@ -279,7 +279,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [MONEY_ACTION]: {
         flipped: false,
@@ -292,7 +292,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: true,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: ["man", "qəpik"]
+        inputUnits: ["manat", "qəpik"]
     },
     [MULTIPLE_MONEY_ACTION]: {
         flipped: false,
@@ -305,7 +305,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: true,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: ["man", "qəpik"]
+        inputUnits: ["manat", "qəpik"]
     },
     [TIME_ACTION]: {
         flipped: false,
@@ -318,7 +318,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: true,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: ["saat", "dəq"]
+        inputUnits: ["saat", "dəq"]
     },
     [LENGTH_ACTION]: {
         flipped: false,
@@ -331,7 +331,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: true,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: ["m", "sm"]
+        inputUnits: ["m", "sm"]
     },
     [MASS_ACTION]: {
         flipped: false,
@@ -344,7 +344,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: true,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: ["kq", "q"]
+        inputUnits: ["kq", "q"]
     },
     [SIMPLE_MULTIPLICATION_ACTION]: {
         flipped: false,
@@ -357,7 +357,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: true,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [SIMPLE_DIVISION_ACTION]: {
         flipped: false,
@@ -370,7 +370,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: true,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },  
     [SQUARE_ACTION]: {
         flipped: false,
@@ -383,7 +383,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [REMAINDER_DIVISION_ACTION]: {
         flipped: false,
@@ -396,7 +396,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: true,
         soundNumbers: null,
-        inputTitles: ["tam", "qalıq"]
+        inputUnits: ["tam", "qalıq"]
     },
     [SQUARE_ROOT_ACTION]: {
         flipped: false,
@@ -409,7 +409,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: null,
-        inputTitles: null
+        inputUnits: null
     },
     [INSTRUMENT_SOUNDS_ACTION]: {
         flipped: false,
@@ -422,7 +422,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: INSTRUMENT_SOUND_NUMBERS,
-        inputTitles: null
+        inputUnits: null
     },
     [ANIMAL_SOUNDS_ACTION]: {
         flipped: false,
@@ -435,6 +435,6 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
         doubleRow: false,
         doubleDigitCount: false,
         soundNumbers: ANIMAL_SOUND_NUMBERS,
-        inputTitles: null
+        inputUnits: null
     },
 }

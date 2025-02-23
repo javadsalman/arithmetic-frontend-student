@@ -11,6 +11,8 @@ import { playTrueSound, playFalseSound, stopCurrentSound } from '../../stores/so
 import Lang from './Lang';
 import { Round } from '../../stores/gameplayStore';
 import { ModeFeatures } from '../../helpers/types';
+import { content as actionLangContent } from '../../pages/actions/Lang';
+import { useLanguageStore } from '../../stores/languageStore';
 
 interface RoundReport {
     remainingGames: number;
@@ -32,12 +34,23 @@ interface ResultScreenProps extends ModeFeatures {
     onComplete: () => void;
 }
 
-function ResultScreen({doubleInput, inputTitles, onComplete}: ResultScreenProps) {
+function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) {
     const { rounds, getCurrentRound } = useGameplayStore();
     const { gameCount } = useGameStore();
     const currentRound = getCurrentRound();
     const [report, setReport] = useState<RoundReport>();
     const { remainingGames, userAnswer, userSecondAnswer, correctAnswer, correctSecondAnswer, isCorrect, totalCorrect, totalIncorrect } = report || {};
+    const { language } = useLanguageStore();
+    const firstImageSource = isCorrect ? likeImageSource : dislikeImageSource;
+    const secondImageSource = isCorrect ? wellDoneImageSource : sadImageSource;
+
+    const [firstUnit, secondUnit] = useMemo(() => {
+        if (inputUnits) {
+            const units = inputUnits as string[];
+            return [actionLangContent[language]![units[0]], actionLangContent[language]![units[1]]];
+        }
+        return [null, null];
+    }, [inputUnits, language]);
 
     useEffect(() => {
         if (currentRound && currentRound.finished) {
@@ -60,11 +73,7 @@ function ResultScreen({doubleInput, inputTitles, onComplete}: ResultScreenProps)
                 totalIncorrect
             })
         }
-    }, [currentRound, doubleInput, inputTitles])
-
-
-    const firstImageSource = isCorrect ? likeImageSource : dislikeImageSource;
-    const secondImageSource = isCorrect ? wellDoneImageSource : sadImageSource;
+    }, [currentRound, doubleInput, inputUnits])
 
     useEffect(() => {
         if (isCorrect) {
@@ -97,23 +106,23 @@ function ResultScreen({doubleInput, inputTitles, onComplete}: ResultScreenProps)
         const userAnswerString = userAnswer === null ? "-" : userAnswer;
         if (doubleInput) {
             const userSecondAnswerString = userSecondAnswer === null ? "-" : userSecondAnswer;
-            if (inputTitles) {
-                return `${userAnswerString} ${inputTitles[0]} və ${userSecondAnswerString} ${inputTitles[1]}`;
+            if (inputUnits) {
+                return `${userAnswerString} ${firstUnit} və ${userSecondAnswerString} ${secondUnit}`;
             }
             return `${userAnswerString} və ${userSecondAnswerString}`;
         }
         return userAnswerString;
-    }, [userSecondAnswer, userAnswer, doubleInput, inputTitles]);
+    }, [userSecondAnswer, userAnswer, doubleInput, inputUnits, firstUnit, secondUnit]);
 
     const correctAnswerContent = useMemo(() => {
         if (doubleInput) {
-            if (inputTitles) {
-                return `${correctAnswer} ${inputTitles[0]} və ${correctSecondAnswer} ${inputTitles[1]}`;
+            if (inputUnits) {
+                return `${correctAnswer} ${firstUnit} və ${correctSecondAnswer} ${secondUnit}`;
             }
             return `${correctAnswer} və ${correctSecondAnswer}`;
         }
         return correctAnswer;
-    }, [correctSecondAnswer, correctAnswer, doubleInput, inputTitles]);
+    }, [correctSecondAnswer, correctAnswer, doubleInput, inputUnits, firstUnit, secondUnit]);
     
     return (
         <div className="flex flex-col px-4 sm:px-10 lg:px-0 lg:flex-row gap-4 lg:gap-8 items-center justify-evenly h-full w-full">

@@ -29,7 +29,10 @@ import {
 import { DIGIT_STEP, TABLE_MUL_DIV_STEP, TABLE_POWER_STEP, SOUND_INSTRUMENTS_STEP, SOUND_ANIMALS_STEP } from "../steps/constants";
 import { useGameStore } from "../../stores/gameStore";
 import { ActionMode } from "./types";
-import Lang from "./Lang";
+import Lang, { content as langContent } from "./Lang";
+import { useLanguageStore } from "../../stores/languageStore";
+
+
 const actionCard = tv({
     base: "relative flex items-center justify-center p-4 cursor-pointer hover:scale-105 transition-transform",
     variants: {
@@ -101,6 +104,7 @@ const number = tv({
 function ActionsPage() {
     const navigate = useNavigate();
     const { setGameType, setGameMode } = useGameStore();
+    const { language } = useLanguageStore();
 
     const handleNoteClick = (action: string, step: string = DIGIT_STEP) => {
         setGameType("actions");
@@ -210,8 +214,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[10].front} backColor={COLOR_PALETTES[10].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <div className={number({ size: "small" })}>+ 15man 82qəp</div>
-                        <div className={number({ size: "small" })}>15man 82qəp</div>
+                        <div className={number({ size: "small" })}>+ 15{langContent[language]!['manat']} 82{langContent[language]!['qəpik']}</div>
+                        <div className={number({ size: "small" })}>15{langContent[language]!['manat']} 82{langContent[language]!['qəpik']}</div>
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[MONEY_ACTION]}</Lang></p>
                     </div>
                 </div>
@@ -220,8 +224,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[14].front} backColor={COLOR_PALETTES[14].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <div className={number({ size: "small" })}>+ 1kg 856q</div>
-                        <div className={number({ size: "small" })}>6kg 126q</div>
+                        <div className={number({ size: "small" })}>+ 1{langContent[language]!['kq']} 856{langContent[language]!['q']}</div>
+                        <div className={number({ size: "small" })}>6{langContent[language]!['kq']} 126{langContent[language]!['q']}</div>
                         <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[MASS_ACTION]}</Lang></p>
                     </div>
                 </div>
@@ -248,8 +252,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[12].front} backColor={COLOR_PALETTES[12].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <div className={number({ size: "small" })}>+ 2saat 54dəq</div>
-                        <div className={number({ size: "small" })}>2saat 12dəq</div>
+                        <div className={number({ size: "small" })}>+ 2{langContent[language]!['saat']} 54{langContent[language]!['dəq']}</div>
+                        <div className={number({ size: "small" })}>2{langContent[language]!['saat']} 12{langContent[language]!['dəq']}</div>
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[TIME_ACTION]}</Lang></p>
                     </div>
                 </div>
@@ -258,8 +262,8 @@ function ActionsPage() {
                         <Flower frontColor={COLOR_PALETTES[13].front} backColor={COLOR_PALETTES[13].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <div className={number({ size: "mediumSmall" })}>+ 1m 12sm</div>
-                        <div className={number({ size: "mediumSmall" })}>1m 12sm</div>
+                        <div className={number({ size: "mediumSmall" })}>+ 1{langContent[language]!['m']} 12{langContent[language]!['sm']}</div>
+                        <div className={number({ size: "mediumSmall" })}>1{langContent[language]!['m']} 12{langContent[language]!['sm']}</div>
                         <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[LENGTH_ACTION]}</Lang></p>
                     </div>
                 </div>

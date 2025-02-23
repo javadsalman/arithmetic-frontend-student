@@ -3,7 +3,9 @@ import { persist } from 'zustand/middleware';
 import { useGameStore } from './gameStore';
 import { immer } from 'zustand/middleware/immer';
 import { FormuleMode } from '../lib/formules/types';
-import { FREE_WORK_ACTION, FREE_WORK_FLIPPED_ACTION, RANDOM_NUMBERS_ACTION, RANDOM_NUMBERS_ROTATED_ACTION, COMBINED_OPERATIONS_ACTION, ANIMAL_SOUNDS_ACTION, INSTRUMENT_SOUNDS_ACTION, DOUBLE_CALCULATION_ACTION, DOUBLE_CALCULATION_FLIPPED_ACTION, SQUARE_ROOT_ACTION, SQUARE_ACTION, PARENTHESES_ACTION, EQUATION_ACTION, PERCENTAGE_ACTION, SIMPLE_MULTIPLICATION_ACTION, SIMPLE_DIVISION_ACTION, MASS_ACTION, MONEY_ACTION, TIME_ACTION, LENGTH_ACTION, REMAINDER_DIVISION_ACTION } from '../pages/actions/constants';
+import { FREE_WORK_ACTION, FREE_WORK_FLIPPED_ACTION, RANDOM_NUMBERS_ACTION, RANDOM_NUMBERS_ROTATED_ACTION, COMBINED_OPERATIONS_ACTION, ANIMAL_SOUNDS_ACTION, INSTRUMENT_SOUNDS_ACTION, DOUBLE_CALCULATION_ACTION, DOUBLE_CALCULATION_FLIPPED_ACTION, SQUARE_ROOT_ACTION, SQUARE_ACTION, PARENTHESES_ACTION, EQUATION_ACTION, PERCENTAGE_ACTION, SIMPLE_MULTIPLICATION_ACTION, SIMPLE_DIVISION_ACTION, MASS_ACTION, MONEY_ACTION, TIME_ACTION, LENGTH_ACTION, REMAINDER_DIVISION_ACTION, ACTIONS_FEATURES } from '../pages/actions/constants';
+import { content as langContent } from '../pages/actions/Lang';
+import { useLanguageStore } from './languageStore';
 import FormuleGenerator from '../lib/formules/generator';
 import ActionGenerator from '../lib/actinos/generator';
 import { CalcItem } from '../helpers/types';
@@ -113,6 +115,7 @@ export const createFormuleRound = () => {
 export const createActionRound = () => {
     const { digitCount, numberCount, isMixedDigits, gameMode, secondDigitCount } = useGameStore.getState();
     const { addRound, getCurrentRound } = useGameplayStore.getState();
+    const { language } = useLanguageStore.getState();
     const currentRound = getCurrentRound();
     if (currentRound && !currentRound.finished) {
         return;
@@ -145,14 +148,21 @@ export const createActionRound = () => {
     } else if (gameMode === SIMPLE_DIVISION_ACTION) {
         [calcItems, correctAnswer] = actionGenerator.generateDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
     } else if (gameMode === MASS_ACTION) {
-        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateMassAddSub({digitCount});
-        
+        const [firstUnit, secondUnit] = ACTIONS_FEATURES[gameMode].inputUnits!;
+        const [translatedFirstUnit, translatedSecondUnit] = [langContent[language]![firstUnit], langContent[language]![secondUnit]];
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateMassAddSub({digitCount, firstUnit: translatedFirstUnit, secondUnit: translatedSecondUnit});
     } else if (gameMode === MONEY_ACTION) {
-        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateMoneyAddSub({digitCount});
+        const [firstUnit, secondUnit] = ACTIONS_FEATURES[gameMode].inputUnits!;
+        const [translatedFirstUnit, translatedSecondUnit] = [langContent[language]![firstUnit], langContent[language]![secondUnit]];
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateMoneyAddSub({digitCount, firstUnit: translatedFirstUnit, secondUnit: translatedSecondUnit});
     } else if (gameMode === TIME_ACTION) {
-        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateTimeAddSub({digitCount});
+        const [firstUnit, secondUnit] = ACTIONS_FEATURES[gameMode].inputUnits!;
+        const [translatedFirstUnit, translatedSecondUnit] = [langContent[language]![firstUnit], langContent[language]![secondUnit]];
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateTimeAddSub({digitCount, firstUnit: translatedFirstUnit, secondUnit: translatedSecondUnit});
     } else if (gameMode === LENGTH_ACTION) {
-        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateLengthAddSub({digitCount});
+        const [firstUnit, secondUnit] = ACTIONS_FEATURES[gameMode].inputUnits!;
+        const [translatedFirstUnit, translatedSecondUnit] = [langContent[language]![firstUnit], langContent[language]![secondUnit]];
+        [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateLengthAddSub({digitCount, firstUnit: translatedFirstUnit, secondUnit: translatedSecondUnit});
     } else if (gameMode === REMAINDER_DIVISION_ACTION) {
         [calcItems, correctAnswer, secondCorrectAnswer] = actionGenerator.generateRemainderDivision({firstDigitCount: digitCount, secondDigitCount: secondDigitCount});
     }

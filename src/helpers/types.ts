@@ -8,7 +8,7 @@ export interface ModeFeatures {
     randomRotate: boolean;
     doubleInput: boolean;
     doubleDigitCount: boolean;
-    inputTitles: [string, string] | null;
+    inputUnits: [string, string] | null;
     doubleColumn: boolean;
     doubleRow: boolean;
     soundNumbers: (() => void)[] | null;

@@ -7,6 +7,8 @@ import { playNumberSound, stopCurrentSound } from "../../stores/soundStore";
 import { ModeFeatures } from "../../helpers/types";
 import InputForm from "./components/InputForm";
 import Random from "../../lib/formules/random";
+import { content as langContent } from '../../pages/actions/Lang';
+import { useLanguageStore } from '../../stores/languageStore';
 
 const random = new Random();
 interface CalcItem {
@@ -44,7 +46,7 @@ const inputVariants = tv({
                 timer: "ml-4",
             },
         },
-        inputTitles: {
+        inputUnits: {
             true: {
                 inputContainer: "flex flex-col gap-1"
             },
@@ -52,7 +54,7 @@ const inputVariants = tv({
     },
     compoundVariants: [
         {
-            inputTitles: false,
+            inputUnits: false,
             doubleInput: true,
             class: {
                 container: "gap-y-5"
@@ -107,8 +109,8 @@ interface GameScreenProps extends ModeFeatures {
     onInputComplete: () => void;
 }
 
-const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, randomPosition, doubleInput, doubleColumn, doubleRow, soundNumbers, inputTitles, randomRotate}: GameScreenProps) => {
-    const {input, container, timer, inputContainer} = inputVariants({doubleInput: doubleInput, inputTitles: !!inputTitles});
+const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, randomPosition, doubleInput, doubleColumn, doubleRow, soundNumbers, inputUnits, randomRotate}: GameScreenProps) => {
+    const {input, container, timer, inputContainer} = inputVariants({doubleInput: doubleInput, inputUnits: !!inputUnits});
     const {getCurrentCalcItems, getCurrentSecondCalcItems} = useGameplayStore();
     const calcItems = getCurrentCalcItems();
     const secondCalcItems = getCurrentSecondCalcItems();
@@ -117,6 +119,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     const [counter, setCounter] = useState<number>(0);
     const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
     const { betweenDuration, answerDuration, enterAnimationDuration, exitAnimationDuration } = useGameStore();
+    const { language } = useLanguageStore();
     const displayString = useMemo(() => {
         if (currentItem && secondCurrentItem) {
             return `${currentItem.text} | ${secondCurrentItem.text}`;
@@ -151,6 +154,15 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         const size = getFontSize(displayString);
         return size;
     }, [displayString]);
+
+    
+    const [firstUnit, secondUnit] = useMemo(() => {
+        if (inputUnits) {
+            const units = inputUnits as string[];
+            return [langContent[language]![units[0]], langContent[language]![units[1]]];
+        }
+        return [null, null];
+    }, [inputUnits, language]);
 
 
     useEffect(() => {
@@ -222,7 +234,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
             </div>)
         }
         return displayString;
-    }, [displayString, doubleColumn, flipped, doubleRow]);
+    }, [displayString, doubleColumn, flipped, doubleRow, firstUnit, secondUnit]);
 
     return (
         <div className={gameScreenVariants({show: true})}>
@@ -256,7 +268,8 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                                         autoFontScale={false}
                                         answerDuration={answerDuration} 
                                         doubleInput={doubleInput}
-                                        titles={inputTitles}
+                                        firstTitle={firstUnit}
+                                        secondTitle={secondUnit}
                                     />
                                 </div>
                             )}

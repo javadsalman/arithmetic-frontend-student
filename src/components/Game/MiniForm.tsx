@@ -111,7 +111,7 @@ function MiniForm() {
                             control={control}
                             name="mode"
                             render={({ field }) => (
-                                <FormControl fullWidth>
+                                <FormControl fullWidth className="max-w-[300px]">
                                     <InputLabel><Lang>Mod</Lang></InputLabel>
                                     <Select
                                         {...field}

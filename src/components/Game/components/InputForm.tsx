@@ -23,8 +23,10 @@ interface InputFormProps {
         timer?: string;
     }
     doubleInput?: boolean;
-    titles?: [string, string]|null;
     autoFontScale?: boolean;
+    firstTitle?: string | null;
+    secondTitle?: string | null;
+
 }
 
     
@@ -35,7 +37,7 @@ const getFontSize = (length: number) => {
     return 'text-[100px] md:text-[120px]';
 };
 
-function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChange, onComplete, answerDuration, classes, autoFontScale, doubleInput, titles }: InputFormProps) {
+function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChange, onComplete, answerDuration, classes, autoFontScale, doubleInput, firstTitle, secondTitle }: InputFormProps) {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const secondInputRef = useRef<HTMLInputElement>(null);
@@ -101,7 +103,7 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
                     className={`d-block bg-transparent text-center text-white font-pangolin border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input1}`}
                     
                 />
-                { titles && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel1} font-nunito`}>{titles[0]}</label> }
+                { firstTitle && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel1} font-nunito`}>{firstTitle}</label> }
             </div>
             {doubleInput && (
                 <div className={`flex items-center ${classes.inputContainer} ${classes.inputContainer2}`}>
@@ -115,7 +117,7 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
                     className={`d-block bg-transparent text-center text-white font-pangolin border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input2}`}
                     
                 />
-                    { titles && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel2} font-nunito`}>{titles[1]}</label>}
+                    { secondTitle && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel2} font-nunito`}>{secondTitle}</label>}
                 </div>
             )}
             <div className={`flex items-center justify-center ${classes.timer}`}>

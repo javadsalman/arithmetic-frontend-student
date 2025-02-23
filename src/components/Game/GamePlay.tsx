@@ -64,7 +64,7 @@ function GamePlay() {
     }, [gameType, gameMode])
 
     const controllerProps: ControllerProps = useMemo(() => {
-        if (screen === "input") {
+        if (screen === "input" || (screen === "game" && gameFeatures.singleQuestion)) {
             return {
                 showButton: true,
                 buttonText: langContent[language]!['Cavabla'],

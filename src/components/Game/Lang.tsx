@@ -137,7 +137,7 @@ export const content: LangContent = {
         'Başla': 'Start',
         'Qalan Oyun sayı': 'Pozostałe Gry',
         'Sizin Cavab': 'Twoja Odpowiedź',
-        'Doğru Cavab': 'Poprawna Odpowiedź',
+        'Doğru Cavab': 'Poprawna',
         'Ümumi Doğru': 'Łącznie Poprawnych',
         'Ümumi Yanlış': 'Łącznie Błędnych',
         'AFƏRİN': 'BRAWO',
