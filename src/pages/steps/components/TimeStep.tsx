@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, FormControlLabel, Switch } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { loadNewGameParams, useGameStore } from '../../../stores/gameStore';
 import { generateQueryString } from '../../../stores/gameStore';
@@ -36,6 +36,7 @@ function TimeStep() {
         answerDuration: String(answerDuration),
         enterAnimationDuration: String(enterAnimationDuration),
         exitAnimationDuration: String(exitAnimationDuration),
+        hasAnimation: enterAnimationDuration > 0 && exitAnimationDuration > 0,
     });
 
 
@@ -46,6 +47,7 @@ function TimeStep() {
             answerDuration: String(answerDuration),
             enterAnimationDuration: String(enterAnimationDuration),
             exitAnimationDuration: String(exitAnimationDuration),
+            hasAnimation: enterAnimationDuration > 0 && exitAnimationDuration > 0,
         });
     }, [betweenDuration, answerDuration, enterAnimationDuration, exitAnimationDuration]);
 
@@ -55,6 +57,8 @@ function TimeStep() {
             ...prev,
             [field]: value
         }));
+
+        console.log(formData)
 
         // Update store based on field
         switch (field) {
@@ -69,6 +73,10 @@ function TimeStep() {
                 break;
             case 'exitAnimationDuration':
                 setExitAnimationDuration(Number(value));
+                break;
+            case 'hasAnimation':
+                setEnterAnimationDuration(formData.hasAnimation ? 0 : 0.2);
+                setExitAnimationDuration(formData.hasAnimation ? 0 : 0.05);
                 break;
         }
     };
@@ -131,6 +139,20 @@ function TimeStep() {
                         variant="outlined"
                         inputProps={{ min: 1 }}
 
+                    />
+                </div>
+                <div className='mb-4'>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={formData.hasAnimation}
+                                onChange={(e) => handleChange('hasAnimation')(e)}
+                                color="primary"
+                            />
+
+
+                        }
+                        label={langContent[language]!['Animasiya olsun']}
                     />
                 </div>
                 {/* <div>

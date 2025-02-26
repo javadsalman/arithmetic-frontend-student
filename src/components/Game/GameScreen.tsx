@@ -64,7 +64,7 @@ const inputVariants = tv({
 })
 
 const numberVariants = tv({
-    base: "flex flex-col items-center justify-center text-white font-leckerli-one tracking-wider absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+    base: "flex flex-col items-center justify-center text-white tracking-wider absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
     variants: {
         size: {
             lessThan4: "text-[100px] md:text-[200px]",

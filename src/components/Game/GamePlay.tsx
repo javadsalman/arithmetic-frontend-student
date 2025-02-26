@@ -130,7 +130,7 @@ function GamePlay() {
 
     return (
         <div ref={pageRef} className={page({fullscreen: isFullscreen})}>
-            <div className={`w-full transition-all duration-300 ${heightVariants[heightSize]}`}>
+            <div className={`w-full transition-all duration-300 ${heightVariants[heightSize]} font-comic`}>
                 <BoardLayout boardRef={boardRef}>
                     <AnimatePresence mode="wait">
                         <motion.div 

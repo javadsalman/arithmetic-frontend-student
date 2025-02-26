@@ -159,130 +159,76 @@ class Generator {
     
     generatePharantesisAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
         // Function to ensure number has exact digit count
-        const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
-
-
-        // Helper function to calculate result for a given arrangement
-        const calculateArrangement = (n1: number, n2: number, n3: number, op1: string, op2: string, isLeftParenthesis: boolean) => {
-            let innerResult;
-            // For subtraction inside parenthesis, ensure first number is larger
-            if (op1 === '-') {
-                if (isLeftParenthesis || (!isLeftParenthesis && op2 === '+')) {
-                    if (n1 < n2) return null; // Skip if would result in negative
-                }
-                innerResult = n1 - n2;
-            } else {
-                innerResult = n1 + n2;
-            }
-
-            let finalResult;
-            if (isLeftParenthesis) {
-                finalResult = op2 === '+' ? innerResult + n3 : innerResult - n3;
-            } else {
-                let rightParenResult;
-                // For subtraction inside right parenthesis, ensure first number is larger
-                if (op2 === '-') {
-                    if (n2 < n3) return null; // Skip if would result in negative
-                    rightParenResult = n2 - n3;
-                } else {
-                    rightParenResult = n2 + n3;
-                }
-                finalResult = op1 === '+' ? n1 + rightParenResult : n1 - rightParenResult;
-            }
-            return finalResult;
-        };
-
-        // Try to find valid numbers and operators
-        let validArrangements = [];
-        let attempts = 0;
-        const maxAttempts = 10;
-
-        while (validArrangements.length < 4 && attempts < maxAttempts) {
-            attempts++;
-            
-            // Generate three numbers with specified digit count
-            const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
-            const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
-            const num3 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
-
-            // Try different operator combinations
-            const operators = ['+', '-'];
-            for (const op1 of operators) {
-                for (const op2 of operators) {
-                    // Try both parenthesis arrangements
-                    const leftResult = calculateArrangement(num1, num2, num3, op1, op2, true);
-                    if (leftResult !== null && leftResult >= 10**(digitCount-1) && leftResult < 10**digitCount) {
-                        validArrangements.push({
-                            nums: [num1, num2, num3],
-                            ops: [op1, op2],
-                            isLeft: true,
-                            result: leftResult
-                        });
-                    }
-
-                    const rightResult = calculateArrangement(num1, num2, num3, op1, op2, false);
-                    if (rightResult !== null && rightResult >= 10**(digitCount-1) && rightResult < 10**digitCount) {
-                        validArrangements.push({
-                            nums: [num1, num2, num3],
-                            ops: [op1, op2],
-                            isLeft: false,
-                            result: rightResult
-                        });
-                    }
-                }
-            }
-        }
-
-        let validArrangement;
+        const formatNumber = (num: number) => this._ensureDigitCount(num, digitCount);
         
-        if (validArrangements.length > 0) {
-            // Filter arrangements to get a balanced mix
-            const rightArrangements = validArrangements.filter(arr => !arr.isLeft);
-            const subtractionArrangements = validArrangements.filter(arr => arr.ops[0] === '-' || arr.ops[1] === '-');
-            
-            // Prioritize balancing the arrangements
-            if (rightArrangements.length > 0 && this.random.getRandomInt(0, 1) === 0) {
-                // 50% chance to choose right parenthesis if available
-                validArrangement = this.random.choice(rightArrangements);
-            } else if (subtractionArrangements.length > 0 && this.random.getRandomInt(0, 1) === 0) {
-                // 50% chance to choose subtraction if available
-                validArrangement = this.random.choice(subtractionArrangements);
+        // Generate three random numbers with the specified digit count
+        const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+        const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+        const num3 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+        
+        // Randomly decide whether parentheses will be on left or right
+        const parenthesesOnLeft = this.random.getRandomInt(0, 1) === 1;
+        
+        // Randomly choose operators (+ or -) for inside and outside parentheses
+        const innerOperator = this.random.choice(['+', '-']);
+        const outerOperator = this.random.choice(['+', '-']);
+        
+        // Calculate the inner value and ensure it's not negative
+        let innerValue: number;
+        let innerExpression: string;
+        
+        if (innerOperator === '+') {
+            innerValue = num1 + num2;
+            innerExpression = `${formatNumber(num1)} + ${formatNumber(num2)}`;
+        } else {
+            // For subtraction, ensure the first number is larger to avoid negative results
+            if (num1 < num2) {
+                innerValue = num2 - num1;
+                innerExpression = `${formatNumber(num2)} - ${formatNumber(num1)}`;
             } else {
-                // Otherwise choose randomly from all valid arrangements
-                validArrangement = this.random.choice(validArrangements);
+                innerValue = num1 - num2;
+                innerExpression = `${formatNumber(num1)} - ${formatNumber(num2)}`;
             }
         }
-
-        // If no valid arrangement found, use a fallback that guarantees correct digit count
-        if (!validArrangement) {
-            // Randomly choose between left and right parenthesis for fallback
-            const isLeft = this.random.getRandomInt(0, 1) === 0;
-            if (isLeft) {
-                validArrangement = {
-                    nums: [this._ensureDigitCount(8, digitCount), this._ensureDigitCount(3, digitCount), this._ensureDigitCount(2, digitCount)],
-                    ops: ['-', '+'],
-                    isLeft: true,
-                    result: this._ensureDigitCount(7, digitCount)
-                };
+        
+        // Calculate the final value and ensure it's not negative
+        let finalValue: number;
+        let expression: string;
+        
+        if (parenthesesOnLeft) {
+            // Format: (num1 op num2) op num3
+            if (outerOperator === '+') {
+                finalValue = innerValue + num3;
+                expression = `(${innerExpression}) + ${formatNumber(num3)}`;
             } else {
-                validArrangement = {
-                    nums: [this._ensureDigitCount(8, digitCount), this._ensureDigitCount(5, digitCount), this._ensureDigitCount(2, digitCount)],
-                    ops: ['+', '-'],
-                    isLeft: false,
-                    result: this._ensureDigitCount(5, digitCount)
-                };
+                // For subtraction, ensure the left side is larger to avoid negative results
+                if (innerValue < num3) {
+                    finalValue = num3 - innerValue;
+                    expression = `${formatNumber(num3)} - (${innerExpression})`;
+                } else {
+                    finalValue = innerValue - num3;
+                    expression = `(${innerExpression}) - ${formatNumber(num3)}`;
+                }
+            }
+        } else {
+            // Format: num3 op (num1 op num2)
+            if (outerOperator === '+') {
+                finalValue = num3 + innerValue;
+                expression = `${formatNumber(num3)} + (${innerExpression})`;
+            } else {
+                // For subtraction, ensure the left side is larger to avoid negative results
+                if (num3 < innerValue) {
+                    finalValue = innerValue - num3;
+                    expression = `(${innerExpression}) - ${formatNumber(num3)}`;
+                } else {
+                    finalValue = num3 - innerValue;
+                    expression = `${formatNumber(num3)} - (${innerExpression})`;
+                }
             }
         }
-
-        // Format the expression text based on the arrangement
-        const [n1, n2, n3] = validArrangement.nums.map(formatNumber);
-        const [op1, op2] = validArrangement.ops;
-        const text = validArrangement.isLeft ?
-            `(${n1} ${op1} ${n2}) ${op2} ${n3}` :
-            `${n1} ${op1} (${n2} ${op2} ${n3})`;
-
-        const calcItem = {text, value: validArrangement.result};
-        return [[calcItem], validArrangement.result];
+        
+        const calcItem = {text: expression, value: finalValue};
+        return [[calcItem], finalValue];
     }
     generateEquationAddSub = ({digitCount}: {digitCount: number}): [[CalcItem], number] => {
         // Function to ensure number has exact digit count
@@ -343,9 +289,13 @@ class Generator {
         return [[calcItem], correctM, correctCm];
     }
     generateRemainderDivision = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): [[CalcItem], number, number] => {
-        this.num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount-1);
         // const maxNum2Value = 10**secondDigitCount - 1 < this.num1 ? 10**secondDigitCount - 1 : this.num1;
-        this.num2 = this.random.getRandomInt(10**(secondDigitCount-1), secondDigitCount < firstDigitCount ? 10**secondDigitCount - 1 : this.num1);
+        let mod = null
+        while (!mod) {
+            this.num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount-1);
+            this.num2 = this.random.getRandomInt(10**(secondDigitCount-1), secondDigitCount < firstDigitCount ? 10**secondDigitCount - 1 : this.num1);
+            mod = this.num1 % this.num2
+        }
         const text = `${this.num1} : ${this.num2}`;
         const value = this.num1 / this.num2;
         const calcItem = {text, value};

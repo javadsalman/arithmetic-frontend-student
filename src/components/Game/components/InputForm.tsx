@@ -100,10 +100,10 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
                     value={currentUserAnswer}
                     onChange={inputOnChange}
                     onKeyDown={onKeyPress}
-                    className={`d-block bg-transparent text-center text-white font-pangolin border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input1}`}
+                    className={`d-block bg-transparent text-center text-white border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input1}`}
                     
                 />
-                { firstTitle && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel1} font-nunito`}>{firstTitle}</label> }
+                { firstTitle && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel1}`}>{firstTitle}</label> }
             </div>
             {doubleInput && (
                 <div className={`flex items-center ${classes.inputContainer} ${classes.inputContainer2}`}>
@@ -114,10 +114,10 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
                         value={secondUserAnswer}
                         onChange={secondInputOnChange}
                         onKeyDown={onSecondKeyPress}
-                    className={`d-block bg-transparent text-center text-white font-pangolin border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input2}`}
+                    className={`d-block bg-transparent text-center text-white border-4 border-dotted border-white/50 rounded-xl outline-none transition-all duration-300 ${inputFontSize} ${classes.input} ${classes.input2}`}
                     
                 />
-                    { secondTitle && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel2} font-nunito`}>{secondTitle}</label>}
+                    { secondTitle && <label className={`text-white text-[20px] ${classes.inputLabel} ${classes.inputLabel2}`}>{secondTitle}</label>}
                 </div>
             )}
             <div className={`flex items-center justify-center ${classes.timer}`}>

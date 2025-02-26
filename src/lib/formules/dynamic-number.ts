@@ -381,6 +381,7 @@ class DynamicNumber {
         }
         let addChangeNumber = +addChangeCounts.map(count => count > 9 ?  '9' : count.toString()).join('')
         let subtractChangeNumber = +subtractChangeCounts.map(count => count > 9 ?  '9' : count.toString()).join('')
+        subtractChangeNumber *= 1.75
         const result = this.random.choice(['add', 'subtract'], [addChangeNumber, subtractChangeNumber])
         return result
     }
@@ -597,6 +598,9 @@ class DynamicNumber {
         let addChangeNumber = +addChangeCounts.map(count => count > 9 ?  '9' : count.toString()).join('')
         let subtractChangeNumber = +subtractChangeCounts.map(count => count > 9 ?  '9' : count.toString()).join('')
         subtractChangeNumber *= 2
+        if (this.value > 10**digitCount) {
+            subtractChangeNumber *= 2
+        }
         const result = this.random.choice(['add', 'subtract'], [addChangeNumber, subtractChangeNumber])
         logReport('operator', addChangeNumber, subtractChangeNumber, result)
         return result

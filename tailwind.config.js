@@ -12,7 +12,9 @@ export default {
       fontFamily: {
         'pangolin': ["Pangolin", "serif"],
         'leckerli-one': ["Leckerli One", "serif"],
-        'nunito': ["Nunito", "sans-serif"]
+        'nunito': ["Nunito", "sans-serif"],
+        'roboto': ["Roboto", "sans-serif"],
+        'comic': ["'Comic Sans MS'", "'Cambria'", "'Roboto'", "sans-serif", "'Times New Roman'", "cursive"]
       }
     },
   },
