@@ -48,8 +48,6 @@ function TimeStep() {
             [field]: value
         }));
 
-        console.log(formData)
-
         // Update store based on field
         switch (field) {
             case 'betweenDuration':

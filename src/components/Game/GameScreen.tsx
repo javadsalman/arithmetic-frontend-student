@@ -63,7 +63,7 @@ const inputVariants = tv({
 })
 
 const numberVariants = tv({
-    base: "flex flex-col items-center justify-center text-white tracking-wider absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+    base: "flex flex-col items-center justify-center tracking-wider absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
     variants: {
         size: {
             lessThan4: "text-[100px] md:text-[200px]",
@@ -77,6 +77,10 @@ const numberVariants = tv({
         doubleQuestion: {
             true: "flex gap-1",
             false: "",
+        },
+        color: {
+            red: "text-red-300",
+            white: "text-white",
         }
     }
 })
@@ -116,6 +120,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     const [currentItem, setCurrentItem] = useState<CalcItem|null>(null);
     const [secondCurrentItem, setSecondCurrentItem] = useState<CalcItem|null>(null);
     const [counter, setCounter] = useState<number>(0);
+    const [color, setColor] = useState<'white'|'red'>('white');
     const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
     const { betweenDuration, answerDuration } = useGameStore();
     const { language } = useLanguageStore();
@@ -193,6 +198,13 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
             secondCalcItems && setSecondCurrentItem(secondCalcItems[counter]);
             setCounter(counter);
 
+            const beforeCurrentItem = calcItems[counter - 1];
+            if (beforeCurrentItem && currentItem && beforeCurrentItem.text === currentItem.text) {
+                setColor(prev => prev === 'white' ? 'red' : 'white');
+            } else {
+                setColor('white');
+            }
+
             counter++;
 
         }, betweenDuration * 1000);
@@ -208,16 +220,17 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         }
     }, [currentItem, soundNumbers]);
 
-    useEffect(() => {
-        if (numberWrapperRef.current) {
-            numberWrapperRef.current.style.visibility = "hidden";
-            setTimeout(() => {
-                if (numberWrapperRef.current) {
-                    numberWrapperRef.current.style.visibility = "visible";
-                }
-            }, 30);
-        }
-    }, [numberWrapperRef.current]);
+    // useEffect(() => {
+    //     if (numberWrapperRef.current) {
+    //         numberWrapperRef.current.style.visibility = "hidden";
+    //         setTimeout(() => {
+    //             if (numberWrapperRef.current) {
+    //                 numberWrapperRef.current.style.visibility = "visible";
+    //             }
+    //         }, 30);
+    //     }
+    // }, [numberWrapperRef.current]);
+
 
 
     const displayContent = useMemo(() => {
@@ -256,7 +269,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                         style={{left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                     >
-                        <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true})}>
+                        <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true, color: color})}>
                             <div  className="whitespace-nowrap">{displayContent}</div>
                             {singleQuestion && (
                                 <div className="flex items-center justify-center">
