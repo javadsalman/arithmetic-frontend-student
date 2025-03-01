@@ -77,10 +77,6 @@ const numberVariants = tv({
         doubleQuestion: {
             true: "flex gap-1",
             false: "",
-        },
-        color: {
-            red: "text-red-300",
-            white: "text-white",
         }
     }
 })
@@ -121,6 +117,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     const [secondCurrentItem, setSecondCurrentItem] = useState<CalcItem|null>(null);
     const [counter, setCounter] = useState<number>(0);
     const [color, setColor] = useState<'white'|'red'>('white');
+    const [secondColor, setSecondColor] = useState<'white'|'red'>('white');
     const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
     const { betweenDuration, answerDuration } = useGameStore();
     const { language } = useLanguageStore();
@@ -193,10 +190,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 return;
             }
             const currentItem = calcItems[counter];
-
             setCurrentItem(currentItem);
-            secondCalcItems && setSecondCurrentItem(secondCalcItems[counter]);
-            setCounter(counter);
 
             const beforeCurrentItem = calcItems[counter - 1];
             if (beforeCurrentItem && currentItem && beforeCurrentItem.text === currentItem.text) {
@@ -205,6 +199,18 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 setColor('white');
             }
 
+            if (secondCalcItems) {
+                const secondCurrentItem = secondCalcItems[counter];
+                setSecondCurrentItem(secondCurrentItem);
+                const beforeSecondCurrentItem = secondCalcItems[counter - 1];
+                if (beforeSecondCurrentItem && secondCurrentItem && beforeSecondCurrentItem.text === secondCurrentItem.text) {
+                    setSecondColor(prev => prev === 'white' ? 'red' : 'white');
+                } else {
+                    setSecondColor('white');
+                }
+            }
+
+            setCounter(counter);
             counter++;
 
         }, betweenDuration * 1000);
@@ -220,26 +226,16 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         }
     }, [currentItem, soundNumbers]);
 
-    // useEffect(() => {
-    //     if (numberWrapperRef.current) {
-    //         numberWrapperRef.current.style.visibility = "hidden";
-    //         setTimeout(() => {
-    //             if (numberWrapperRef.current) {
-    //                 numberWrapperRef.current.style.visibility = "visible";
-    //             }
-    //         }, 30);
-    //     }
-    // }, [numberWrapperRef.current]);
-
-
 
     const displayContent = useMemo(() => {
+        const firstColorClass = color === 'white' ? 'text-white' : 'text-red-300';
+        const secondColorClass = secondColor === 'white' ? 'text-white' : 'text-red-300';
         if (doubleColumn && displayString) {
             const [firstString, secondString] = displayString.split(' | ');
             return (<div className="flex items-center justify-center">
-                <div className={`${columnVariants({flipped: flipped})} ${getFontSize(firstString)}`}>{firstString}</div>
+                <div className={`${columnVariants({flipped: flipped})} ${getFontSize(firstString)} ${firstColorClass}`}>{firstString}</div>
                 <div className="text-center mx-3 sm:mx-7 md:mx-10 lg:mx-16 w-1 h-96 bg-white"></div>
-                <div className={`${columnVariants({flipped: flipped})} ${getFontSize(secondString)}`}>{secondString}</div>
+                <div className={`${columnVariants({flipped: flipped})} ${getFontSize(secondString)} ${secondColorClass}`}>{secondString}</div>
             </div>)
         }
         if (doubleRow && displayString) {
@@ -252,13 +248,13 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 operator = '-';
             }
             return (<div className="">
-                <div className={`${getFontSize(firstString)}`}>{firstString}</div>
+                <div className={`${getFontSize(firstString)} ${firstColorClass}`}>{firstString}</div>
                 <div className="text-center text-6xl">{operator}</div>
-                <div className={`${getFontSize(secondString)}`}>{secondString}</div>
+                <div className={`${getFontSize(secondString)} ${secondColorClass}`}>{secondString}</div>
             </div>)
         }
-        return displayString;
-    }, [displayString, doubleColumn, flipped, doubleRow, firstUnit, secondUnit]);
+        return <div className={firstColorClass}>{displayString}</div>;
+    }, [displayString, doubleColumn, flipped, doubleRow, firstUnit, secondUnit, color, secondColor]);
 
     return (
         <div className={gameScreenVariants({show: true})}>
@@ -269,7 +265,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                         style={{left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                     >
-                        <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true, color: color})}>
+                        <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true})}>
                             <div  className="whitespace-nowrap">{displayContent}</div>
                             {singleQuestion && (
                                 <div className="flex items-center justify-center">
