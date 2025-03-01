@@ -171,7 +171,7 @@ class Generator {
         
         // Randomly choose operators (+ or -) for inside and outside parentheses
         const innerOperator = this.random.choice(['+', '-']);
-        const outerOperator = this.random.choice(['+', '-']);
+        const outerOperator = parenthesesOnLeft ? this.random.choice(['+', '-']) : '+';
         
         // Calculate the inner value and ensure it's not negative
         let innerValue: number;
@@ -307,73 +307,58 @@ class Generator {
         // Function to ensure number has exact digit count
         const formatNumber = (num: number) => num.toString().padStart(digitCount, '0');
 
-
-        // Generate two numbers that will be inside parentheses
+        // Generate two numbers
         const operator = this.random.choice(['+', '-']);
         let num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
-        let num2 = this.random.getRandomInt(10**(digitCount-1), operator === '+' ? 10**digitCount-1 : num1);
-
-        // Calculate the value inside parentheses
-        let parenthesisValue = operator === '+' ? num1 + num2 : num1 - num2;
-
-        // Find all percentages between 1 and 99 that would give a natural number result
-        let validPercentages = [];
-        for (let p = 1; p <= 99; p++) {
-            const result = (parenthesisValue * p) / 100;
-            // Only include percentages that give natural numbers and maintain digit count
-            if (Number.isInteger(result) && 
-                result >= 10**(digitCount-1) && 
-                result < 10**digitCount) {
-                validPercentages.push(p);
-            }
-        }
-
-        // If no valid percentages found, adjust numbers to ensure at least one valid percentage
-        if (validPercentages.length === 0) {
-            // Try different combinations until we find valid percentages
-            for (let attempt = 0; attempt < 10; attempt++) {
-                num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
-                const maxNum2 = operator === '+' ? 
-                    10**digitCount - 1 - num1 : // Ensure sum doesn't exceed digit count
-                    num1 - 10**(digitCount-1);  // Ensure difference maintains digit count
-                
-                num2 = this.random.getRandomInt(10**(digitCount-1), maxNum2);
-                parenthesisValue = operator === '+' ? num1 + num2 : num1 - num2;
-
-                // Check all possible percentages
-                for (let p = 1; p <= 99; p++) {
-                    const result = (parenthesisValue * p) / 100;
-                    if (Number.isInteger(result) && 
-                        result >= 10**(digitCount-1) && 
-                        result < 10**digitCount) {
-                        validPercentages.push(p);
-                    }
-                }
-                
-                if (validPercentages.length > 0) break;
-            }
-
-            // If still no valid percentages, use a fallback approach
-            if (validPercentages.length === 0) {
-                // Use 50% as fallback with adjusted numbers
-                num1 = this._ensureDigitCount(200, digitCount);
-                num2 = operator === '+' ? 0 : this._ensureDigitCount(100, digitCount);
-                parenthesisValue = operator === '+' ? num1 + num2 : num1 - num2;
-                validPercentages = [50];
-            }
-        }
-
-        // Choose a random percentage from valid options
-        const percentage = this.random.choice(validPercentages);
         
-        // Calculate the final result
-        const result = Math.floor((parenthesisValue * percentage) / 100);
+        // Find all percentages between 1 and 99 that could give valid results
+        let validOptions = [];
+        
+        // Try different num2 and percentage combinations
+        for (let attempt = 0; attempt < 15; attempt++) {
+            let num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount-1);
+            
+            for (let p = 1; p <= 99; p++) {
+                // Calculate percentage of num2
+                const percentValue = Math.floor((num2 * p) / 100);
+                
+                // Skip if the percentage isn't a whole number
+                if (percentValue * 100 !== num2 * p) continue;
+                
+                // Calculate final result based on operator
+                const result = operator === '+' ? 
+                    num1 + percentValue : 
+                    num1 - percentValue;
+                
+                // Check if the result maintains proper digit count
+                if (Number.isInteger(result) && 
+                    result >= 10**(digitCount-1) && 
+                    result < 10**digitCount) {
+                    validOptions.push({num1, num2, percentage: p, result});
+                }
+            }
+            
+            if (validOptions.length > 0) break;
+        }
+
+        // If no valid options found, use a fallback approach
+        if (validOptions.length === 0) {
+            num1 = this._ensureDigitCount(500, digitCount);
+            const num2 = this._ensureDigitCount(200, digitCount);
+            const percentage = 50;  // 50% of 200 = 100
+            const percentValue = (num2 * percentage) / 100;
+            const result = operator === '+' ? num1 + percentValue : num1 - percentValue;
+            validOptions = [{num1, num2, percentage, result}];
+        }
+
+        // Choose a random option from valid options
+        const chosenOption = this.random.choice(validOptions);
         
         // Format the expression text
-        const text = `(${formatNumber(num1)} ${operator} ${formatNumber(num2)}) ${percentage}%`;
+        const text = `${formatNumber(chosenOption.num1)} ${operator} ${formatNumber(chosenOption.num2)}%${chosenOption.percentage}`;
         
-        const calcItem = {text, value: result};
-        return [[calcItem], result];
+        const calcItem = {text, value: chosenOption.result};
+        return [[calcItem], chosenOption.result];
     }
     generateMultiply = ({firstDigitCount, secondDigitCount}: {firstDigitCount: number, secondDigitCount: number}): [[CalcItem], number] => {
         const num1 = this.random.getRandomInt(10**(firstDigitCount-1), 10**firstDigitCount-1);

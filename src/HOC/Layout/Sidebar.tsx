@@ -104,7 +104,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                             }}>
                                 <CalculateIcon />
                                 <Typography variant="body1">
-                                    <Lang>Əməllar</Lang>
+                                    <Lang>Əməllər</Lang>
                                 </Typography>
                             </MenuItem>
                         </Link>

@@ -4,7 +4,7 @@ import { getTranslationWithContent, LangContent } from "../Translation.tsx/Trans
 const content: LangContent = {
     'az': {
         'Formullar': 'Formullar',
-        'Əməllar': 'İşlemler',
+        'Əməllər': 'İşlemler',
         'Testlər': 'Testler',
         'sinif şagirdi': 'sınıf öğrencisi',
         'Profil': 'Profil',
@@ -15,7 +15,7 @@ const content: LangContent = {
     'en': {
 
         'Formullar': 'Formulas',
-        'Əməllar': 'Operations',
+        'Əməllər': 'Operations',
         'Testlər': 'Tests',
         'sinif şagirdi': 'Class Student',
         'Profil': 'Profile',
@@ -25,7 +25,7 @@ const content: LangContent = {
     },
     'ru': {
         'Formullar': 'Формулы',
-        'Əməllar': 'Операции',
+        'Əməllər': 'Операции',
         'Testlər': 'Тесты',
         'sinif şagirdi': 'ученик класса',
         'Profil': 'Профиль',
@@ -35,7 +35,7 @@ const content: LangContent = {
     },
     'tr': {
         'Formullar': 'Formüller',
-        'Əməllar': 'İşlemler',
+        'Əməllər': 'İşlemler',
         'Testlər': 'Testler',
         'sinif şagirdi': 'sınıf öğrencisi',
         'Profil': 'Profil',
@@ -45,7 +45,7 @@ const content: LangContent = {
     },
     'pl': {
         'Formullar': 'Formuły',
-        'Əməllar': 'Operacje',
+        'Əməllər': 'Operacje',
         'Testlər': 'Testy',
         'sinif şagirdi': 'uczeń klasy',
         'Profil': 'Profil',
@@ -55,7 +55,7 @@ const content: LangContent = {
     },
     'kz': {
         'Formullar': 'Формулалар',
-        'Əməllar': 'Операциялар',
+        'Əməllər': 'Операциялар',
         'Testlər': 'Тесттер',
         'sinif şagirdi': 'сынып оқушысы',
         'Profil': 'Профиль',

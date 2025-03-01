@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { TextField, Button, FormControlLabel, Switch } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { loadNewGameParams, useGameStore } from '../../../stores/gameStore';
 import { generateQueryString } from '../../../stores/gameStore';
@@ -19,12 +19,8 @@ function TimeStep() {
     const { 
         betweenDuration,
         answerDuration,
-        enterAnimationDuration,
-        exitAnimationDuration,
         setBetweenDuration,
         setAnswerDuration,
-        setEnterAnimationDuration,
-        setExitAnimationDuration,
     } = useGameStore();
 
     const isSingleQuestion = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion, [gameType, gameMode]);
@@ -34,9 +30,6 @@ function TimeStep() {
     const [formData, setFormData] = useState({
         betweenDuration: String(betweenDuration),
         answerDuration: String(answerDuration),
-        enterAnimationDuration: String(enterAnimationDuration),
-        exitAnimationDuration: String(exitAnimationDuration),
-        hasAnimation: enterAnimationDuration > 0 && exitAnimationDuration > 0,
     });
 
 
@@ -45,11 +38,8 @@ function TimeStep() {
         setFormData({
             betweenDuration: String(betweenDuration),
             answerDuration: String(answerDuration),
-            enterAnimationDuration: String(enterAnimationDuration),
-            exitAnimationDuration: String(exitAnimationDuration),
-            hasAnimation: enterAnimationDuration > 0 && exitAnimationDuration > 0,
         });
-    }, [betweenDuration, answerDuration, enterAnimationDuration, exitAnimationDuration]);
+    }, [betweenDuration, answerDuration]);
 
     const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -67,16 +57,6 @@ function TimeStep() {
                 break;
             case 'answerDuration':
                 setAnswerDuration(Number(value));
-                break;
-            case 'enterAnimationDuration':
-                setEnterAnimationDuration(Number(value));
-                break;
-            case 'exitAnimationDuration':
-                setExitAnimationDuration(Number(value));
-                break;
-            case 'hasAnimation':
-                setEnterAnimationDuration(formData.hasAnimation ? 0 : 0.2);
-                setExitAnimationDuration(formData.hasAnimation ? 0 : 0.05);
                 break;
         }
     };
@@ -141,42 +121,6 @@ function TimeStep() {
 
                     />
                 </div>
-                <div className='mb-4'>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={formData.hasAnimation}
-                                onChange={(e) => handleChange('hasAnimation')(e)}
-                                color="primary"
-                            />
-
-
-                        }
-                        label={langContent[language]!['Animasiya olsun']}
-                    />
-                </div>
-                {/* <div>
-                    <TextField
-                        fullWidth
-                        label={langContent[language]!['Giriş animasiyası saniyə']}
-                        value={formData.enterAnimationDuration}
-                        onChange={handleChange('enterAnimationDuration')}
-                        variant="outlined"
-                        inputProps={{ min: 1 }}
-
-                    />
-                </div>
-                <div>
-                    <TextField
-                        fullWidth
-                        label={langContent[language]!['Çıxış animasiyası saniyə']}
-                        value={formData.exitAnimationDuration}
-                        onChange={handleChange('exitAnimationDuration')}
-                        variant="outlined"
-                        inputProps={{ min: 1 }}
-
-                    />
-                </div> */}
 
                 <div className="pt-4 space-y-3">
                     <Button

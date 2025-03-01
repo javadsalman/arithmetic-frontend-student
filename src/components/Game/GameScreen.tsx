@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { tv } from "tailwind-variants";
-import { AnimatePresence, motion } from "framer-motion";
 import { useGameplayStore } from "../../stores/gameplayStore";
 import { useGameStore } from "../../stores/gameStore";
 import { playNumberSound, stopCurrentSound } from "../../stores/soundStore";
@@ -118,8 +117,9 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     const [secondCurrentItem, setSecondCurrentItem] = useState<CalcItem|null>(null);
     const [counter, setCounter] = useState<number>(0);
     const { currentUserAnswer, secondUserAnswer, setCurrentUserAnswer, setSecondUserAnswer, answerCurrentRound, timestamp } = useGameplayStore();
-    const { betweenDuration, answerDuration, enterAnimationDuration, exitAnimationDuration } = useGameStore();
+    const { betweenDuration, answerDuration } = useGameStore();
     const { language } = useLanguageStore();
+    const numberWrapperRef = useRef<HTMLDivElement>(null);
     const displayString = useMemo(() => {
         if (currentItem && secondCurrentItem) {
             return `${currentItem.text} | ${secondCurrentItem.text}`;
@@ -149,7 +149,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
 
     const numberFontSize = useMemo(() => {
         if (randomPosition || !displayString) {
-            return 'lessThan12';
+            return 'lessThan10';
         }
         const size = getFontSize(displayString);
         return size;
@@ -208,6 +208,17 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         }
     }, [currentItem, soundNumbers]);
 
+    useEffect(() => {
+        if (numberWrapperRef.current) {
+            numberWrapperRef.current.style.visibility = "hidden";
+            setTimeout(() => {
+                if (numberWrapperRef.current) {
+                    numberWrapperRef.current.style.visibility = "visible";
+                }
+            }, 30);
+        }
+    }, [numberWrapperRef.current]);
+
 
     const displayContent = useMemo(() => {
         if (doubleColumn && displayString) {
@@ -239,13 +250,10 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
     return (
         <div className={gameScreenVariants({show: true})}>
             <div className="flex flex-col h-full w-full relative">
-                <AnimatePresence>
-                    <motion.div
+                    <div
                         key={counter}
-                        initial={{opacity: 0, scale: 0, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
-                        animate={{opacity: 1, scale: 1, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
-                        exit={{opacity: 0, scale: 0, left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
-                        transition={{duration: enterAnimationDuration, exit: {duration: exitAnimationDuration}, ease: "easeInOut"}}
+                        ref={numberWrapperRef}
+                        style={{left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                     >
                         <div key={counter} ref={numberRef} className={numberVariants({size: numberFontSize, doubleQuestion: true})}>
@@ -274,9 +282,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                                 </div>
                             )}
                         </div>
-                    </motion.div>
-                </AnimatePresence>
-
+                    </div>
             </div>
         </div>
     )

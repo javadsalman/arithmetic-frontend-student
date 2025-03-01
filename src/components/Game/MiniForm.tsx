@@ -139,7 +139,7 @@ function MiniForm() {
                                     <TextField
                                         {...field}
                                         fullWidth
-                                        label={langContent[language]!['Rəqəm sayı']}
+                                        label={<span className="font-bold">{langContent[language]!['Rəqəm sayı']}</span>}
                                         type="number"
                                         value={field.value}
                                         onChange={field.onChange}
@@ -167,7 +167,7 @@ function MiniForm() {
                                     <TextField
                                         {...field}
                                         fullWidth
-                                        label={langContent[language]!['İkinci rəqəm sayı']}
+                                        label={<span className="font-bold">{langContent[language]!['İkinci rəqəm sayı']}</span>}
                                         type="number"
                                         value={field.value}
                                         onChange={field.onChange}
@@ -188,12 +188,11 @@ function MiniForm() {
                                     <TextField
                                         {...field}
                                         fullWidth
-                                        label={langContent[language]!['Ədəd sayı']}
+                                        label={<span className="font-bold">{langContent[language]!['Ədəd sayı']}</span>}
                                         type="number"
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
-
                                     />
                                 )}
                             />
@@ -209,7 +208,7 @@ function MiniForm() {
                                     <TextField
                                         {...field}
                                         fullWidth
-                                        label={langContent[language]!['Oyun sayı']}
+                                        label={<span className="font-bold">{langContent[language]!['Oyun sayı']}</span>}
                                         type="number"
                                         value={field.value}
                                         onChange={field.onChange}
@@ -230,7 +229,7 @@ function MiniForm() {
                                     <TextField
                                         {...field}
                                         fullWidth
-                                        label={langContent[language]!['Cavab üçün saniyə']}
+                                        label={<span className="font-bold">{langContent[language]!['Cavab üçün saniyə']}</span>}
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
@@ -250,7 +249,7 @@ function MiniForm() {
                                 <TextField
                                     {...field}
                                     fullWidth
-                                    label={langContent[language]!['Ədədlərarası saniyə']}
+                                    label={<span className="font-bold">{langContent[language]!['Ədədlərarası saniyə']}</span>}
                                     value={field.value}
                                     onChange={field.onChange}
                                     onKeyDown={onEnterPress}

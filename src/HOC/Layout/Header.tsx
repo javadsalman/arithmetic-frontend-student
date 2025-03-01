@@ -92,7 +92,7 @@ const Header = ({ onOpenSidebar }: HeaderProps) => {
                             to="/actions"
                             className="text-red-500 transition-all duration-200 ease-in-out hover:text-red-700 px-3 py-2 text-xl font-medium"
                         >
-                            <Lang>Əməllar</Lang>
+                            <Lang>Əməllər</Lang>
                         </Link>
                         <Link
                             to="/tests"
