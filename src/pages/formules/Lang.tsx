@@ -4,7 +4,7 @@ import { getTranslationWithContent, LangContent } from "../../HOC/Translation.ts
 export const content: LangContent = {
     'az': {
         'Sənə uyğun formulu seç!': 'Sənə uyğun formulu seç!',
-        'Basit toplama-çıxma': 'Basit toplama-çıxma',
+        'Bəsit toplama-çıxma': 'Bəsit toplama-çıxma',
         '5 Əsasda Toplama': '5 Əsasda Toplama',
         '5 Əsasda Toplama-Çıxma': '5 Əsasda Toplama-Çıxma',
         '10 Əsasda Toplama': '10 Əsasda Toplama',
@@ -15,7 +15,7 @@ export const content: LangContent = {
     },
     'en': {
         'Sənə uyğun formulu seç!': 'Choose the formula that suits you!',
-        'Basit toplama-çıxma': 'Simple addition-subtraction',
+        'Bəsit toplama-çıxma': 'Simple addition-subtraction',
         '5 Əsasda Toplama': 'Addition based on 5',
         '5 Əsasda Toplama-Çıxma': 'Addition-Subtraction based on 5',
         '10 Əsasda Toplama': 'Addition based on 10',
@@ -27,7 +27,7 @@ export const content: LangContent = {
 
     'ru': {
         'Sənə uyğun formulu seç!': 'Выберите подходящую вам формулу!',
-        'Basit toplama-çıxma': 'Простое сложение-вычитание',
+        'Bəsit toplama-çıxma': 'Простое сложение-вычитание',
         '5 Əsasda Toplama': 'Сложение на основе 5',
         '5 Əsasda Toplama-Çıxma': 'Сложение-вычитание на основе 5',
         '10 Əsasda Toplama': 'Сложение на основе 10',
@@ -38,7 +38,7 @@ export const content: LangContent = {
     },
     'tr': {
         'Sənə uyğun formulu seç!': 'Sana uygun formülü seç!',
-        'Basit toplama-çıxma': 'Basit toplama-çıkarma',
+        'Bəsit toplama-çıxma': 'Bəsit toplama-çıkarma',
         '5 Əsasda Toplama': '5 Temelinde Toplama',
         '5 Əsasda Toplama-Çıxma': '5 Temelinde Toplama-Çıkarma',
         '10 Əsasda Toplama': '10 Temelinde Toplama',
@@ -50,7 +50,7 @@ export const content: LangContent = {
 
     'pl': {
         'Sənə uyğun formulu seç!': 'Wybierz formułę, która Ci odpowiada!',
-        'Basit toplama-çıxma': 'Proste dodawanie-odejmowanie',
+        'Bəsit toplama-çıxma': 'Proste dodawanie-odejmowanie',
         '5 Əsasda Toplama': 'Dodawanie na podstawie 5',
         '5 Əsasda Toplama-Çıxma': 'Dodawanie-odejmowanie na podstawie 5',
         '10 Əsasda Toplama': 'Dodawanie na podstawie 10',
@@ -61,7 +61,7 @@ export const content: LangContent = {
     },
     'kz': {
         'Sənə uyğun formulu seç!': 'Сізге сәйкес формуланы таңдаңыз!',
-        'Basit toplama-çıxma': 'Қарапайым қосу-азайту',
+        'Bəsit toplama-çıxma': 'Қарапайым қосу-азайту',
         '5 Əsasda Toplama': '5 негізінде қосу',
         '5 Əsasda Toplama-Çıxma': '5 негізінде қосу-азайту',
         '10 Əsasda Toplama': '10 негізінде қосу',

@@ -9,7 +9,9 @@ import {
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSoundStore } from "../../stores/soundStore";
-
+import { useGameplayStore } from "../../stores/gameplayStore";
+import { useGameStore } from "../../stores/gameStore";
+import { useNotificationStore } from "../../stores/notificationStore";
 
 interface ControllersProps {
     pageRef: React.RefObject<HTMLDivElement>;
@@ -23,6 +25,15 @@ interface ControllersProps {
 
 function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, buttonText, buttonOnClick, onHeightChange}: ControllersProps) {
     const { isMuted, toggleMute } = useSoundStore();
+    const gameplayStore = useGameplayStore();
+    const gameStore = useGameStore();
+    const { setNotification } = useNotificationStore();
+
+    const handleReportCopy = () => {
+        const report = {gameplayStore, gameStore};
+        navigator.clipboard.writeText(JSON.stringify(report, null, 2));
+        setNotification('Report kopyalandı', 'success', 'filled', { vertical: 'bottom', horizontal: 'center' });
+    }
 
     const handleFullscreen = () => {
         if (!isFullscreen) {
@@ -109,6 +120,15 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
                     >   
                         <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                             <UnfoldLess fontSize="large" />
+                        </div>
+                    </button>
+                    <button
+                        title="Report Kopyala"
+                        onClick={handleReportCopy}
+                        className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
+                    >   
+                        <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            R
                         </div>
                     </button>
                 </div>

@@ -7,7 +7,7 @@ export const ATTACH_SIZE = 'w-14 h-14';
 
 
 export const FORMULE_TITLES: Record<FormuleMode, string> = {
-    'simple-add-sub': "Basit toplama-çıxma",
+    'simple-add-sub': "Bəsit toplama-çıxma",
     '5-add': "5 Əsasda Toplama",
     '5-add-sub': "5 Əsasda Toplama-Çıxma",
     '10-add': "10 Əsasda Toplama",

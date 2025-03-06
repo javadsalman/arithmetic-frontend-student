@@ -6,12 +6,17 @@ import { playIqSound, stopCurrentSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
 import { Round } from '../../stores/gameplayStore';
-
+import { ACTION_TITLES } from '../../pages/actions/constants';
+import { FORMULE_TITLES } from '../../pages/formules/constants';
+import { useLanguageStore } from '../../stores/languageStore';
+import { content as langContent } from '../Game/Lang';
 
 function EndScreen() {
     const {rounds} = useGameplayStore();
-    const {gameCount} = useGameStore();
-
+    const {gameCount, gameType, gameMode} = useGameStore();
+    const titles = gameType === 'formules' ? FORMULE_TITLES : ACTION_TITLES;
+    const { language } = useLanguageStore();
+    const title = langContent[language]![titles[gameMode as keyof typeof titles]];
 
     const totalGames = gameCount;
     const correctAnswers = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
@@ -69,17 +74,26 @@ function EndScreen() {
                         transition={{ duration: 0.5 }}
                         src={medalImageSource}
                         alt="Medal"
-                        className="w-16 h-16"
+                        className="w-16"
                     />
                 </div>
-
+                {/* Game Title Section */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                    className="text-center"
+                >
+                    <p className="text-white text-2xl lg:text-3xl font-bold">{title}</p>
+                </motion.div>
                 {/* Results Card */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
-                    className="rounded-3xl p-4 lg:p-8 w-full max-w-4xl"
+                    className="rounded-3xl p-4 py-0 lg:p-8 lg:py-0 w-full max-w-4xl"
                 >
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 text-white">
                         <motion.div
@@ -137,7 +151,7 @@ function EndScreen() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     transition={{ duration: 0.5, delay: 1.7 }}
-                    className="flex items-center gap-4"
+                    className="flex items-center gap-4 mt-7"
                 >
 
                     <h2 className="text-white text-3xl lg:text-5xl font-bold"><Lang>Sən dahisən!</Lang></h2>
