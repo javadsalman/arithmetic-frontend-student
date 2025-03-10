@@ -12,7 +12,17 @@ import { useLanguageStore } from "../../stores/languageStore";
 import { useNotificationStore } from "../../stores/notificationStore";
 import { ACTIONS_FEATURES, ACTION_TITLES } from "../../pages/actions/constants";
 import { ActionMode } from "../../pages/actions/types";
+import { tv } from "tailwind-variants";
 
+const formElementVariants = tv({
+    base: "",
+    variants: {
+        changed: {
+            true: "bg-red-200",
+            false: ""
+        }
+    }
+});
 interface FormuleValues {
     mode: FormuleMode|ActionMode;
     digitCount: number;
@@ -62,7 +72,6 @@ function MiniForm() {
     const watchDigitCount = watch('digitCount');
 
     const { doubleDigitCount: isDoubleDigitCount, singleQuestion: isSingleQuestion, soundNumbers: isSoundNumbers } = useMemo(() => gameType === 'actions' ? ACTIONS_FEATURES[gameMode as ActionMode] : {doubleDigitCount: false, singleQuestion: false, soundNumbers: false}, [gameType, gameMode]);
-
 
     const onSubmit = (data: FormuleValues) => {
         setDigitCount(+data.digitCount);
@@ -118,6 +127,7 @@ function MiniForm() {
                                         value={field.value}
                                         label={<Lang>Mod</Lang>}
                                         onChange={field.onChange}
+                                        className={formElementVariants({ changed: field.value !== gameMode })}
                                     >
 
                                         {Object.entries(titles).map(([key, title]) => (
@@ -144,6 +154,7 @@ function MiniForm() {
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
+                                        className={formElementVariants({ changed: +field.value !== +digitCount })}
                                     />
                                 )}
                             />
@@ -172,7 +183,7 @@ function MiniForm() {
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
-
+                                        className={formElementVariants({ changed: +field.value !== +secondDigitCount })}
                                     />
                                 )}
                         />
@@ -193,6 +204,7 @@ function MiniForm() {
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
+                                        className={formElementVariants({ changed: +field.value !== +numberCount })}
                                     />
                                 )}
                             />
@@ -213,7 +225,7 @@ function MiniForm() {
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
-
+                                        className={formElementVariants({ changed: +field.value !== +gameCount })}
                                     />
                                 )}
                             />
@@ -233,7 +245,7 @@ function MiniForm() {
                                         value={field.value}
                                         onChange={field.onChange}
                                         onKeyDown={onEnterPress}
-
+                                        className={formElementVariants({ changed: +field.value !== +answerDuration })}
                                     />
                                 )}
                         />
@@ -253,7 +265,7 @@ function MiniForm() {
                                     value={field.value}
                                     onChange={field.onChange}
                                     onKeyDown={onEnterPress}
-
+                                    className={formElementVariants({ changed: +field.value !== +betweenDuration })}
                                 />
                             )}
                             />
