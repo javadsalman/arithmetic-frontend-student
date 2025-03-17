@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { loadNewGameParams, useGameStore } from '../../../stores/gameStore';
@@ -8,7 +8,7 @@ import { useLanguageStore } from '../../../stores/languageStore';
 import { ACTIONS_FEATURES } from '../../actions/constants';
 import { ActionMode } from '../../actions/types';
 import { useNotificationStore } from '../../../stores/notificationStore';
-
+import { TIME_STEP } from '../constants';
 
 function TimeStep() {
     const navigate = useNavigate();
@@ -23,7 +23,8 @@ function TimeStep() {
         setAnswerDuration,
     } = useGameStore();
 
-    const isSingleQuestion = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion, [gameType, gameMode]);
+    const currentFeature = ACTIONS_FEATURES[gameMode as ActionMode];
+    const hideBetweenDurationInput = gameType === 'actions' && currentFeature.singleQuestion
 
 
 
@@ -82,7 +83,8 @@ function TimeStep() {
 
 
     const handleBack = () => {
-        navigate(`/game/${gameType}/${gameMode}/steps/number`);
+        const currentIndex = ACTIONS_FEATURES[gameMode as ActionMode].steps.indexOf(TIME_STEP);
+        navigate(`/game/${gameType}/${gameMode}/steps/${ACTIONS_FEATURES[gameMode as ActionMode].steps[currentIndex - 1]}`);
     };
 
 
@@ -94,7 +96,7 @@ function TimeStep() {
 
 
             <div className="space-y-6">
-                {isSingleQuestion || (
+                {!!hideBetweenDurationInput || (
                     <div>
                         <TextField
                             fullWidth

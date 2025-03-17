@@ -413,7 +413,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
     },
     [INSTRUMENT_SOUNDS_ACTION]: {
         flipped: false,
-        steps: [SOUND_INSTRUMENTS_STEP, ...STANDARD_STEPS],
+        steps: [SOUND_INSTRUMENTS_STEP, NUMBER_STEP, TIME_STEP],
         singleQuestion: false,
         randomPosition: false,
         randomRotate: false,
@@ -426,7 +426,7 @@ export const ACTIONS_FEATURES: Record<ActionMode, ModeFeatures> = {
     },
     [ANIMAL_SOUNDS_ACTION]: {
         flipped: false,
-        steps: [SOUND_ANIMALS_STEP, ...STANDARD_STEPS],
+        steps: [SOUND_ANIMALS_STEP, NUMBER_STEP, TIME_STEP],
         singleQuestion: false,
         randomPosition: false,
         randomRotate: false,

@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
-import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
-import VolumeOffRoundedIcon from '@mui/icons-material/VolumeOffRounded';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import { NUMBER_COLORS } from '../../pages/steps/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
@@ -80,14 +80,14 @@ function SoundCard({
                     }}
                 >
                     {isPlaying ? (
-                        <VolumeOffRoundedIcon 
+                        <PauseRoundedIcon 
                             className="text-gray-800" 
-                            sx={{ fontSize: 24 }}
+                            sx={{ fontSize: 32 }}
                         />
                     ) : (
-                        <VolumeUpRoundedIcon 
+                        <PlayArrowRoundedIcon 
                             className="text-gray-800" 
-                            sx={{ fontSize: 24 }}
+                            sx={{ fontSize: 32 }}
                         />
                     )}
                 </IconButton>

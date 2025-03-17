@@ -25,10 +25,10 @@ function StepsPage() {
                 return [TABLE_POWER_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
             }
             if (ACTIONS_FEATURES[gameMode as ActionMode].steps.includes(SOUND_INSTRUMENTS_STEP)) {
-                return [SOUND_INSTRUMENTS_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
+                return [SOUND_INSTRUMENTS_STEP, NUMBER_STEP, TIME_STEP];
             }
             if (ACTIONS_FEATURES[gameMode as ActionMode].steps.includes(SOUND_ANIMALS_STEP)) {
-                return [SOUND_ANIMALS_STEP, DIGIT_STEP, NUMBER_STEP, TIME_STEP];
+                return [SOUND_ANIMALS_STEP, NUMBER_STEP, TIME_STEP];
             }
         }
         return [DIGIT_STEP, NUMBER_STEP, TIME_STEP]

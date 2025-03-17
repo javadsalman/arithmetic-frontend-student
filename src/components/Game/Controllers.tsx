@@ -29,10 +29,57 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
     const gameStore = useGameStore();
     const { setNotification } = useNotificationStore();
 
-    const handleReportCopy = () => {
+    const handleReportDownload = () => {
         const report = {gameplayStore, gameStore};
-        navigator.clipboard.writeText(JSON.stringify(report, null, 2));
-        setNotification('Report kopyalandı', 'success', 'filled', { vertical: 'bottom', horizontal: 'center' });
+        const title = window.prompt('Başlıq daxil edin:');
+        
+        if (!title) {
+            setNotification(
+                'Başlıq daxil edilmədi. Report yaradılmadı.',
+                'error',
+                'filled',
+                { vertical: 'top', horizontal: 'right' }
+            );
+            return;
+        }
+        
+        try {
+            // Convert report data to a string (formatted JSON)
+            const reportData = JSON.stringify(report, null, 2);
+            
+            // Create a Blob with the data - use text/plain for simplicity
+            const blob = new Blob([
+                `Title: ${title}\n\n`,
+                `Generated Date: ${new Date().toLocaleString()}\n\n`,
+                `Report Data:\n${reportData}`
+            ], { type: 'text/plain' });
+            
+            // Create a temporary anchor element to trigger download
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${title.replace(/\s+/g, '_')}_report.txt`;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+            
+            setNotification(
+                'Report uğurla endirildi',
+                'success',
+                'filled',
+                { vertical: 'top', horizontal: 'right' }
+            );
+        } catch (error) {
+            console.error('Report yaradılarkən xəta baş verdi:', error);
+            setNotification(
+                'Report yaradılarkən xəta baş verdi',
+                'error',
+                'filled',
+                { vertical: 'top', horizontal: 'right' }
+            );
+        }
     }
 
     const handleFullscreen = () => {
@@ -124,7 +171,7 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
                     </button>
                     <button
                         title="Report Kopyala"
-                        onClick={handleReportCopy}
+                        onClick={handleReportDownload}
                         className="relative w-14 h-14 bg-[#FF5C5C] hover:bg-[#FF7070] text-white font-medium rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center gap-2"
                     >   
                         <div className="text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

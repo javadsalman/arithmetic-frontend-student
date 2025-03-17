@@ -12,3 +12,15 @@ body {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
 }
+
+/* Hide scrollbar but maintain scroll functionality */
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+}

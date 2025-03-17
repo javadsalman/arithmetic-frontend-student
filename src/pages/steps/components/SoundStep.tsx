@@ -1,6 +1,6 @@
 import Lang, { content as langContent } from "../Lang";
 import SoundCard from "../../../components/Step/SoundCard";
-import { INSTRUMENTS, ANIMALS, DIGIT_STEP } from "../constants";
+import { INSTRUMENTS, ANIMALS, NUMBER_STEP } from "../constants";
 import { useSoundStore } from "../../../stores/soundStore";
 import { useEffect, useState } from "react";
 import { stopCurrentSound } from "../../../stores/soundStore";
@@ -15,7 +15,7 @@ interface SoundListProps {
 
 function SoundList({ soundsType }: SoundListProps) {
     const { setIsMuted } = useSoundStore();
-    const [playingIndex, setPlayingIndex] = useState(0);
+    const [playingIndex, setPlayingIndex] = useState(-1);
     const currentPlaylist = soundsType === 'instruments' ? INSTRUMENTS : ANIMALS;
     const navigate = useNavigate();
     const { gameType, gameMode } = useGameStore();
@@ -32,7 +32,7 @@ function SoundList({ soundsType }: SoundListProps) {
     }
 
     const handleNext = () => {
-        navigate(`/game/${gameType}/${gameMode}/steps/${DIGIT_STEP}`);
+        navigate(`/game/${gameType}/${gameMode}/steps/${NUMBER_STEP}`);
     }
 
     const handleStart = () => {

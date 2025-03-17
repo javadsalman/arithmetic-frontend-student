@@ -18,7 +18,7 @@ const formElementVariants = tv({
     base: "",
     variants: {
         changed: {
-            true: "bg-red-200",
+            true: "bg-blue-200",
             false: ""
         }
     }

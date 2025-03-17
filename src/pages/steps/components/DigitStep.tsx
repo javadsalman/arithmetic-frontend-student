@@ -8,7 +8,7 @@ import NumberSelector from '../../../components/GameForm/NumberSelector';
 import Lang from '../Lang';
 import { ACTIONS_FEATURES } from '../../actions/constants';
 import { ActionMode } from '../../actions/types';
-
+import { DIGIT_STEP } from '../constants';
 
 // Utility function to convert YouTube URL to embed URL
 const getYouTubeEmbedUrl = (url: string) => {
@@ -60,6 +60,11 @@ function DigitStep() {
         navigate(`/game/${gameType}/${gameMode}/game`);
     }
 
+    const handleBack = () => {
+        const currentIndex = ACTIONS_FEATURES[gameMode as ActionMode].steps.indexOf(DIGIT_STEP);
+        navigate(`/game/${gameType}/${gameMode}/steps/${ACTIONS_FEATURES[gameMode as ActionMode].steps[currentIndex - 1]}`);
+    }
+
     return (
         <div className="flex flex-col items-center max-w-2xl mx-auto">
             <h2 className="text-2xl font-semibold text-[#FF4D4F] mb-8">
@@ -100,7 +105,7 @@ function DigitStep() {
                 {gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].steps.length > 3 && (
                     <Button
                         variant="outlined"
-                        onClick={() => navigate(`/game/${gameType}/${gameMode}/steps/${ACTIONS_FEATURES[gameMode as ActionMode].steps[0]}`)}
+                        onClick={handleBack}
                         className="py-3 text-lg"
                         size="large"
                         fullWidth

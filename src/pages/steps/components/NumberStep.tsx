@@ -3,10 +3,9 @@ import { useNavigate, useParams } from 'react-router';
 import { useGameStore } from '../../../stores/gameStore';
 import Lang, { content as langContent } from '../Lang';
 import { useLanguageStore } from '../../../stores/languageStore';
-import { useMemo } from 'react';
 import { ACTIONS_FEATURES } from '../../actions/constants';
 import { ActionMode } from '../../actions/types';
-
+import { NUMBER_STEP } from '../constants';
 
 function NumberStep() {
     const navigate = useNavigate();
@@ -22,7 +21,10 @@ function NumberStep() {
     const { gameType, gameMode } = useParams();
     const { language } = useLanguageStore();
 
-    const isSingleQuestion = useMemo(() => gameType === 'actions' && ACTIONS_FEATURES[gameMode as ActionMode].singleQuestion, [gameType, gameMode]);
+    const currentFeature = ACTIONS_FEATURES[gameMode as ActionMode];
+    const hideNumberCountInput =  gameType === 'actions' && currentFeature.singleQuestion
+    const hideMixedDigitsSwitch = gameType === 'actions' && (currentFeature.singleQuestion || currentFeature.soundNumbers)
+    
 
     const handleNext = () => {
         navigate(`/game/${gameType}/${gameMode}/steps/time`);
@@ -30,7 +32,8 @@ function NumberStep() {
 
 
     const handleBack = () => {
-        navigate(`/game/${gameType}/${gameMode}/steps/digit`);
+        const currentIndex = ACTIONS_FEATURES[gameMode as ActionMode].steps.indexOf(NUMBER_STEP);
+        navigate(`/game/${gameType}/${gameMode}/steps/${ACTIONS_FEATURES[gameMode as ActionMode].steps[currentIndex - 1]}`);
     };
 
     const handleNumberCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +53,7 @@ function NumberStep() {
             </h2>
 
             <div>
-                {isSingleQuestion || (
+                {hideNumberCountInput || (
                 <div className='mb-6'>
                     <TextField
                         fullWidth
@@ -73,20 +76,22 @@ function NumberStep() {
                         helperText={langContent[language]!['Oyun sayını qeyd edin']}
                     />
                 </div>
-                <div className='mb-4'>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={isMixedDigits}
-                                onChange={(e) => setIsMixedDigits(e.target.checked)}
-                                color="primary"
-                            />
+                {!!hideMixedDigitsSwitch || (
+                    <div className='mb-4'>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={isMixedDigits}
+                                    onChange={(e) => setIsMixedDigits(e.target.checked)}
+                                    color="primary"
+                                />
 
 
-                        }
-                        label={langContent[language]!['Rəqəm sayı qarışıq olsun']}
-                    />
-                </div>
+                            }
+                            label={langContent[language]!['Rəqəm sayı qarışıq olsun']}
+                        />
+                    </div>
+                )}
                 <div className="pt-4 space-y-3">
                     <Button
                         fullWidth
