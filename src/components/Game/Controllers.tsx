@@ -31,7 +31,7 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
 
     const handleReportDownload = () => {
         const report = {gameplayStore, gameStore};
-        const title = window.prompt('Başlıq daxil edin:');
+        const title = window.prompt('Hansı problemlə üzləşdiyinizi qeyd edin:');
         
         if (!title) {
             setNotification(
