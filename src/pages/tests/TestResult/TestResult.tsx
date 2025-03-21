@@ -2,9 +2,11 @@ import { useState } from "react";
 import GeneralResult from "./GeneralResult";
 import DetailedResult from "./DetailedResult";
 import { Tabs, Tab, Button } from "@mui/material";
+import { resetTests } from "../../../stores/testStore";
 
 function TestResult() {
     const [resultTab, setResultTab] = useState<"general" | "detailed">("general");
+
     
     const handleTabChange = (_event: React.SyntheticEvent, newValue: "general" | "detailed") => {
         setResultTab(newValue);
@@ -43,6 +45,7 @@ function TestResult() {
                     <Button 
                         variant="contained"
                         size="large"
+                        onClick={resetTests}
                     >
                         YENIDƏN OYNA
                     </Button>

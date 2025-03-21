@@ -1,6 +1,16 @@
 import TestColumn, { TestColumnProps } from '../../components/Test/TestColumn';
 import { useEffect, useRef, useCallback } from 'react';
+import { tv } from 'tailwind-variants';
 
+const testList = tv({
+    base: 'flex overflow-x-auto no-scrollbar pb-2 w-full',
+    variants: {
+        fullColumns: {
+            true: 'justify-between',
+            false: 'justify-start gap-1',
+        },
+    },
+});
 
 interface TestListProps {
     columns: TestColumnProps[];
@@ -107,7 +117,7 @@ function TestList({ columns, columnCount, onColumnCountChange }: TestListProps) 
     return (
         <div
             ref={containerRef}
-            className="flex justify-between overflow-x-auto no-scrollbar pb-2 w-full"
+            className={testList({ fullColumns: columnCount === columns.length })}
         >
             {columns.map((column, index) => (
                 <div key={index} className="first:ml-0 last:mr-0">

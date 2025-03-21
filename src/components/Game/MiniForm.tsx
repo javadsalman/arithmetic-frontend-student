@@ -3,7 +3,7 @@ import { useGameStore } from "../../stores/gameStore";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useNavigate } from "react-router";
 import { useForm, Controller, FieldErrors } from "react-hook-form";
-import { KeyboardEvent, useEffect, useMemo } from "react";
+import { KeyboardEvent, useEffect, useMemo, useCallback, useState } from "react";
 import { FORMULE_TITLES } from "../../pages/formules/constants";
 import { FormuleMode } from "../../lib/formules/types";
 import { restartGame } from "../../stores/gameplayStore";
@@ -56,8 +56,8 @@ function MiniForm() {
     } = useGameStore();
 
     const { setNotification } = useNotificationStore();
-
-    const { control, handleSubmit, setValue, watch } = useForm<FormuleValues>({
+    const [lastResetTimestamp, setLastResetTimestamp] = useState<number>(Date.now());
+    const { control, handleSubmit, setValue, watch, formState } = useForm<FormuleValues>({
         defaultValues: {
             mode: gameMode as FormuleMode|ActionMode,
             digitCount: digitCount,
@@ -73,7 +73,7 @@ function MiniForm() {
 
     const { doubleDigitCount: isDoubleDigitCount, singleQuestion: isSingleQuestion, soundNumbers: isSoundNumbers } = useMemo(() => gameType === 'actions' ? ACTIONS_FEATURES[gameMode as ActionMode] : {doubleDigitCount: false, singleQuestion: false, soundNumbers: false}, [gameType, gameMode]);
 
-    const onSubmit = (data: FormuleValues) => {
+    const onSubmit = useCallback((data: FormuleValues) => {
         setDigitCount(+data.digitCount);
         setSecondDigitCount(+data.secondDigitCount);
         setNumberCount(+data.numberCount);
@@ -82,20 +82,22 @@ function MiniForm() {
         setAnswerDuration(+data.answerDuration);
         setGameMode(data.mode);
         navigate(`/game/${gameType}/${data.mode}/game`);
-        restartGame();
-    };
+        setLastResetTimestamp(Date.now());
+        const hard = !formState.isDirty && (Date.now() - lastResetTimestamp) < 10000;
+        restartGame({hard});
+    }, [formState.isDirty, lastResetTimestamp]);
 
-    const onError = (error: FieldErrors<FormuleValues>) => {
+    const onError = useCallback((error: FieldErrors<FormuleValues>) => {
         if (error.secondDigitCount) {
             setNotification(error.secondDigitCount.message!, 'error', 'filled', { vertical: 'bottom', horizontal: 'center' });
         }
-    }
+    }, [setNotification]);
 
-    const onEnterPress = (e: KeyboardEvent<HTMLDivElement>) => {
+    const onEnterPress = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === "Enter") {
             handleSubmit(onSubmit, onError)();
         }
-    }
+    }, [handleSubmit, onSubmit, onError]);
 
     useEffect(() => {
         setValue('mode', gameMode as FormuleMode|ActionMode);

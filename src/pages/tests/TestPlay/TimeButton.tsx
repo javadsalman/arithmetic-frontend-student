@@ -1,5 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTestStore } from '../../../stores/testStore';
+import { tv } from 'tailwind-variants';
+
+const buttonVariants = tv({
+    base: 'w-full px-8 py-2 rounded-full text-white font-medium hover:bg-green-500 transition-colors bg-gray-500',
+    variants: {
+        less1min: {
+            true: 'bg-red-500',
+            false: 'bg-gray-500',
+        },
+        started: {
+            true: 'hover:bg-gray-700',
+            false: 'hover:bg-green-500',
+        }
+    }
+});
+
 
 
 interface TimeButtonProps {
@@ -63,7 +79,7 @@ function TimeButton({ start, onFinish }: TimeButtonProps) {
         <div className="w-32">
             {(start || !edit) ? (
                 <button 
-                    className="w-full px-8 py-2 rounded-full text-white font-medium hover:bg-green-500 transition-colors bg-gray-500" 
+                    className={buttonVariants({ less1min: seconds < 60, started: start })} 
                     onClick={onButtonClick}>
                     {timeString}
                 </button>

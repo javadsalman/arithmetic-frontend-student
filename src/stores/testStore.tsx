@@ -9,14 +9,14 @@ import { EASY_MODE, HARD_MODE, MEDIUM_MODE } from "../pages/tests/constants";
 
 const formuleGenerator = new Generator();
 
-type TestMode = typeof EASY_MODE | typeof MEDIUM_MODE | typeof HARD_MODE;
+export type TestMode = typeof EASY_MODE | typeof MEDIUM_MODE | typeof HARD_MODE;
 
 interface Round {
     index: number;
     calcItems: CalcItem[];
     correctAnswer: number;
     userAnswer: string;
-    isCorrect: boolean;
+    isCorrect: boolean|null;
 }
 
 interface Page {
@@ -50,8 +50,10 @@ interface TestStore {
     getCurrentCoefficient: () => number;
     getLastIndexByMode: (testMode: TestMode) => number;
     setMinutes: (minutes: number) => void;
+    checkAnswers: () => void;
     addRounds: (testMode: TestMode, rounds: Round[]) => void;
     clearRounds: () => void;
+    clearLastEmptyRounds: () => void;
     clearPages: () => void;
     resetFocusIndexes: () => void;
     resetStore: () => void;
@@ -100,7 +102,6 @@ export const useTestStore = create<TestStore>()(
         setTestMode: (testMode: TestMode) => set({ testMode }),
         setAnswer: (answer: string, testMode: TestMode, roundIndex: number) => set((state) => {
             state.rounds[testMode][roundIndex].userAnswer = answer;
-            state.rounds[testMode][roundIndex].isCorrect = state.rounds[testMode][roundIndex].correctAnswer === parseInt(answer);
         }),
         setCoefficients: (coefficients: { [key in TestMode]: number }) => set({ coefficients }),
         setPage: (page: number, testMode: TestMode) => set((state) => {
@@ -131,10 +132,26 @@ export const useTestStore = create<TestStore>()(
         getCurrentCoefficient: () => get().coefficients[get().testMode],
         getLastIndexByMode: (testMode: TestMode) => get().rounds[testMode].length,
         setMinutes: (minutes: number) => set({ minutes }),
+        checkAnswers: () => set((state) => {
+            state.rounds[state.testMode].forEach((round) => {
+                if (round.userAnswer !== '') {
+                    round.isCorrect = round.correctAnswer === parseInt(round.userAnswer);
+                }
+            });
+        }),
         addRounds: (testMode: TestMode, rounds: Round[]) => set((state) => {
             state.rounds[testMode].push(...rounds);
         }),
         clearRounds: () => set({ rounds: { easy: [], medium: [], hard: [] } }),
+        clearLastEmptyRounds: () => set((state) => {
+            Object.values(state.rounds).forEach((rounds) => {
+                let lastIndex = rounds.length - 1;
+                while (lastIndex >= 0 && rounds[lastIndex].userAnswer === '') {
+                    lastIndex--;
+                }
+                rounds.splice(lastIndex + 1);
+            });
+        }),
         clearPages: () => set({ pages: initialPages }),
         resetStore: () => set(initialState),
         resetFocusIndexes: () => set({ focusIndexes: initialFocusIndexes }),
@@ -154,7 +171,7 @@ export const addRoundsByMode = (testMode: TestMode, roundCount: number) => {
         const calcValues = formuleGenerator.generate({digitCount: properDigitCount, numberCount, mixedCount, mode: gameMode!});
         const calcItems = calcValues.map(value => ({text: value > 0 ? `+${value}` : value.toString(), value}));
         const correctAnswer = calcItems.reduce((acc, item) => acc + item.value, 0);
-        rounds.push({ index: lastIndex + i, calcItems, correctAnswer, userAnswer: '', isCorrect: false });
+        rounds.push({ index: lastIndex + i, calcItems, correctAnswer, userAnswer: '', isCorrect: null });
     }
     addRounds(testMode, rounds);
 }
@@ -162,9 +179,17 @@ export const addRoundsByMode = (testMode: TestMode, roundCount: number) => {
 
 
 export const resetTests = () => {
-    const { clearPages, clearRounds, resetFocusIndexes } = useTestStore.getState();
+    const { clearPages, clearRounds, resetFocusIndexes, setFinished } = useTestStore.getState();
+    setFinished(false);
     clearPages();
     clearRounds();
     resetFocusIndexes();
+}
+
+export const finishTest = () => {
+    const { checkAnswers, clearLastEmptyRounds, setFinished } = useTestStore.getState();
+    checkAnswers();
+    clearLastEmptyRounds();
+    setFinished(true);
 }
 

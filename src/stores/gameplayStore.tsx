@@ -191,18 +191,19 @@ export const createNewRound = () => {
 }
 
 export const startGame = () => {
-    const { setScreen, setTimestamp } = useGameplayStore.getState();
+    const { setScreen } = useGameplayStore.getState();
     setScreen("game");
-    setTimestamp(Date.now());
     createNewRound();
 }
 
-export const restartGame = () => {
-    const { clearRounds, setScreen } = useGameplayStore.getState();
+export const restartGame = ({hard = false}: {hard?: boolean} = {}) => {
+    const { clearRounds, setScreen, setTimestamp } = useGameplayStore.getState();
     clearRounds();
     setScreen("enterance");
-    // temp
-    // startGame();    
+    if (hard) {
+        const currentTimestamp = Date.now();
+        setTimestamp(currentTimestamp);
+    }
 }
 
 export const showInput = () => {

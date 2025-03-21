@@ -2,7 +2,7 @@ import ModeButtons from '../../../components/Test/ModeButtons';
 import { useEffect, useState, createRef } from 'react';
 import TimeButton from './TimeButton';
 import { FORMULE_TITLES } from '../../formules/constants';
-import { addRoundsByMode, resetTests, useTestStore } from '../../../stores/testStore';
+import { addRoundsByMode, resetTests, useTestStore, finishTest } from '../../../stores/testStore';
 import TestList from '../../../HOC/Test/TestList';
 import Options from './Options';
 import Controls from './Controls';
@@ -31,7 +31,7 @@ function TestPlay() {
         setNextPage,
         setPreviousPage,
         setFocusIndex,
-        focusIndexes
+        focusIndexes,
     } = useTestStore()
 
     const inputRefs = Array.from({ length: columnCount }, () => createRef<HTMLInputElement>());
@@ -73,6 +73,7 @@ function TestPlay() {
 
     const handleFinish = () => {
         setStarted(false);
+        finishTest();
     }
 
     const handleNext = (colIndex: number) => {
@@ -122,6 +123,9 @@ function TestPlay() {
             titleBgColor: MODE_COLORS[testMode],
             resultBgColor: round.isCorrect ? 'green' : 'red',
             userAnswer: round.userAnswer,
+            onInputFocus: () => {
+                setFocusIndex(colIndex, testMode);
+            },
             onAnswerChange: (answer: string) => {
                 setAnswer(answer, testMode, round.index);
             },
