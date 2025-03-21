@@ -72,7 +72,6 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
                 { vertical: 'top', horizontal: 'right' }
             );
         } catch (error) {
-            console.error('Report yaradılarkən xəta baş verdi:', error);
             setNotification(
                 'Report yaradılarkən xəta baş verdi',
                 'error',

@@ -133,10 +133,12 @@ export const useTestStore = create<TestStore>()(
         getLastIndexByMode: (testMode: TestMode) => get().rounds[testMode].length,
         setMinutes: (minutes: number) => set({ minutes }),
         checkAnswers: () => set((state) => {
-            state.rounds[state.testMode].forEach((round) => {
-                if (round.userAnswer !== '') {
-                    round.isCorrect = round.correctAnswer === parseInt(round.userAnswer);
-                }
+            Object.values(state.rounds).forEach((rounds) => {
+                rounds.forEach((round) => {
+                    if (round.userAnswer !== '') {
+                        round.isCorrect = round.correctAnswer === parseInt(round.userAnswer);
+                    }
+                });
             });
         }),
         addRounds: (testMode: TestMode, rounds: Round[]) => set((state) => {
@@ -179,7 +181,8 @@ export const addRoundsByMode = (testMode: TestMode, roundCount: number) => {
 
 
 export const resetTests = () => {
-    const { clearPages, clearRounds, resetFocusIndexes, setFinished } = useTestStore.getState();
+    const { clearPages, clearRounds, resetFocusIndexes, setFinished, setTestMode } = useTestStore.getState();
+    setTestMode("easy");
     setFinished(false);
     clearPages();
     clearRounds();
@@ -187,7 +190,8 @@ export const resetTests = () => {
 }
 
 export const finishTest = () => {
-    const { checkAnswers, clearLastEmptyRounds, setFinished } = useTestStore.getState();
+    const { checkAnswers, clearLastEmptyRounds, setFinished, setTestMode } = useTestStore.getState();
+    setTestMode("easy");
     checkAnswers();
     clearLastEmptyRounds();
     setFinished(true);

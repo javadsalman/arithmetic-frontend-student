@@ -61,7 +61,7 @@ export function moveChalk(containerElement: HTMLDivElement, relativeElement: HTM
 }
 
 
-export function draw({duration, elementToDraw, container, wait, disappear=500}: {duration: number, elementToDraw: HTMLDivElement, container: HTMLDivElement, wait: number, disappear: number}) {
+export function draw({duration, elementToDraw, container, disappear=500}: {duration: number, elementToDraw: HTMLDivElement, container: HTMLDivElement, wait: number, disappear: number}) {
     if (!elementToDraw || !container) return;
 
     elementToDraw.style.transition = `opacity ${disappear}ms ease-in-out`;
@@ -76,10 +76,4 @@ export function draw({duration, elementToDraw, container, wait, disappear=500}: 
             elementToDraw.style.display = "none";
         }, disappear);
     }, duration*2);
-
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true);
-        }, wait);
-    });
 }

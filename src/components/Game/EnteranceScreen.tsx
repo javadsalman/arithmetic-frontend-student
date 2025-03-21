@@ -16,12 +16,12 @@ function Entrance({boardRef, onComplete, duration=1000, wait=3000, disappear=500
 
     // Entrance animation
     useEffect(() => {
-        (async () => {
             if (!beReadyRef.current || !startRef.current || !boardRef.current) return;
-            await draw({elementToDraw: beReadyRef.current, container: boardRef.current, duration: duration, wait: wait, disappear: disappear});
-            // await draw({elementToDraw: startRef.current, container: boardRef.current, duration: duration, wait: wait, disappear: disappear});
-            onComplete();
-        })();
+            draw({elementToDraw: beReadyRef.current, container: boardRef.current, duration: duration, wait: wait, disappear: disappear});
+            const timeout = setTimeout(() => {
+                onComplete();
+            }, wait);
+            return () => clearTimeout(timeout);
     }, [onComplete]);
 
     return (
