@@ -73,8 +73,6 @@ function MiniForm() {
 
     const { doubleDigitCount: isDoubleDigitCount, singleQuestion: isSingleQuestion, soundNumbers: isSoundNumbers } = useMemo(() => gameType === 'actions' ? ACTIONS_FEATURES[gameMode as ActionMode] : {doubleDigitCount: false, singleQuestion: false, soundNumbers: false}, [gameType, gameMode]);
 
-    console.log(formState.dirtyFields);
-
     const onSubmit = useCallback((data: FormuleValues) => {
         setDigitCount(+data.digitCount);
         setSecondDigitCount(+data.secondDigitCount);
