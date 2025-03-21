@@ -57,7 +57,7 @@ function MiniForm() {
 
     const { setNotification } = useNotificationStore();
     const [lastResetTimestamp, setLastResetTimestamp] = useState<number>(Date.now());
-    const { control, handleSubmit, setValue, watch, formState } = useForm<FormuleValues>({
+    const { control, handleSubmit, setValue, watch, formState, reset } = useForm<FormuleValues>({
         defaultValues: {
             mode: gameMode as FormuleMode|ActionMode,
             digitCount: digitCount,
@@ -73,6 +73,8 @@ function MiniForm() {
 
     const { doubleDigitCount: isDoubleDigitCount, singleQuestion: isSingleQuestion, soundNumbers: isSoundNumbers } = useMemo(() => gameType === 'actions' ? ACTIONS_FEATURES[gameMode as ActionMode] : {doubleDigitCount: false, singleQuestion: false, soundNumbers: false}, [gameType, gameMode]);
 
+    console.log(formState.dirtyFields);
+
     const onSubmit = useCallback((data: FormuleValues) => {
         setDigitCount(+data.digitCount);
         setSecondDigitCount(+data.secondDigitCount);
@@ -85,6 +87,7 @@ function MiniForm() {
         setLastResetTimestamp(Date.now());
         const hard = !formState.isDirty && (Date.now() - lastResetTimestamp) < 10000;
         restartGame({hard});
+        reset(data);
     }, [formState.isDirty, lastResetTimestamp]);
 
     const onError = useCallback((error: FieldErrors<FormuleValues>) => {
