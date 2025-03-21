@@ -1,6 +1,8 @@
 import { tv } from "tailwind-variants";
 import { Mode } from "../../pages/tests/types";
 import { EASY_MODE, MEDIUM_MODE, HARD_MODE } from "../../pages/tests/constants";
+import Lang from "../../pages/tests/Lang";
+
 const buttonVariants = tv({
     base: 'px-8 py-2 rounded-full text-white font-medium hover:bg-green-500 transition-colors',
     variants: {
@@ -24,13 +26,13 @@ function ModeButtons({ onModeChange }: ModeButtonsProps) {
     return (
         <div className="flex justify-center gap-4">
             <button className={buttonVariants({ color: 'green' })} onClick={() => onModeChange(EASY_MODE)}>
-                Asan
+                <Lang>Asan</Lang>
             </button>
             <button className={buttonVariants({ color: 'yellow' })} onClick={() => onModeChange(MEDIUM_MODE)}>
-                Normal
+                <Lang>Normal</Lang>
             </button>
             <button className={buttonVariants({ color: 'red' })} onClick={() => onModeChange(HARD_MODE)}>
-                Çətin
+                <Lang>Çətin</Lang>
             </button>
         </div>
     )

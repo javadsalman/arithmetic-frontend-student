@@ -11,8 +11,8 @@ import { TestColumnProps } from '../../../components/Test/TestColumn';
 import { DEFAULT_COLUMN_COUNT, DEFAULT_ROUND_COUNT } from '../constants';
 
 function TestPlay() {
-    const [started, setStarted] = useState(false)
     const [columnCount, setColumnCount] = useState(DEFAULT_COLUMN_COUNT)
+    const { started, setStarted } = useTestStore()
     
     const {
         rounds,

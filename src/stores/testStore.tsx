@@ -35,6 +35,8 @@ interface TestStore {
     pages: { [key in TestMode]: Page };
     focusIndexes: { [key in TestMode]: number };
     minutes: number;
+    started: boolean;
+    seconds: number;
     setFinished: (finished: boolean) => void;
     setDigitCount: (digitCount: number) => void;
     setNumberCount: (numberCount: number) => void;
@@ -47,6 +49,8 @@ interface TestStore {
     setNextPage: (testMode: TestMode) => void;
     setPreviousPage: (testMode: TestMode, focusIndex: number) => void;
     setFocusIndex: (index: number, testMode: TestMode) => void;
+    setStarted: (started: boolean) => void;
+    setSeconds: (seconds: number) => void;
     getCurrentCoefficient: () => number;
     getLastIndexByMode: (testMode: TestMode) => number;
     setMinutes: (minutes: number) => void;
@@ -90,6 +94,8 @@ const initialState = {
     },
     focusIndexes: initialFocusIndexes,
     minutes: 15,
+    started: false,
+    seconds: 0,
 }
 
 export const useTestStore = create<TestStore>()(
@@ -129,6 +135,8 @@ export const useTestStore = create<TestStore>()(
         setFocusIndex: (index: number, testMode: TestMode) => set((state) => {
             state.focusIndexes[testMode] = index;
         }),
+        setStarted: (started: boolean) => set({ started }),
+        setSeconds: (seconds: number) => set({ seconds }),
         getCurrentCoefficient: () => get().coefficients[get().testMode],
         getLastIndexByMode: (testMode: TestMode) => get().rounds[testMode].length,
         setMinutes: (minutes: number) => set({ minutes }),

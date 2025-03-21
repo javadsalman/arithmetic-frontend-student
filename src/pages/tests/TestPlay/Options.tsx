@@ -2,7 +2,8 @@ import { tv } from "tailwind-variants";
 import { FormuleMode } from "../../../lib/formules/types";
 import { Mode } from "../types";
 import { MODE_COLORS } from "../constants";
-
+import { content as langContent } from "../Lang";
+import { useLanguageStore } from "../../../stores/languageStore";
 
 const buttonVariants = tv({
     base: 'px-8 py-2 rounded-full text-white font-medium hover:bg-green-500 transition-colors',
@@ -34,6 +35,7 @@ interface OptionsProps {
 }
 
 function Options({ page, started, digitCount, numberCount, gameMode, testMode, currentCoefficient, onDigitCountChange, onNumberCountChange, onGameModeChange, titles }: OptionsProps) {
+    const { language } = useLanguageStore();
     return (
         <div className="flex gap-4 mb-5 justify-between md:justify-start ">
                 <div className={buttonVariants({ color: MODE_COLORS[testMode], circle: true, className: 'text-2xl font-bold' })}>
@@ -47,7 +49,7 @@ function Options({ page, started, digitCount, numberCount, gameMode, testMode, c
                     ))}
                 </select>
                 <div className={buttonVariants({ color: MODE_COLORS[testMode], className: 'text-xl font-bold px-8 rounded-full' })}>
-                    {digitCount}R {numberCount}Ə ({gameMode}) *{currentCoefficient}
+                    {digitCount}{langContent[language]!['R']} {numberCount}{langContent[language]!['Ə']} ({gameMode}) *{currentCoefficient}
                 </div>
             </div>
     )

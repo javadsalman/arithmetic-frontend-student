@@ -1,4 +1,5 @@
 import { tv } from "tailwind-variants";
+import Lang from "../../Lang";
 
 const cardSlot = tv({
     slots: {
@@ -40,11 +41,11 @@ function GeneralResultCard({ color, title, correct, wrong, empty, total, point }
                 {title}
             </div>
         <div className="p-4 flex flex-col items-center text-xl font-bold">
-            <p className="text-gray-700 font-medium mb-2">Misal sayı-{total}</p>
-            <p className="text-gray-700 font-medium mb-2">Doğru-{correct}</p>
-                <p className="text-gray-700 font-medium mb-2">Yanlış-{wrong}</p>
-                <p className="text-gray-700 font-medium mb-2">Boş-{empty}</p>
-                <p className="text-gray-700 font-medium">Bal-{point}</p>
+            <p className="text-gray-700 font-medium mb-2"><Lang>Misal sayı</Lang>-{total}</p>
+            <p className="text-gray-700 font-medium mb-2"><Lang>Doğru</Lang>-{correct}</p>
+                <p className="text-gray-700 font-medium mb-2"><Lang>Yanlış</Lang>-{wrong}</p>
+                <p className="text-gray-700 font-medium mb-2"><Lang>Boş</Lang>-{empty}</p>
+                <p className="text-gray-700 font-medium"><Lang>Bal</Lang>-{point}</p>
             </div>
         </div>
     )

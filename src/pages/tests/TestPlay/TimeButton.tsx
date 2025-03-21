@@ -25,9 +25,8 @@ interface TimeButtonProps {
 
 
 function TimeButton({ start, onFinish }: TimeButtonProps) {
-    const { minutes, setMinutes } = useTestStore();
+    const { minutes, setMinutes, seconds, setSeconds } = useTestStore();
     const [edit, setEdit] = useState(false);
-    const [seconds, setSeconds] = useState(minutes * 60);
 
     const minutesString = Math.floor(seconds / 60).toString().padStart(2, '0');
     const secondsString = (seconds % 60).toString().padStart(2, '0');

@@ -1,10 +1,11 @@
 import GeneralResultCard from "./components/GeneralResultCard";
 import medalImageSource from '../../../assets/images/medal.png';
 import { useTestStore } from "../../../stores/testStore";
-
+import Lang, { content as langContent } from "../Lang";
+import { useLanguageStore } from "../../../stores/languageStore";
 
 function GeneralResult() {
-
+    const { language } = useLanguageStore();
     const { rounds, coefficients } = useTestStore();
 
     const totalEasy = rounds.easy.length;
@@ -32,20 +33,20 @@ function GeneralResult() {
         <div className="border-4 border-red-200 rounded-2xl p-8 py-10 max-w-[1200px] mx-auto">
             <div className="flex items-center justify-center gap-3 mb-16">
                 <img src={medalImageSource} alt="Medal" className="w-14" />
-                <h2 className="text-5xl font-bold text-red-500">Ümumi nəticəsi- {totalPoints}</h2>
+                <h2 className="text-5xl font-bold text-red-500"><Lang>Ümumi nəticəsi</Lang> - {totalPoints}</h2>
                 <img src={medalImageSource} alt="Medal" className="w-14" />
 
             </div>
 
             <div className="flex flex-wrap justify-evenly mb-16">
-                <GeneralResultCard color="green" title="Bal-1" correct={correctEasy} wrong={wrongEasy} empty={emptyEasy} total={totalEasy} point={totalEasyPoints} />
-                <GeneralResultCard color="yellow" title="Bal-1.5" correct={correctMedium} wrong={wrongMedium} empty={emptyMedium} total={totalMedium} point={totalMediumPoints} />
-                <GeneralResultCard color="red" title="Bal-2" correct={correctHard} wrong={wrongHard} empty={emptyHard} total={totalHard} point={totalHardPoints} />
+                <GeneralResultCard color="green" title={langContent[language]!['Bal-1']} correct={correctEasy} wrong={wrongEasy} empty={emptyEasy} total={totalEasy} point={totalEasyPoints} />
+                <GeneralResultCard color="yellow" title={langContent[language]!['Bal-1.5']} correct={correctMedium} wrong={wrongMedium} empty={emptyMedium} total={totalMedium} point={totalMediumPoints} />
+                <GeneralResultCard color="red" title={langContent[language]!['Bal-2']} correct={correctHard} wrong={wrongHard} empty={emptyHard} total={totalHard} point={totalHardPoints} />
 
             </div>
 
             <div className="text-center">
-                <h3 className="text-4xl font-bold text-red-500">Sən dahisən! <span role="img" aria-label="thumbs up">👍</span></h3>
+                <h3 className="text-4xl font-bold text-red-500"><Lang>Sən dahisən!</Lang> <span role="img" aria-label="thumbs up">👍</span></h3>
             </div>
         </div>
     )
