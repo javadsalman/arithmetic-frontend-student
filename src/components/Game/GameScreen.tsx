@@ -183,6 +183,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         if (calcItems.length === 0) return;
         setCurrentItem(calcItems[0]);
         secondCalcItems && setSecondCurrentItem(secondCalcItems[0]);
+        
         let counter = 1;
 
         if (singleQuestion) return;
@@ -193,11 +194,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 clearInterval(interval);
                 return;
             }
-                setTimeout(() => {
-                    if (firstDisplayRef.current) {
-                        firstDisplayRef.current.style.display = 'block';
-                    }
-                }, 50);
+
             const currentItem = calcItems[counter];
             setCurrentItem(currentItem);
 
@@ -219,6 +216,16 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 }
             }
 
+            setTimeout(() => {
+                if (firstDisplayRef.current) {
+                    firstDisplayRef.current.style.display = 'block';
+                }
+                if (secondDisplayRef.current) {
+                    secondDisplayRef.current.style.display = 'block';
+                }
+            }, 50);
+
+
             setCounter(counter);
             counter++;
 
@@ -237,14 +244,15 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
 
 
     const displayContent = useMemo(() => {
+        const style = {display: counter === 0 ? 'block' : 'none'};
         const firstColorClass = color === 'white' ? 'text-white' : 'text-red-300';
         const secondColorClass = secondColor === 'white' ? 'text-white' : 'text-red-300';
         if (doubleColumn && displayString) {
             const [firstString, secondString] = displayString.split(' | ');
             return (<div className="flex items-center justify-center">
-                <div style={{display: 'none'}} ref={firstDisplayRef} className={`${columnVariants({flipped: flipped})} ${getFontSize(firstString)} ${firstColorClass}`}>{firstString}</div>
+                <div style={style} ref={firstDisplayRef} className={`${columnVariants({flipped: flipped})} ${getFontSize(firstString)} ${firstColorClass}`}>{firstString}</div>
                 <div className="text-center mx-3 sm:mx-7 md:mx-10 lg:mx-16 w-1 h-96 bg-white"></div>
-                <div style={{display: 'none'}} ref={secondDisplayRef} className={`${columnVariants({flipped: flipped})} ${getFontSize(secondString)} ${secondColorClass}`}>{secondString}</div>
+                <div style={style} ref={secondDisplayRef} className={`${columnVariants({flipped: flipped})} ${getFontSize(secondString)} ${secondColorClass}`}>{secondString}</div>
             </div>)
         }
         if (doubleRow && displayString) {
@@ -257,13 +265,13 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 operator = '-';
             }
             return (<div className="">
-                <div style={{display: 'none'}} ref={firstDisplayRef} className={`${getFontSize(firstString)} ${firstColorClass}`}>{firstString}</div>
+                <div style={style} ref={firstDisplayRef} className={`${getFontSize(firstString)} ${firstColorClass}`}>{firstString}</div>
                 <div className="text-center text-6xl">{operator}</div>
-                <div style={{display: 'none'}} ref={secondDisplayRef} className={`${getFontSize(secondString)} ${secondColorClass}`}>{secondString}</div>
+                <div style={style} ref={secondDisplayRef} className={`${getFontSize(secondString)} ${secondColorClass}`}>{secondString}</div>
             </div>)
         }
-        return <div style={{display: 'none'}} ref={firstDisplayRef} className={firstColorClass}>{displayString}</div>;
-    }, [displayString, doubleColumn, flipped, doubleRow, firstUnit, secondUnit, color, secondColor, firstDisplayRef, secondDisplayRef]);
+        return <div style={style} ref={firstDisplayRef} className={firstColorClass}>{displayString}</div>;
+    }, [displayString, doubleColumn, flipped, doubleRow, firstUnit, secondUnit, color, secondColor, firstDisplayRef, secondDisplayRef, counter]);
 
     return (
         <div className={gameScreenVariants({show: true})}>

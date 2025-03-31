@@ -2,7 +2,7 @@ import medalImageSource from '../../assets/images/medal.png';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../stores/gameStore';
 import { restartGame, useGameplayStore } from '../../stores/gameplayStore';
-import { playIqSound, stopCurrentSound } from '../../stores/soundStore';
+import { playEndSound, stopCurrentSound } from '../../stores/soundStore';
 import { useEffect } from 'react';
 import Lang from './Lang';
 import { Round } from '../../stores/gameplayStore';
@@ -17,7 +17,7 @@ function EndScreen() {
     const wrongAnswers = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
 
     useEffect(() => {
-        playIqSound();
+        playEndSound();
         return () => stopCurrentSound();
     }, []);
 

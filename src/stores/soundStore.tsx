@@ -7,6 +7,7 @@ import falseSoundBuffer from '../assets/audio/false.wav';
 import secondSoundBuffer from '../assets/audio/second.wav';
 import shortChalkSoundBuffer from '../assets/audio/short-chalk.wav';
 import trueSoundBuffer from '../assets/audio/true.wav';
+import endSoundBuffer from '../assets/audio/end.mp3';
 
 import fortePianoSoundBuffer from '../assets/audio/instruments/fortepiano.mp3'
 import kamanSoundBuffer from '../assets/audio/instruments/kaman.mp3'
@@ -38,6 +39,7 @@ const falseSound = new Audio(falseSoundBuffer);
 const secondSound = new Audio(secondSoundBuffer);
 const shortChalkSound = new Audio(shortChalkSoundBuffer);
 const trueSound = new Audio(trueSoundBuffer);
+const endSound = new Audio(endSoundBuffer);
 
 const fortePianoSound = new Audio(fortePianoSoundBuffer);
 const kamanSound = new Audio(kamanSoundBuffer);
@@ -114,7 +116,7 @@ export const playFalseSound = () => _playSound(falseSound);
 export const playSecondSound = () => _playSound(secondSound);
 export const playShortChalkSound = () => _playSound(shortChalkSound);
 export const playTrueSound = () => _playSound(trueSound);
-
+export const playEndSound = () => _playSound(endSound);
 
 export const playFortePianoSound = () => _playSound(fortePianoSound);
 export const playKamanSound = () => _playSound(kamanSound);
