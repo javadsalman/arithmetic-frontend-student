@@ -9,6 +9,8 @@ import Random from "../../lib/formules/random";
 import { content as langContent } from '../../pages/actions/Lang';
 import { useLanguageStore } from '../../stores/languageStore';
 
+const BREAK_DURATION = 50;
+
 const random = new Random();
 interface CalcItem {
     text: string;
@@ -223,13 +225,13 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 if (secondDisplayRef.current) {
                     secondDisplayRef.current.style.display = 'block';
                 }
-            }, 50);
+            }, BREAK_DURATION);
 
 
             setCounter(counter);
             counter++;
 
-        }, betweenDuration * 1000);
+        }, betweenDuration * 1000 + BREAK_DURATION);
         return () => clearInterval(interval);
     }, [calcItems, betweenDuration, randomPosition, randomRotate, flipped, singleQuestion, firstDisplayRef, secondDisplayRef]);
 
