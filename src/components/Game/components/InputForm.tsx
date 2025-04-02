@@ -41,7 +41,15 @@ function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChang
 
     const inputRef = useRef<HTMLInputElement>(null);
     const secondInputRef = useRef<HTMLInputElement>(null);
-    const inputFontSize = useMemo(() => autoFontScale ? getFontSize(currentUserAnswer.length) : '', [currentUserAnswer.length, autoFontScale]);
+    const inputFontSize = useMemo(() => {
+        if (doubleInput) {
+            return 'text-[75px] md:text-[120px] md:py-16';
+        }
+        if (autoFontScale) {
+            return getFontSize(currentUserAnswer.length);
+        }
+        return '';
+    }, [currentUserAnswer.length, autoFontScale]);
 
     const focusInput = useCallback(() => {
         setTimeout(() => {

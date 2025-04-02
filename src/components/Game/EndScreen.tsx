@@ -88,10 +88,10 @@ function EndScreen() {
                             transition={{ duration: 0.4, delay: 0.9 }}
                             className="flex lg:flex-col justify-evenly items-center bg-emerald-800 rounded-xl px-8 py-3 lg:py-5 backdrop-blur-sm border border-emerald-400 transition-all duration-300 hover:bg-emerald-700/50 hover:shadow-lg cursor-pointer group"
                         >
-                            <span className="text-emerald-200 w-10/12 lg:w-auto text-2xl lg:text-lg font-semibold tracking-wide transition-transform duration-300 group-hover:-translate-y-1">
+                            <span className="text-emerald-200 w-10/12 lg:w-auto text-2xl lg:text-2xl font-semibold tracking-wide transition-transform duration-300 group-hover:-translate-y-1">
                                 <Lang>DOĞRU</Lang>
                             </span>
-                            <span className="text-4xl font-bold mt-0 lg:mt-2 text-emerald-400 drop-shadow-glow transition-transform duration-300 group-hover:scale-110">
+                            <span className="text-4xl lg:text-7xl font-bold mt-0 lg:mt-2 text-emerald-400 drop-shadow-glow transition-transform duration-300 group-hover:scale-110">
                                 {correctAnswers}
                             </span>
                         </motion.div>
@@ -104,10 +104,10 @@ function EndScreen() {
                             className="flex lg:flex-col justify-evenly items-center bg-emerald-800 rounded-xl px-8 py-3 lg:py-5 backdrop-blur-sm border border-amber-400/30 transition-all duration-300 hover:bg-emerald-700/50 hover:shadow-lg cursor-pointer group"
                         >
 
-                            <span className="text-amber-200 w-10/12 lg:w-auto text-2xl lg:text-lg font-semibold tracking-wide transition-transform duration-300 group-hover:-translate-y-1">
+                            <span className="text-amber-200 w-10/12 lg:w-auto text-2xl lg:text-2xl font-semibold tracking-wide transition-transform duration-300 group-hover:-translate-y-1">
                                 <Lang>OYUN SAYI</Lang>
                             </span>
-                            <span className="text-4xl font-bold mt-0 lg:mt-2 text-amber-400 drop-shadow-glow transition-transform duration-300 group-hover:scale-110">
+                            <span className="text-4xl lg:text-7xl font-bold mt-0 lg:mt-2 text-amber-400 drop-shadow-glow transition-transform duration-300 group-hover:scale-110">
                                 {totalGames}
                             </span>
                         </motion.div>
@@ -120,10 +120,10 @@ function EndScreen() {
                             className="flex lg:flex-col justify-evenly items-center bg-emerald-800 rounded-xl px-8 py-3 lg:py-5 backdrop-blur-sm border border-rose-400/30 transition-all duration-300 hover:bg-emerald-700/50 hover:shadow-lg cursor-pointer group"
                         >
 
-                            <span className="text-rose-200 w-10/12 lg:w-auto text-2xl lg:text-lg font-semibold tracking-wide transition-transform duration-300 group-hover:-translate-y-1">
+                            <span className="text-rose-200 w-10/12 lg:w-auto text-2xl lg:text-2xl font-semibold tracking-wide transition-transform duration-300 group-hover:-translate-y-1">
                                 <Lang>YANLIŞ</Lang> 
                             </span>
-                            <span className="text-4xl font-bold mt-0 lg:mt-2 text-rose-400 drop-shadow-glow transition-transform duration-300 group-hover:scale-110">
+                            <span className="text-4xl lg:text-7xl font-bold mt-0 lg:mt-2 text-rose-400 drop-shadow-glow transition-transform duration-300 group-hover:scale-110">
                                 {wrongAnswers}
                             </span>
                         </motion.div>

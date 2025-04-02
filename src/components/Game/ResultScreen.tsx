@@ -27,7 +27,7 @@ interface RoundReport {
 
 
 const reportItemVariant = tv({
-    base: 'flex items-center justify-between text-white text-2xl font-semibold py-4 lg:text-xl lg:text-2xl',
+    base: 'flex items-center justify-between text-white text-2xl font-semibold py-4 lg:text-xl lg:text-4xl',
 })
 
 interface ResultScreenProps extends ModeFeatures {
@@ -135,8 +135,8 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
                     transition={{duration: 0.5, delay: 0}}
                     className={reportItemVariant()}
                 >
-                    <span className="text-left text-lg sm:text-xl lg:text-2xl"><Lang>Qalan Oyun sayı</Lang>:</span>
-                    <span className="text-right text-lg sm:text-xl lg:text-2xl">{remainingGames}</span>
+                    <span className="text-left text-lg sm:text-xl lg:text-4xl"><Lang>Qalan Oyun Sayı</Lang>:</span>
+                    <span className="text-right text-lg sm:text-xl lg:text-6xl">{remainingGames}</span>
                 </motion.div>
                 
                 <motion.div
@@ -146,8 +146,8 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
                     transition={{duration: 0.5, delay: 0.25}}
                     className={reportItemVariant()}
                 >
-                    <span className="text-left text-lg sm:text-xl lg:text-2xl"><Lang>Sizin Cavab</Lang>:</span>
-                    <span className="text-right text-lg sm:text-xl lg:text-2xl">{userAnswerContent}</span>
+                    <span className="text-left text-lg sm:text-xl lg:text-4xl"><Lang>Sizin Cavab</Lang>:</span>
+                    <span className="text-right text-lg sm:text-xl lg:text-6xl">{userAnswerContent}</span>
                 </motion.div>
                 
                 <motion.div
@@ -157,8 +157,8 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
                     transition={{duration: 0.5, delay: 0.5}}
                     className={reportItemVariant()}
                 >
-                    <span className="text-left text-lg sm:text-xl lg:text-2xl"><Lang>Doğru Cavab</Lang>:</span>
-                    <span className="text-right text-lg sm:text-xl lg:text-2xl">{correctAnswerContent}</span>
+                    <span className="text-left text-lg sm:text-xl lg:text-4xl"><Lang>Doğru Cavab</Lang>:</span>
+                    <span className="text-right text-lg sm:text-xl lg:text-6xl">{correctAnswerContent}</span>
                 </motion.div>
                 
                 <motion.div
@@ -169,12 +169,12 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
                     className={reportItemVariant()}
                 >
                     <div className="text-left">
-                        <div className='mb-2 underline text-lg sm:text-xl lg:text-2xl'><Lang>Ümumi Doğru</Lang></div>
-                        <div className='text-center text-2xl sm:text-3xl lg:text-4xl'>{totalCorrect}</div>
+                        <div className='mb-2 underline text-lg sm:text-xl lg:text-4xl'><Lang>Ümumi Doğru</Lang></div>
+                        <div className='text-center text-2xl sm:text-3xl lg:text-6xl'>{totalCorrect}</div>
                     </div>
                     <div className="text-left">
-                        <div className='mb-2 underline text-lg sm:text-xl lg:text-2xl'><Lang>Ümumi Yanlış</Lang></div>
-                        <div className='text-center text-2xl sm:text-3xl lg:text-4xl'>{totalIncorrect}</div>
+                        <div className='mb-2 underline text-lg sm:text-xl lg:text-4xl'><Lang>Ümumi Yanlış</Lang></div>
+                        <div className='text-center text-2xl sm:text-3xl lg:text-6xl'>{totalIncorrect}</div>
                     </div>
                 </motion.div>
             </div>
