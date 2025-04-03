@@ -20,7 +20,7 @@ export interface Round {
     correctAnswer: number;
     secondCorrectAnswer: number|null;
     finished: boolean;
-    isCorrect: boolean;
+    result: 'correct' | 'wrong' | 'missed' | 'empty';
 }
 
 const formuleGenerator = new FormuleGenerator();
@@ -73,7 +73,13 @@ export const useGameplayStore = create<GameplayState>()(
                     currentRound.userAnswer = state.currentUserAnswer ? +state.currentUserAnswer : null;
                     currentRound.secondUserAnswer = state.secondUserAnswer ? +state.secondUserAnswer : null;
                     currentRound.finished = true;
-                    currentRound.isCorrect = currentRound.userAnswer === currentRound.correctAnswer && currentRound.secondUserAnswer === currentRound.secondCorrectAnswer;
+                    if (currentRound.userAnswer === null && currentRound.secondUserAnswer === null) {
+                        currentRound.result = 'missed';
+                    } else if (currentRound.userAnswer === currentRound.correctAnswer && currentRound.secondUserAnswer === currentRound.secondCorrectAnswer) {
+                        currentRound.result = 'correct';
+                    } else {
+                        currentRound.result = 'wrong';
+                    }
                 }
 
             }),
@@ -108,7 +114,7 @@ export const createFormuleRound = () => {
     const calcItems = calcValues.map(value => ({text: value > 0 ? `+${value}` : value.toString(), value}));
 
     const correctAnswer = calcItems.reduce((acc, item) => acc + item.value, 0);
-    const newRound: Round = {calcItems, userAnswer: null, correctAnswer, secondCalcItems: null, secondUserAnswer: null, secondCorrectAnswer: null, finished: false, isCorrect: false};
+    const newRound: Round = {calcItems, userAnswer: null, correctAnswer, secondCalcItems: null, secondUserAnswer: null, secondCorrectAnswer: null, finished: false, result: 'empty'};
     addRound(newRound);
 }
 
@@ -174,7 +180,7 @@ export const createActionRound = () => {
         secondUserAnswer: null,
         secondCorrectAnswer,
         finished: false,
-        isCorrect: false
+        result: 'empty'
     };
     addRound(newRound);
 }

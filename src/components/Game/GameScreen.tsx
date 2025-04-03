@@ -196,6 +196,11 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
             const currentItem = calcItems[counter];
             setCurrentItem(currentItem);
 
+            if (secondCalcItems) {
+                const secondCurrentItem = secondCalcItems[counter];
+                setSecondCurrentItem(secondCurrentItem);
+            }
+
             setTimeout(() => {
                 if (firstDisplayRef.current) {
                     firstDisplayRef.current.style.display = 'block';

@@ -13,8 +13,8 @@ function EndScreen() {
     const {gameCount} = useGameStore();
 
     const totalGames = gameCount;
-    const correctAnswers = rounds.filter((round: Round) => round.userAnswer === round.correctAnswer).length;
-    const wrongAnswers = rounds.filter((round: Round) => round.userAnswer !== round.correctAnswer).length;
+    const correctAnswers = rounds.filter((round: Round) => round.result === 'correct').length;
+    const wrongAnswers = totalGames - correctAnswers;
 
     useEffect(() => {
         playEndSound();

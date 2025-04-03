@@ -20,7 +20,7 @@ interface RoundReport {
     userSecondAnswer: number|null;
     correctAnswer: number;
     correctSecondAnswer: number|null;
-    isCorrect: boolean;
+    result: 'correct' | 'wrong' | 'missed' | 'empty';
     totalCorrect: number;
     totalIncorrect: number;
 }
@@ -36,13 +36,14 @@ interface ResultScreenProps extends ModeFeatures {
 
 function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) {
     const { rounds, getCurrentRound } = useGameplayStore();
+    console.log(rounds);
     const { gameCount } = useGameStore();
     const currentRound = getCurrentRound();
     const [report, setReport] = useState<RoundReport>();
-    const { remainingGames, userAnswer, userSecondAnswer, correctAnswer, correctSecondAnswer, isCorrect, totalCorrect, totalIncorrect } = report || {};
+    const { remainingGames, userAnswer, userSecondAnswer, correctAnswer, correctSecondAnswer, result, totalCorrect, totalIncorrect } = report || {};
     const { language } = useLanguageStore();
-    const firstImageSource = isCorrect ? likeImageSource : dislikeImageSource;
-    const secondImageSource = isCorrect ? wellDoneImageSource : sadImageSource;
+    const firstImageSource = result === 'correct' ? likeImageSource : result === 'wrong' ? dislikeImageSource : sadImageSource;
+    const secondImageSource = result === 'correct' ? wellDoneImageSource : result === 'wrong' ? sadImageSource : likeImageSource;
 
     const [firstUnit, secondUnit] = useMemo(() => {
         if (inputUnits) {
@@ -59,16 +60,16 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
             const userSecondAnswer = currentRound.secondUserAnswer;
             const correctAnswer = currentRound.correctAnswer;
             const correctSecondAnswer = currentRound.secondCorrectAnswer;
-            const isCorrect = currentRound.isCorrect;
-            const totalCorrect = rounds.filter((round: Round) => round.isCorrect).length;
-            const totalIncorrect = rounds.filter((round: Round) => !round.isCorrect).length;
+            const result = currentRound.result;
+            const totalCorrect = rounds.filter((round: Round) => round.result === 'correct').length;
+            const totalIncorrect = rounds.filter((round: Round) => round.result === 'wrong').length;
             setReport({
                 remainingGames,
                 userAnswer,
                 userSecondAnswer,
                 correctAnswer,
                 correctSecondAnswer,
-                isCorrect,
+                result,
                 totalCorrect,
                 totalIncorrect
             })
@@ -76,13 +77,13 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
     }, [currentRound, doubleInput, inputUnits])
 
     useEffect(() => {
-        if (isCorrect) {
+        if (result === 'correct') {
             playTrueSound();
         } else {
             playFalseSound();
         }
         return () => stopCurrentSound();
-    }, [isCorrect]);
+    }, [result]);
 
 
     useEffect(() => {
