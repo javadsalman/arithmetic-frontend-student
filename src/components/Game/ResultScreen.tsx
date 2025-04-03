@@ -36,7 +36,6 @@ interface ResultScreenProps extends ModeFeatures {
 
 function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) {
     const { rounds, getCurrentRound } = useGameplayStore();
-    console.log(rounds);
     const { gameCount } = useGameStore();
     const currentRound = getCurrentRound();
     const [report, setReport] = useState<RoundReport>();
