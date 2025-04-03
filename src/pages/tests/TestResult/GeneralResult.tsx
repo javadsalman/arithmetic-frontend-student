@@ -40,8 +40,8 @@ function GeneralResult() {
             </div>
 
             <div className="flex flex-wrap justify-evenly mb-16">
-                <GeneralResultCard color="green" title={langContent[language]!['Bal-1']} correct={correctEasy} wrong={wrongEasy} empty={emptyEasy} total={totalEasy} point={totalEasyPoints} />
-                <GeneralResultCard color="yellow" title={langContent[language]!['Bal-1.5']} correct={correctMedium} wrong={wrongMedium} empty={emptyMedium} total={totalMedium} point={totalMediumPoints} />
+                <GeneralResultCard color="yellow" title={langContent[language]!['Bal-1']} correct={correctEasy} wrong={wrongEasy} empty={emptyEasy} total={totalEasy} point={totalEasyPoints} />
+                <GeneralResultCard color="green" title={langContent[language]!['Bal-1.5']} correct={correctMedium} wrong={wrongMedium} empty={emptyMedium} total={totalMedium} point={totalMediumPoints} />
                 <GeneralResultCard color="blue" title={langContent[language]!['Bal-2']} correct={correctHard} wrong={wrongHard} empty={emptyHard} total={totalHard} point={totalHardPoints} />
             </div>
 

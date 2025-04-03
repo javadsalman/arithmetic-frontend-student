@@ -32,7 +32,7 @@ function ModeButtons({ onModeChange, currentMode }: ModeButtonsProps) {
         <div className="flex justify-center gap-4">
             <button 
                 className={buttonVariants({ 
-                    color: 'green', 
+                    color: 'yellow', 
                     selected: currentMode === EASY_MODE 
                 })} 
                 onClick={() => onModeChange(EASY_MODE)}
@@ -41,7 +41,7 @@ function ModeButtons({ onModeChange, currentMode }: ModeButtonsProps) {
             </button>
             <button 
                 className={buttonVariants({ 
-                    color: 'yellow', 
+                    color: 'green', 
                     selected: currentMode === MEDIUM_MODE 
                 })} 
                 onClick={() => onModeChange(MEDIUM_MODE)}

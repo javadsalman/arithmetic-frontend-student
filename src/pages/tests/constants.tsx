@@ -4,8 +4,8 @@ export const MEDIUM_MODE = "medium";
 export const HARD_MODE = "hard";
 
 export const MODE_COLORS: Record<Mode, ModeColor> = {
-    [EASY_MODE]: "green",
-    [MEDIUM_MODE]: "yellow",
+    [EASY_MODE]: "yellow",
+    [MEDIUM_MODE]: "green",
     [HARD_MODE]: "blue",
 }
 
