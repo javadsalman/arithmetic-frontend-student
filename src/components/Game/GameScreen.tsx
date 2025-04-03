@@ -86,10 +86,6 @@ const numberVariants = tv({
 const columnVariants = tv({
     base: "text-white",
     variants: {
-        flipped: {
-            true: "rotate-180",
-            false: "",
-        },
         size: {
             lessThan4: "text-[100px] md:text-[320px]",
             lessThan6: "text-[90px] md:text-[216px]",
@@ -232,9 +228,9 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         if (doubleColumn && displayString) {
             const [firstString, secondString] = displayString.split(' | ');
             return (<div className="flex items-center justify-center">
-                <div style={style} ref={firstDisplayRef} className={`${columnVariants({flipped: flipped, size: getFontSize(firstString)})}`}>{firstString}</div>
+                <div style={style} ref={firstDisplayRef} className={`${columnVariants({size: getFontSize(firstString)})}`}>{firstString}</div>
                 <div className="text-center mx-3 sm:mx-7 md:mx-10 lg:mx-16 w-1 h-96 bg-white"></div>
-                <div style={style} ref={secondDisplayRef} className={`${columnVariants({flipped: flipped, size: getFontSize(secondString)})}`}>{secondString}</div>
+                <div style={style} ref={secondDisplayRef} className={`${columnVariants({size: getFontSize(secondString)})}`}>{secondString}</div>
             </div>)
         }
         if (doubleRow && displayString) {
@@ -247,15 +243,15 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 operator = '-';
             }
             return (<div className="">
-                <div style={style} ref={firstDisplayRef} className={`${columnVariants({flipped: flipped, size: getFontSize(firstString)})}`}>{firstString}</div>
+                <div style={style} ref={firstDisplayRef} className={`${columnVariants({size: getFontSize(firstString)})}`}>{firstString}</div>
                 <div className="text-center text-6xl">{operator}</div>
-                <div style={style} ref={secondDisplayRef} className={`${columnVariants({flipped: flipped, size: getFontSize(secondString)})}`}>{secondString}</div>
+                <div style={style} ref={secondDisplayRef} className={`${columnVariants({size: getFontSize(secondString)})}`}>{secondString}</div>
             </div>)
         }
 
         const fontSize = (randomPosition || !displayString) ? 'lessThan10' : getFontSize(displayString || '');
-        return <div style={style} ref={firstDisplayRef} className={`${columnVariants({flipped: flipped, size: fontSize})}`}>{displayString}</div>;
-    }, [displayString, doubleColumn, flipped, doubleRow, firstUnit, secondUnit, firstDisplayRef, secondDisplayRef, counter]);
+        return <div style={style} ref={firstDisplayRef} className={columnVariants({size: fontSize})}>{displayString}</div>;
+    }, [displayString, doubleColumn, doubleRow, firstUnit, secondUnit, firstDisplayRef, secondDisplayRef, counter]);
 
     return (
         <div className={gameScreenVariants({show: true})}>

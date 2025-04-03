@@ -119,6 +119,7 @@ function ActionsPage() {
                 <Lang>Sənə uyğun əməli seç!</Lang>
             </h1>
             <div className="flex flex-wrap justify-evenly lg:grid-cols-4 gap-4 gap-y-10 px-5">
+                {/* 1. Sərbəst çalışma */}
                 <div onClick={() => handleNoteClick(FREE_WORK_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[0].front} backColor={COLOR_PALETTES[0].back} size={250} />
@@ -128,6 +129,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[FREE_WORK_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 2. Tərsinə ədədlər */}
                 <div onClick={() => handleNoteClick(FREE_WORK_FLIPPED_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[1].front} backColor={COLOR_PALETTES[1].back} size={250} />
@@ -137,33 +140,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[FREE_WORK_FLIPPED_ACTION]}</Lang></p>
                     </div>
                 </div>
-                <div onClick={() => handleNoteClick(COMBINED_OPERATIONS_ACTION)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[2].front} backColor={COLOR_PALETTES[2].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "medium" })}>(8+9)*1</span>
-                        <p className={text()}><Lang>{ACTION_TITLES[COMBINED_OPERATIONS_ACTION]}</Lang></p>
-                    </div>
-                </div>
-                <div onClick={() => handleNoteClick(DOUBLE_CALCULATION_ACTION)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[3].front} backColor={COLOR_PALETTES[3].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "medium" })}>+49 | -68</span>
-                        <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[DOUBLE_CALCULATION_ACTION]}</Lang></p>
-                    </div>
-                </div>
-                <div onClick={() => handleNoteClick(DOUBLE_CALCULATION_FLIPPED_ACTION)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[4].front} backColor={COLOR_PALETTES[4].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "mediumSmall", transform: "flip" })}>+49 | -68</span>
-                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[DOUBLE_CALCULATION_FLIPPED_ACTION]}</Lang></p>
-                    </div>
-                </div>
+                
+                {/* 3. Ordan burdan ədədlər */}
                 <div onClick={() => handleNoteClick(RANDOM_NUMBERS_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[5].front} backColor={COLOR_PALETTES[5].back} size={250} />
@@ -173,6 +151,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[RANDOM_NUMBERS_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 4. Ordan -burdan dönən ədədlər */}
                 <div onClick={() => handleNoteClick(RANDOM_NUMBERS_ROTATED_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[6].front} backColor={COLOR_PALETTES[6].back} size={250} />
@@ -182,6 +162,30 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[RANDOM_NUMBERS_ROTATED_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 5. İkili hesab */}
+                <div onClick={() => handleNoteClick(DOUBLE_CALCULATION_ACTION)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[3].front} backColor={COLOR_PALETTES[3].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "medium" })}>+49 | -68</span>
+                        <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[DOUBLE_CALCULATION_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                
+                {/* 6. İkili hesab üzrə tərsinə ədədlər */}
+                <div onClick={() => handleNoteClick(DOUBLE_CALCULATION_FLIPPED_ACTION)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[4].front} backColor={COLOR_PALETTES[4].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "mediumSmall", transform: "flip" })}>+49 | -68</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[DOUBLE_CALCULATION_FLIPPED_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                
+                {/* 7. Mötərizəli misallar */}
                 <div onClick={() => handleNoteClick(PARENTHESES_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[7].front} backColor={COLOR_PALETTES[7].back} size={250} />
@@ -191,6 +195,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[PARENTHESES_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 8. Məchulun tapılması */}
                 <div onClick={() => handleNoteClick(EQUATION_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[8].front} backColor={COLOR_PALETTES[8].back} size={250} />
@@ -200,15 +206,30 @@ function ActionsPage() {
                         <p className={text()}><Lang>{ACTION_TITLES[EQUATION_ACTION]}</Lang></p>
                     </div>
                 </div>
-                <div onClick={() => handleNoteClick(PERCENTAGE_ACTION)} className={actionCard({ size: "default" })}>
+                
+                {/* 9. Musiqi səsləri */}
+                <div onClick={() => handleNoteClick(INSTRUMENT_SOUNDS_ACTION, SOUND_INSTRUMENTS_STEP)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[9].front} backColor={COLOR_PALETTES[9].back} size={250} />
+                        <Flower frontColor={COLOR_PALETTES[20].front} backColor={COLOR_PALETTES[20].back} size={250} />
                     </div>
                     <div className={contentContainer()}>
-                        <span className={number({ size: "medium" })}>3+2(29%)</span>
-                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[PERCENTAGE_ACTION]}</Lang></p>
+                        <span className={number({ size: "medium" })}>🎸🎺🎹</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[INSTRUMENT_SOUNDS_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 10. Heyvan səsləri */}
+                <div onClick={() => handleNoteClick(ANIMAL_SOUNDS_ACTION, SOUND_ANIMALS_STEP)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[21].front} backColor={COLOR_PALETTES[21].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "mediumLarge" })}>🐶🐱🐮</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[ANIMAL_SOUNDS_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                
+                {/* 11. Pul vahidləri */}
                 <div onClick={() => handleNoteClick(MONEY_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[10].front} backColor={COLOR_PALETTES[10].back} size={250} />
@@ -219,6 +240,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[MONEY_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 12. Kütlə vahidləri */}
                 <div onClick={() => handleNoteClick(MASS_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[14].front} backColor={COLOR_PALETTES[14].back} size={250} />
@@ -229,24 +252,8 @@ function ActionsPage() {
                         <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[MASS_ACTION]}</Lang></p>
                     </div>
                 </div>
-                <div onClick={() => handleNoteClick(INSTRUMENT_SOUNDS_ACTION, SOUND_INSTRUMENTS_STEP)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[20].front} backColor={COLOR_PALETTES[20].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "medium" })}>🎸🎺🎹</span>
-                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[INSTRUMENT_SOUNDS_ACTION]}</Lang></p>
-                    </div>
-                </div>
-                <div onClick={() => handleNoteClick(ANIMAL_SOUNDS_ACTION, SOUND_ANIMALS_STEP)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[21].front} backColor={COLOR_PALETTES[21].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "mediumLarge" })}>🐶🐱🐮</span>
-                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[ANIMAL_SOUNDS_ACTION]}</Lang></p>
-                    </div>
-                </div>
+                
+                {/* 13. Zaman vahidləri */}
                 <div onClick={() => handleNoteClick(TIME_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[12].front} backColor={COLOR_PALETTES[12].back} size={250} />
@@ -257,6 +264,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[TIME_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 14. Uzunluq vahidi */}
                 <div onClick={() => handleNoteClick(LENGTH_ACTION)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[13].front} backColor={COLOR_PALETTES[13].back} size={250} />
@@ -267,6 +276,8 @@ function ActionsPage() {
                         <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[LENGTH_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 15. Sadə vurma */}
                 <div onClick={() => handleNoteClick(SIMPLE_MULTIPLICATION_ACTION, TABLE_MUL_DIV_STEP)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[15].front} backColor={COLOR_PALETTES[15].back} size={250} />
@@ -276,6 +287,19 @@ function ActionsPage() {
                         <p className={text({ size: "large" })}><Lang>{ACTION_TITLES[SIMPLE_MULTIPLICATION_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 16. Toplama, çıxma və vurma əməlləri birgə hesabla */}
+                <div onClick={() => handleNoteClick(COMBINED_OPERATIONS_ACTION)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[2].front} backColor={COLOR_PALETTES[2].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "medium" })}>(8+9)*1</span>
+                        <p className={text()}><Lang>{ACTION_TITLES[COMBINED_OPERATIONS_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                
+                {/* 17. Sadə bölmə */}
                 <div onClick={() => handleNoteClick(SIMPLE_DIVISION_ACTION, TABLE_MUL_DIV_STEP)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[16].front} backColor={COLOR_PALETTES[16].back} size={250} />
@@ -285,15 +309,8 @@ function ActionsPage() {
                         <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[SIMPLE_DIVISION_ACTION]}</Lang></p>
                     </div>
                 </div>
-                <div onClick={() => handleNoteClick(SQUARE_ACTION, TABLE_POWER_STEP)} className={actionCard({ size: "default" })}>
-                    <div className={flowerContainer()}>
-                        <Flower frontColor={COLOR_PALETTES[17].front} backColor={COLOR_PALETTES[17].back} size={250} />
-                    </div>
-                    <div className={contentContainer()}>
-                        <span className={number({ size: "large" })}>64<sup>2</sup></span>
-                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[SQUARE_ACTION]}</Lang></p>
-                    </div>
-                </div>
+                
+                {/* 18. Qalıqlı bölmə */}
                 <div onClick={() => handleNoteClick(REMAINDER_DIVISION_ACTION, TABLE_MUL_DIV_STEP)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[18].front} backColor={COLOR_PALETTES[18].back} size={250} />
@@ -303,6 +320,19 @@ function ActionsPage() {
                         <p className={text()}><Lang>{ACTION_TITLES[REMAINDER_DIVISION_ACTION]}</Lang></p>
                     </div>
                 </div>
+                
+                {/* 19. Kvadrata yüksəltmə */}
+                <div onClick={() => handleNoteClick(SQUARE_ACTION, TABLE_POWER_STEP)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[17].front} backColor={COLOR_PALETTES[17].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "large" })}>64<sup>2</sup></span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[SQUARE_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                
+                {/* 20. Kvadrat kök misalları */}
                 <div onClick={() => handleNoteClick(SQUARE_ROOT_ACTION, TABLE_POWER_STEP)} className={actionCard({ size: "default" })}>
                     <div className={flowerContainer()}>
                         <Flower frontColor={COLOR_PALETTES[19].front} backColor={COLOR_PALETTES[19].back} size={250} />
@@ -310,6 +340,17 @@ function ActionsPage() {
                     <div className={contentContainer()}>
                         <span className={number({ size: "large" })}>√64</span>
                         <p className={text()}><Lang>{ACTION_TITLES[SQUARE_ROOT_ACTION]}</Lang></p>
+                    </div>
+                </div>
+                
+                {/* 21. Faiz olan misallar */}
+                <div onClick={() => handleNoteClick(PERCENTAGE_ACTION)} className={actionCard({ size: "default" })}>
+                    <div className={flowerContainer()}>
+                        <Flower frontColor={COLOR_PALETTES[9].front} backColor={COLOR_PALETTES[9].back} size={250} />
+                    </div>
+                    <div className={contentContainer()}>
+                        <span className={number({ size: "medium" })}>3+2(29%)</span>
+                        <p className={text({ size: "medium" })}><Lang>{ACTION_TITLES[PERCENTAGE_ACTION]}</Lang></p>
                     </div>
                 </div>
             </div>
