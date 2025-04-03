@@ -6,7 +6,7 @@ export const HARD_MODE = "hard";
 export const MODE_COLORS: Record<Mode, ModeColor> = {
     [EASY_MODE]: "green",
     [MEDIUM_MODE]: "yellow",
-    [HARD_MODE]: "red",
+    [HARD_MODE]: "blue",
 }
 
 export const DEFAULT_COLUMN_COUNT = 11;

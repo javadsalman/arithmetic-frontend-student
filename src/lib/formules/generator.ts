@@ -18,13 +18,13 @@ interface ModeGeneratorProps extends GeneratorProps {
 
 class Generator {
     random: Random;
-
-
+    numberCount: number;
     digitCount: number;
     history: OperationHistory;
     constructor() {
         this.random = new Random();
         this.digitCount = 3;
+        this.numberCount = 3;
         this.history = new OperationHistory()
     }
     generate = ({digitCount, numberCount, mixedCount, mode}: ModeGeneratorProps) => {
@@ -54,6 +54,7 @@ class Generator {
 
     generateSimpleAdd = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = this.random.getRandomInt(10 ** (digitCount - 1), 10 ** digitCount - 1)
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -82,6 +83,7 @@ class Generator {
 
     generate5BasedAdd = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 4)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -107,6 +109,7 @@ class Generator {
 
     generate5BasedAddSubtract = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 4)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -134,6 +137,7 @@ class Generator {
 
     generate10BasedAdd = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 9)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -161,6 +165,7 @@ class Generator {
 
     generate10BasedAddSubtract = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 9)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -188,6 +193,7 @@ class Generator {
 
     generate5KBasedAdd = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 8)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -215,6 +221,7 @@ class Generator {
 
     generate5KBasedAddSubtract = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 8)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]
@@ -242,6 +249,7 @@ class Generator {
 
     generateMixedBasedAddSubtract = ({digitCount, numberCount, mixedCount}: GeneratorProps) => {
         this.digitCount = digitCount
+        this.numberCount = numberCount
         const randomValue = +Array.from({length: digitCount}).map((_, index) => this.random.getRandomInt(index === 0 ? 1 : 0, 9)).join('')
         let dnum = new DynamicNumber(randomValue, this)
         const result: number[] = [dnum.value]

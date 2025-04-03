@@ -43,7 +43,9 @@ class OperationHistory {
     getOperationCount = () => {
         return this.history.length
     }
-
+    getBeforeDnums = () => {
+        return this.history.map(history => history.dnum)
+    }
 }
 
 export default OperationHistory

@@ -10,6 +10,7 @@ const titleVariants = tv({
             green: 'bg-green-400',
             yellow: 'bg-yellow-400',
             red: 'bg-red-400',
+            blue: 'bg-blue-400',
             gray: 'bg-gray-400',
             orange: 'bg-orange-200 text-black text-xl' // Closest Tailwind color to #FDCFA1
         }
@@ -51,12 +52,12 @@ export interface TestColumnProps {
     title?: string;
     inputRef?: React.RefObject<HTMLInputElement>;
     titleBgColor: ModeColor | 'gray' | 'orange';
-    resultBgColor?: 'green' | 'red' | 'gray';
+    resultBgColor?: 'green' | 'gray' | 'red';
     userAnswer?: string;
-    onInputFocus?: (index: number) => void;
-    onInputBlur?: (index: number) => void;
-    onAnswerChange?: (answer: string) => void;
-    onKeyDown?: (key: string) => void;
+    onInputFocus?: (e: React.FocusEvent<HTMLInputElement>, index: number) => void;
+    onInputBlur?: (e: React.FocusEvent<HTMLInputElement>, index: number) => void;
+    onAnswerChange?: (e: React.ChangeEvent<HTMLInputElement>, answer: string) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>, key: string) => void;
 }
 
 const TestColumn = forwardRef<HTMLDivElement, TestColumnProps>(
@@ -88,7 +89,7 @@ const TestColumn = forwardRef<HTMLDivElement, TestColumnProps>(
         }
         return (
             <div>
-                <input title="answer" type="text" className="w-full outline-none border-2 p-2 text-center rounded-b bg-white/70 text-xl" onChange={(e) => onAnswerChange?.(e.target.value)} onKeyDown={(e) => onKeyDown?.(e.key)} onFocus={() => onInputFocus?.(index)} onBlur={() => onInputBlur?.(index)} ref={inputRef} value={userAnswer} />
+                <input title="answer" type="text" className="w-full outline-none border-2 p-2 text-center rounded-b bg-white/70 text-xl" onChange={(e) => onAnswerChange?.(e, e.target.value)} onKeyDown={(e) => onKeyDown?.(e, e.key)} onFocus={(e) => onInputFocus?.(e, index)} onBlur={(e) => onInputBlur?.(e, index)} ref={inputRef} value={userAnswer} />
             </div>
         );
     }, [result, resultBgColor, inputRef, onAnswerChange, onKeyDown, onInputFocus, onInputBlur, index]);

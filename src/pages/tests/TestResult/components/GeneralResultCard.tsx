@@ -16,15 +16,15 @@ const cardSlot = tv({
                 card: 'border-green-400',
                 title: 'bg-green-400',
             },
-            red: {
-                card: 'border-red-400',
-                title: 'bg-red-400',
+            blue: {
+                card: 'border-blue-400',
+                title: 'bg-blue-400',
             },
         },
     },
 });
 interface GeneralResultCardProps {
-    color: 'yellow' | 'green' | 'red';
+    color: 'yellow' | 'green' | 'blue';
     title: string;
     correct: number;
     wrong: number;

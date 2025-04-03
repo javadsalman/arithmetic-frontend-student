@@ -1,5 +1,5 @@
 import ModeButtons from '../../../components/Test/ModeButtons';
-import { useEffect, useState, createRef } from 'react';
+import { useEffect, useState, createRef, ChangeEvent, KeyboardEvent } from 'react';
 import TimeButton from './TimeButton';
 import { FORMULE_TITLES } from '../../formules/constants';
 import { addRoundsByMode, resetTests, useTestStore, finishTest } from '../../../stores/testStore';
@@ -81,8 +81,10 @@ function TestPlay() {
             handleNextPage();
         } else {
             const nextInputRef = inputRefs[colIndex + 1];
-            if (nextInputRef) {
-                nextInputRef.current?.focus();
+            if (nextInputRef && nextInputRef.current) {
+                nextInputRef.current.focus();
+                const textEnd = nextInputRef.current.value.length + 1;
+                nextInputRef.current.setSelectionRange(textEnd, textEnd);
             }
             setFocusIndex(colIndex + 1, testMode);
         }
@@ -91,8 +93,10 @@ function TestPlay() {
     const handlePrevious = (colIndex: number) => {
         if (colIndex > 0) {
             const previousInputRef = inputRefs[colIndex - 1];
-            if (previousInputRef) {
-                previousInputRef.current?.focus();
+            if (previousInputRef && previousInputRef.current) {
+                previousInputRef.current.focus();
+                const textEnd = previousInputRef.current.value.length + 1;
+                previousInputRef.current.setSelectionRange(textEnd, textEnd);
             }
             setFocusIndex(colIndex - 1, testMode);
         } else {
@@ -100,15 +104,32 @@ function TestPlay() {
         }
     }
 
-    const onInputKeyDown = ({key, colIndex}: {key: string, colIndex: number}) => {
+    const onInputKeyDown = ({e, key, colIndex}: {e: KeyboardEvent<HTMLInputElement>, key: string, colIndex: number}) => {
+        const input = inputRefs[colIndex].current;
+        if (!input) return;
+
+
         if (key === 'Enter') {
             handleNext(colIndex);
-        } else if (key === 'Backspace' && inputRefs[colIndex].current?.value === '') {
+            return
+        }
+        if (key === 'Backspace' && input.value === '') {
             handlePrevious(colIndex);
-        } else if (key === 'ArrowRight') {
+            return
+        }
+
+        const cursorPosition = input.selectionStart;
+        const textLength = input.value.length;
+        
+        if (key === 'ArrowRight' && cursorPosition === textLength) {
+            e.preventDefault();
             handleNext(colIndex);
-        } else if (key === 'ArrowLeft') {
+            return
+        } 
+        if (key === 'ArrowLeft' && cursorPosition === 0) {
+            e.preventDefault();
             handlePrevious(colIndex);
+            return
         }
     }
 
@@ -126,11 +147,11 @@ function TestPlay() {
             onInputFocus: () => {
                 setFocusIndex(colIndex, testMode);
             },
-            onAnswerChange: (answer: string) => {
+            onAnswerChange: (_: ChangeEvent<HTMLInputElement>, answer: string) => {
                 setAnswer(answer, testMode, round.index);
             },
-            onKeyDown: (key: string) => {
-                onInputKeyDown({key, colIndex});
+            onKeyDown: (e: KeyboardEvent<HTMLInputElement>, key: string) => {
+                onInputKeyDown({e, key, colIndex});
             },
         }
     })
@@ -138,7 +159,7 @@ function TestPlay() {
     return (
         <div>
             <div className="flex flex-wrap gap-4 justify-center md:justify-between items-center mb-16">
-                <ModeButtons onModeChange={setTestMode} />
+                <ModeButtons onModeChange={setTestMode} currentMode={testMode} />
                 <TimeButton start={started} onFinish={handleFinish} />
             </div>
             <Options

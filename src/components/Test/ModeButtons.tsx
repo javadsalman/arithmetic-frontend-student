@@ -9,8 +9,12 @@ const buttonVariants = tv({
         color: {
             green: 'bg-green-400 hover:bg-green-500',
             yellow: 'bg-yellow-400 hover:bg-yellow-500',
-            red: 'bg-red-400 hover:bg-red-500',
+            blue: 'bg-blue-400 hover:bg-blue-500',
             gray: 'bg-gray-400 hover:bg-gray-500'
+        },
+        selected: {
+            true: 'bg-opacity-100',
+            false: 'bg-opacity-80'
         },
         circle: {
             true: 'w-12 h-12 p-0 rounded-full flex items-center justify-center'
@@ -20,19 +24,38 @@ const buttonVariants = tv({
 
 interface ModeButtonsProps {
     onModeChange: (mode: Mode) => void;
+    currentMode: Mode;
 }
 
-function ModeButtons({ onModeChange }: ModeButtonsProps) {
+function ModeButtons({ onModeChange, currentMode }: ModeButtonsProps) {
     return (
         <div className="flex justify-center gap-4">
-            <button className={buttonVariants({ color: 'green' })} onClick={() => onModeChange(EASY_MODE)}>
-                <Lang>Asan</Lang>
+            <button 
+                className={buttonVariants({ 
+                    color: 'green', 
+                    selected: currentMode === EASY_MODE 
+                })} 
+                onClick={() => onModeChange(EASY_MODE)}
+            >
+                <Lang>*1</Lang>
             </button>
-            <button className={buttonVariants({ color: 'yellow' })} onClick={() => onModeChange(MEDIUM_MODE)}>
-                <Lang>Normal</Lang>
+            <button 
+                className={buttonVariants({ 
+                    color: 'yellow', 
+                    selected: currentMode === MEDIUM_MODE 
+                })} 
+                onClick={() => onModeChange(MEDIUM_MODE)}
+            >
+                <Lang>*1.5</Lang>
             </button>
-            <button className={buttonVariants({ color: 'red' })} onClick={() => onModeChange(HARD_MODE)}>
-                <Lang>Çətin</Lang>
+            <button 
+                className={buttonVariants({ 
+                    color: 'blue', 
+                    selected: currentMode === HARD_MODE 
+                })} 
+                onClick={() => onModeChange(HARD_MODE)}
+            >
+                <Lang>*2</Lang>
             </button>
         </div>
     )

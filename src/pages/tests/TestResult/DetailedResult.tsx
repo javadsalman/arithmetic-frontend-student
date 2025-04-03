@@ -38,7 +38,7 @@ function DetailedResult() {
     return (
         <div>
             <div className="flex mb-8">
-                <ModeButtons onModeChange={setTestMode} />
+                <ModeButtons onModeChange={setTestMode} currentMode={testMode} />
             </div>
             <div>
                 {columnChunks.map((chunk, index) => (

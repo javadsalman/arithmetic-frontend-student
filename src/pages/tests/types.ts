@@ -1,3 +1,3 @@
 
-export type ModeColor = "green" | "yellow" | "red";
+export type ModeColor = "green" | "yellow" | "blue";
 export type Mode = "easy" | "medium" | "hard";

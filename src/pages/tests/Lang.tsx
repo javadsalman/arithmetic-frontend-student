@@ -1,4 +1,5 @@
 import { LangContent, getTranslationWithContent } from "../../HOC/Translation.tsx/Translation";
+import { content as formulaLangContent } from "../formules/Lang";
 
 
 export const content: LangContent = {
@@ -25,6 +26,10 @@ export const content: LangContent = {
         'Bal': 'Bal',
         'R': 'R',
         'Ə': 'Ə',
+        'Rəqəm Sayı': 'Rəqəm Sayı',
+        'Ədəd Sayı': 'Ədəd Sayı',
+        'Formul': 'Formul',
+        ...formulaLangContent['az'],
     },
     'en': {
         'YENIDƏN OYNA': 'PLAY AGAIN',
@@ -49,6 +54,10 @@ export const content: LangContent = {
         'Bal': 'Score',
         'R': 'D',
         'Ə': 'N',
+        'Rəqəm Sayı': 'Digit Count',
+        'Ədəd Sayı': 'Number Count',
+        'Formul': 'Formula',
+        ...formulaLangContent['en'],
     },
     'ru': {
         'YENIDƏN OYNA': 'ИГРАТЬ СНОВА',
@@ -73,6 +82,10 @@ export const content: LangContent = {
         'Bal': 'Балл',
         'R': 'Ц',
         'Ə': 'Ч',
+        'Rəqəm Sayı': 'Количество цифр',
+        'Ədəd Sayı': 'Количество чисел',
+        'Formul': 'Формула',
+        ...formulaLangContent['ru'],
     },
     'tr': {
         'YENIDƏN OYNA': 'TEKRAR OYNA',
@@ -97,6 +110,10 @@ export const content: LangContent = {
         'Bal': 'Puan',
         'R': 'R',
         'Ə': 'S',
+        'Rəqəm Sayı': 'Rakam Sayısı',
+        'Ədəd Sayı': 'Sayı Adedi',
+        'Formul': 'Formül',
+        ...formulaLangContent['tr'],
     },
     'pl': {
         'YENIDƏN OYNA': 'GRAJ PONOWNIE',
@@ -121,6 +138,10 @@ export const content: LangContent = {
         'Bal': 'Punkt',
         'R': 'C',
         'Ə': 'L',
+        'Rəqəm Sayı': 'Liczba cyfr',
+        'Ədəd Sayı': 'Liczba liczb',
+        'Formul': 'Formuła',
+        ...formulaLangContent['pl'],
     },
     'kz': {
         'YENIDƏN OYNA': 'ҚАЙТА ОЙНАУ',
@@ -145,6 +166,10 @@ export const content: LangContent = {
         'Bal': 'Бал',
         'R': 'Р',
         'Ə': 'С',
+        'Rəqəm Sayı': 'Сандар саны',
+        'Ədəd Sayı': 'Сандар мөлшері',
+        'Formul': 'Формула',
+        ...formulaLangContent['kz'],
     },
 }
 

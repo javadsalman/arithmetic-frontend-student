@@ -60,7 +60,17 @@ class DynamicNumber {
         if (numbers.length === 1 || !mixedCount || numbers[1] === 0) {
             return numbers
         }
-        const randomSubtract = this.random.choice([1, 0], [1, 1])
+        let randomSubtract = 0
+        const beforeDnums = this.parent.history.getBeforeDnums()
+        const digitCount = this.parent.digitCount
+        const numberCount = this.parent.numberCount
+        const reducedValueExists = beforeDnums.some(dnum => dnum.digits.length === digitCount-1)
+        if (beforeDnums.length === numberCount-1 && !reducedValueExists) {
+            randomSubtract = 1
+        } else {
+            randomSubtract = this.random.choice([1, 0], [1, 1])
+        }
+
         const result = numbers.slice(randomSubtract, numbers.length)
         return result
     }

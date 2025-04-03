@@ -2,8 +2,9 @@ import { tv } from "tailwind-variants";
 import { FormuleMode } from "../../../lib/formules/types";
 import { Mode } from "../types";
 import { MODE_COLORS } from "../constants";
-import { content as langContent } from "../Lang";
+import Lang, { content as langContent } from "../Lang";
 import { useLanguageStore } from "../../../stores/languageStore";
+import { TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 const buttonVariants = tv({
     base: 'px-8 py-2 rounded-full text-white font-medium hover:bg-green-500 transition-colors',
@@ -11,7 +12,7 @@ const buttonVariants = tv({
         color: {
             green: 'bg-green-400 hover:bg-green-500',
             yellow: 'bg-yellow-400 hover:bg-yellow-500',
-            red: 'bg-red-400 hover:bg-red-500',
+            blue: 'bg-blue-400 hover:bg-blue-500',
             gray: 'bg-gray-400 hover:bg-gray-500'
         },
         circle: {
@@ -34,23 +35,48 @@ interface OptionsProps {
     onGameModeChange: (mode: FormuleMode) => void;
 }
 
-function Options({ page, started, digitCount, numberCount, gameMode, testMode, currentCoefficient, onDigitCountChange, onNumberCountChange, onGameModeChange, titles }: OptionsProps) {
+function Options({ page, started, digitCount, numberCount, gameMode, testMode, onDigitCountChange, onNumberCountChange, onGameModeChange, titles }: OptionsProps) {
     const { language } = useLanguageStore();
     return (
-        <div className="flex gap-4 mb-5 justify-between md:justify-start ">
+        <div className="flex gap-4 mb-5 justify-between md:justify-start items-center">
                 <div className={buttonVariants({ color: MODE_COLORS[testMode], circle: true, className: 'text-2xl font-bold' })}>
                     {page}
                 </div>
-                <input type="text" className='w-12 p-2' placeholder='reqem' value={digitCount} onChange={(e) => onDigitCountChange(Number(e.target.value))} disabled={started} />
-                <input type="text" className='w-12 p-2' placeholder='eded' value={numberCount} onChange={(e) => onNumberCountChange(Number(e.target.value))} disabled={started} />
-                <select title='operator' className='w-12' value={gameMode!} onChange={(e) => onGameModeChange(e.target.value as FormuleMode)} disabled={started}>
-                    {Object.entries(titles).map(([key, title]) => (
-                        <option key={key} value={key}>{title}</option>
-                    ))}
-                </select>
-                <div className={buttonVariants({ color: MODE_COLORS[testMode], className: 'text-xl font-bold px-8 rounded-full' })}>
-                    {digitCount}{langContent[language]!['R']} {numberCount}{langContent[language]!['Ə']} ({gameMode}) *{currentCoefficient}
-                </div>
+                <TextField
+                    size="small"
+                    placeholder='reqem'
+                    value={digitCount}
+                    onChange={(e) => onDigitCountChange(Number(e.target.value))}
+                    disabled={started}
+                    sx={{ width: '100px' }}
+                    inputProps={{ style: { textAlign: 'center' } }}
+                    label={langContent[language]?.['Rəqəm Sayı']}
+                />
+                <TextField
+                    size="small"
+                    placeholder='eded'
+                    value={numberCount}
+                    onChange={(e) => onNumberCountChange(Number(e.target.value))}
+                    disabled={started}
+                    sx={{ width: '100px' }}
+                    inputProps={{ style: { textAlign: 'center' } }}
+                    label={langContent[language]?.['Ədəd Sayı']}
+                />
+                <FormControl>
+                    <InputLabel id="gamemode-select-label">{langContent[language]?.['Formul']}</InputLabel>
+                    <Select
+                        size="small"
+                        value={gameMode || ''}
+                        onChange={(e) => onGameModeChange(e.target.value as FormuleMode)}
+                        disabled={started}
+                        labelId="gamemode-select-label"
+                        label={langContent[language]?.['Formul']}
+                    >
+                        {Object.entries(titles).map(([key, title]) => (
+                            <MenuItem key={key} value={key}><Lang>{title}</Lang></MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </div>
     )
 }
