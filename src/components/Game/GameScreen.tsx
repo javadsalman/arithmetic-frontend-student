@@ -150,7 +150,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         if (randomRotate) {
             return random.getRandomInt(0, 360);
         }
-        if (flipped && !doubleColumn) {
+        if (flipped) {
             return 180;
         }
         return 0;
@@ -227,9 +227,8 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
         }
     }, [currentItem, soundNumbers]);
 
-
     const displayContent = useMemo(() => {
-        const style = {display: counter === 0 ? 'block' : 'none'};
+        const style = {display: counter === 0 ? 'block' : 'none', transform: `rotate(${rotate}deg)`};
         if (doubleColumn && displayString) {
             const [firstString, secondString] = displayString.split(' | ');
             return (<div className="flex items-center justify-center">
@@ -264,7 +263,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                     <div
                         key={counter}
                         ref={numberWrapperRef}
-                        style={{left: `${positions[0]}%`, top: `${positions[1]}%`, rotate: `${rotate}deg`}}
+                        style={{left: `${positions[0]}%`, top: `${positions[1]}%`}}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                     >
                         <div key={counter} ref={numberRef} className={numberVariants({doubleQuestion: true})}>
