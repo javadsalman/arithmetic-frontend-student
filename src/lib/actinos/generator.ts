@@ -161,17 +161,19 @@ class Generator {
         // Function to ensure number has exact digit count
         const formatNumber = (num: number) => this._ensureDigitCount(num, digitCount);
         
-        // Generate three random numbers with the specified digit count
-        const num1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
-        const num2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
-        const num3 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+
         
         // Randomly decide whether parentheses will be on left or right
         const parenthesesOnLeft = this.random.getRandomInt(0, 1) === 1;
         
         // Randomly choose operators (+ or -) for inside and outside parentheses
         const innerOperator = this.random.choice(['+', '-']);
-        const outerOperator = parenthesesOnLeft ? this.random.choice(['+', '-']) : '+';
+
+        // Generate three random numbers with the specified digit count
+        const ranNum1 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+        const ranNum2 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
+        const [num1, num2] = [ranNum1, ranNum2].sort((a, b) => b - a);
+        const num3 = this.random.getRandomInt(10**(digitCount-1), 10**digitCount - 1);
         
         // Calculate the inner value and ensure it's not negative
         let innerValue: number;
@@ -181,15 +183,22 @@ class Generator {
             innerValue = num1 + num2;
             innerExpression = `${formatNumber(num1)} + ${formatNumber(num2)}`;
         } else {
-            // For subtraction, ensure the first number is larger to avoid negative results
-            if (num1 < num2) {
-                innerValue = num2 - num1;
-                innerExpression = `${formatNumber(num2)} - ${formatNumber(num1)}`;
-            } else {
-                innerValue = num1 - num2;
-                innerExpression = `${formatNumber(num1)} - ${formatNumber(num2)}`;
-            }
+            innerValue = num1 - num2;
+            innerExpression = `${formatNumber(num1)} - ${formatNumber(num2)}`;
         }
+
+        // const outerOperator = parenthesesOnLeft ? this.random.choice(['+', '-']) : '+';
+        let outerOperator;
+        if (parenthesesOnLeft) {
+            if (innerValue < num3) {
+                outerOperator = '+';
+            } else {
+                outerOperator = this.random.choice(['+', '-']);
+            }
+        } else {
+            outerOperator = '+';
+        }
+
         
         // Calculate the final value and ensure it's not negative
         let finalValue: number;
@@ -202,31 +211,16 @@ class Generator {
                 expression = `(${innerExpression}) + ${formatNumber(num3)}`;
             } else {
                 // For subtraction, ensure the left side is larger to avoid negative results
-                if (innerValue < num3) {
-                    finalValue = num3 - innerValue;
-                    expression = `${formatNumber(num3)} - (${innerExpression})`;
-                } else {
-                    finalValue = innerValue - num3;
-                    expression = `(${innerExpression}) - ${formatNumber(num3)}`;
-                }
+                finalValue = innerValue - num3;
+                expression = `(${innerExpression}) - ${formatNumber(num3)}`;
             }
         } else {
             // Format: num3 op (num1 op num2)
-            if (outerOperator === '+') {
-                finalValue = num3 + innerValue;
-                expression = `${formatNumber(num3)} + (${innerExpression})`;
-            } else {
-                // For subtraction, ensure the left side is larger to avoid negative results
-                if (num3 < innerValue) {
-                    finalValue = innerValue - num3;
-                    expression = `(${innerExpression}) - ${formatNumber(num3)}`;
-                } else {
-                    finalValue = num3 - innerValue;
-                    expression = `${formatNumber(num3)} - (${innerExpression})`;
-                }
-            }
+            finalValue = num3 + innerValue;
+            expression = `${formatNumber(num3)} + (${innerExpression})`;
+            
         }
-        
+
         const calcItem = {text: expression, value: finalValue};
         return [[calcItem], finalValue];
     }
