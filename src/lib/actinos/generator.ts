@@ -171,7 +171,7 @@ class Generator {
         
         // Randomly choose operators (+ or -) for inside and outside parentheses
         const innerOperator = this.random.choice(['+', '-']);
-        const outerOperator = parenthesesOnLeft ? '+' : this.random.choice(['+', '-']);
+        const outerOperator = parenthesesOnLeft ? this.random.choice(['+', '-']) : '+';
         
         // Calculate the inner value and ensure it's not negative
         let innerValue: number;

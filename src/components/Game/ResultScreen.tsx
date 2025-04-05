@@ -41,8 +41,8 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
     const [report, setReport] = useState<RoundReport>();
     const { remainingGames, userAnswer, userSecondAnswer, correctAnswer, correctSecondAnswer, result, totalCorrect, totalIncorrect } = report || {};
     const { language } = useLanguageStore();
-    const firstImageSource = result === 'correct' ? likeImageSource : result === 'wrong' ? dislikeImageSource : sadImageSource;
-    const secondImageSource = result === 'correct' ? wellDoneImageSource : result === 'wrong' ? sadImageSource : likeImageSource;
+    const firstImageSource = result === 'correct' ? likeImageSource : result === 'wrong' || result === 'missed' ? dislikeImageSource : sadImageSource;
+    const secondImageSource = result === 'correct' ? wellDoneImageSource : result === 'wrong' || result === 'missed' ? sadImageSource : likeImageSource;
 
     const [firstUnit, secondUnit] = useMemo(() => {
         if (inputUnits) {
@@ -61,7 +61,7 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
             const correctSecondAnswer = currentRound.secondCorrectAnswer;
             const result = currentRound.result;
             const totalCorrect = rounds.filter((round: Round) => round.result === 'correct').length;
-            const totalIncorrect = rounds.filter((round: Round) => round.result === 'wrong').length;
+            const totalIncorrect = rounds.length - totalCorrect;
             setReport({
                 remainingGames,
                 userAnswer,
