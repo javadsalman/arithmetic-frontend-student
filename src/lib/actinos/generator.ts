@@ -349,7 +349,7 @@ class Generator {
         const chosenOption = this.random.choice(validOptions);
         
         // Format the expression text
-        const text = `${formatNumber(chosenOption.num1)} ${operator} ${formatNumber(chosenOption.num2)}%${chosenOption.percentage}`;
+        const text = `${formatNumber(chosenOption.num1)} ${operator} ${formatNumber(chosenOption.num2)}(${chosenOption.percentage}%)`;
         
         const calcItem = {text, value: chosenOption.result};
         return [[calcItem], chosenOption.result];

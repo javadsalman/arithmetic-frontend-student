@@ -81,7 +81,8 @@ function Controllers({pageRef, isFullscreen, onFullscreenChange, showButton, but
         }
     }
 
-    const handleFullscreen = () => {
+    const handleFullscreen = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.currentTarget.blur();
         if (!isFullscreen) {
             if (pageRef.current?.requestFullscreen) {
                 pageRef.current.requestFullscreen();

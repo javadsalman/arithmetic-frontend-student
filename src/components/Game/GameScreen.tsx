@@ -88,12 +88,12 @@ const columnVariants = tv({
     variants: {
         size: {
             lessThan4: "text-[100px] md:text-[320px]",
-            lessThan6: "text-[90px] md:text-[216px]",
-            lessThan8: "text-[80px] md:text-[180px]",
-            lessThan10: "text-[70px] md:text-[144px]",
-            lessThan12: "text-[60px] md:text-[96px]",
-            lessThan14: "text-[50px] md:text-[72px]",
-            restBigger: "text-[40px] md:text-[48px]",
+            lessThan6: "text-[90px] md:text-[260px]",
+            lessThan8: "text-[80px] md:text-[200px]",
+            lessThan10: "text-[70px] md:text-[180px]",
+            lessThan12: "text-[60px] md:text-[160px]",
+            lessThan14: "text-[50px] md:text-[140px]",
+            restBigger: "text-[40px] md:text-[120px]",
 
         }
     }

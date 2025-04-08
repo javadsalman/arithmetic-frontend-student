@@ -35,8 +35,7 @@ function FormulesPage() {
             </h1>
 
             {/* Custom Grid Layout */}
-            <div className="max-w-8xl mx-auto flex flex-col gap-16 md:gap-24 justify-center items-center">
-                {/* First Row - 1 note */}
+            <div className="max-w-6xl mx-auto flex flex-wrap gap-16 md:gap-24 justify-evenly">
                 <div className="flex justify-center">
                     <Note 
                         number={1}
@@ -51,7 +50,6 @@ function FormulesPage() {
                 </div>
 
                 {/* Second Row - 3 notes */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-0 justify-around w-10/12">
                     <div className="flex justify-center">
                         <Note 
                             number={2}
@@ -88,9 +86,6 @@ function FormulesPage() {
                             onClick={() => handleNoteClick(TEN_ADD)}
                         />
                     </div>
-                </div>
-                {/* Third Row - 3 notes */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-0 justify-around w-10/12">
                     <div className="flex justify-center">
                         <Note 
                             number={5}
@@ -128,8 +123,6 @@ function FormulesPage() {
                             onClick={() => handleNoteClick(FIVE_K_ADD_SUB)}
                         />
                     </div>
-                </div>
-
                 {/* Fourth Row - 1 note */}
                 <div className="flex justify-center">
                     <Note 
