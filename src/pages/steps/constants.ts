@@ -104,7 +104,7 @@ export const INSTRUMENTS = [
         onPlay: playSazSound
     },
     {
-        title: 'Tutek',
+        title: 'Tütək',
         iconSrc: tutekIconSource,
         onPlay: playTutekSound
     },

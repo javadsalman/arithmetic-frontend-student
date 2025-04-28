@@ -94,6 +94,13 @@ const columnVariants = tv({
             lessThan12: "text-[60px] md:text-[160px]",
             lessThan14: "text-[50px] md:text-[140px]",
             restBigger: "text-[40px] md:text-[120px]",
+            drLessThan4: "text-[100px] md:text-[180px]",
+            drLessThan6: "text-[90px] md:text-[160px]",
+            drLessThan8: "text-[80px] md:text-[140px]",
+            drLessThan10: "text-[70px] md:text-[120px]",
+            drLessThan12: "text-[60px] md:text-[100px]",
+            drLessThan14: "text-[50px] md:text-[80px]",
+            drRestBigger: "text-[40px] md:text-[60px]",
 
         }
     }
@@ -108,6 +115,14 @@ const getFontSize = (text: string) => {
     if (length < 12) return 'lessThan12';
     if (length < 14) return 'lessThan14';
     return 'restBigger';
+};
+
+const getDoubleRowFontSize = (text: string) => {
+    const length = text.length;
+    if (length < 4) return 'drLessThan4';
+    if (length < 8) return 'drLessThan8';
+    if (length < 14) return 'drLessThan14';
+    return 'drRestBigger';
 };
 
 interface GameScreenProps extends ModeFeatures {
@@ -247,9 +262,9 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                 operator = '-';
             }
             return (<div className="">
-                <div style={style} ref={firstDisplayRef} className={`${columnVariants({size: getFontSize(firstString)})}`}>{firstString}</div>
-                <div className="text-center text-6xl">{operator}</div>
-                <div style={style} ref={secondDisplayRef} className={`${columnVariants({size: getFontSize(secondString)})}`}>{secondString}</div>
+                <div style={{...style, lineHeight: '0.9'}} ref={firstDisplayRef} className={`${columnVariants({size: getDoubleRowFontSize(firstString)})}`}>{firstString}</div>
+                <div style={{lineHeight: '0.8'}} className="text-center text-8xl text-white">{operator}</div>
+                <div style={{...style, lineHeight: '0.9'}} ref={secondDisplayRef} className={`${columnVariants({size: getDoubleRowFontSize(secondString)})}`}>{secondString}</div>
             </div>)
         }
 
@@ -286,6 +301,7 @@ const GameScreen = ({onComplete, onInputComplete, flipped, singleQuestion, rando
                                         autoFontScale={false}
                                         answerDuration={answerDuration} 
                                         doubleInput={doubleInput}
+                                        doubleRow={doubleRow}
                                         firstTitle={firstUnit}
                                         secondTitle={secondUnit}
                                     />

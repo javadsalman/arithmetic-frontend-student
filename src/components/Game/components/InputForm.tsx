@@ -23,6 +23,7 @@ interface InputFormProps {
         timer?: string;
     }
     doubleInput?: boolean;
+    doubleRow?: boolean;
     autoFontScale?: boolean;
     firstTitle?: string | null;
     secondTitle?: string | null;
@@ -37,11 +38,14 @@ const getFontSize = (length: number) => {
     return 'text-[100px] md:text-[120px]';
 };
 
-function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChange, onComplete, answerDuration, classes, autoFontScale, doubleInput, firstTitle, secondTitle }: InputFormProps) {
+function InputForm({currentUserAnswer, onChange, secondUserAnswer, secondOnChange, onComplete, answerDuration, classes, autoFontScale, doubleInput, doubleRow, firstTitle, secondTitle }: InputFormProps) {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const secondInputRef = useRef<HTMLInputElement>(null);
     const inputFontSize = useMemo(() => {
+        if (doubleRow) {
+            return 'text-[25px] md:text-[60px] md:py-1';
+        }
         if (doubleInput) {
             return 'text-[75px] md:text-[120px] md:py-16';
         }
