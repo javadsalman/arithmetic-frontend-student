@@ -98,7 +98,7 @@ const TestColumn = forwardRef<HTMLDivElement, TestColumnProps>(
         <div ref={ref} className={columnVariants({ size: columnSize })}>
             <div className={titleVariants({ color: titleBgColor })}>{title}</div>
             {items.map((item, index) => (
-                <div key={index} className="p-2 px-1 border border-gray-300 break-words hyphens-auto text-lg">
+                <div key={index} className="p-2 px-1 border border-gray-300 break-words hyphens-auto text-2xl bg-white/30 font-comic">
                     {item}
                 </div>
             ))}
