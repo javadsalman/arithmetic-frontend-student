@@ -1,10 +1,11 @@
 import GeneralResultCard from "./components/GeneralResultCard";
 import medalImageSource from '../../../assets/images/medal.png';
-import { useTestStore } from "../../../stores/testStore";
+import { sendTestResult, useTestStore } from "../../../stores/testStore";
 import Lang, { content as langContent } from "../Lang";
 import { useLanguageStore } from "../../../stores/languageStore";
 import { FORMULE_TITLES } from "../../formules/constants";
 import { FormuleMode } from "../../../lib/formules/types";
+import { useEffect } from "react";
 
 function GeneralResult() {
     const { language } = useLanguageStore();
@@ -30,6 +31,21 @@ function GeneralResult() {
     const totalHardPoints = correctHard * coefficients.hard;
     
     const totalPoints = totalEasyPoints + totalMediumPoints + totalHardPoints;
+
+
+    useEffect(() => {
+        sendTestResult({
+            correctOne: correctEasy,
+            correctOneAndHalf: correctMedium,
+            correctTwo: correctHard,
+            wrongOne: wrongEasy,
+            wrongTwo: wrongMedium,
+            wrongOneAndHalf: wrongHard,
+            emptyOne: emptyEasy,
+            emptyTwo: emptyMedium,
+            emptyOneAndHalf: emptyHard,
+        });
+    }, []);
     
     return (
         <div className="border-4 border-red-200 rounded-2xl p-8 py-10 max-w-[1200px] mx-auto">

@@ -1,35 +1,66 @@
 import { Paper, TextField, Typography, Box } from '@mui/material';
-
+import { useAuthStore } from '../../stores/authStore';
+import Lang, { content } from './Lang';
+import { useLanguageStore } from '../../stores/languageStore';
 function ProfilePage() {
+  const student = useAuthStore((state) => state.student);
+  const language = useLanguageStore((state) => state.language);
+  
   return (
     <Box className="max-w-7xl mx-auto">
       {/* Profile Information Section */}
       <Paper className="p-6 mb-6" sx={{ backgroundColor: 'transparent' }}>
         <Typography variant="h6"sx={{ mb: 2 }}>
-          Profil məlumatları
+          <Lang>Profil məlumatları</Lang>
         </Typography>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TextField
-            label="Ad"
-            value="Tünzalə"
+            label={content[language]!['Ad']}
+            value={student?.first_name}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Soyad"
-            value="Əliyeva"
+            label={content[language]!['Soyad']}
+            value={student?.last_name}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Təhsil aldığı məktəb"
-            value="123 nömrəli"
+            label={content[language]!['Ata adı']}
+            value={student?.father_name}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Doğum tarixi"
-            value="20.11.2003"
+            label={content[language]!['Təhsil aldığı məktəb']}
+            value={student?.school}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label={content[language]!['Doğum tarixi']}
+            value={student?.birth_date}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+
+          <TextField
+            label={content[language]!['Email']}
+            value={student?.email}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label={content[language]!['Qrup']}
+            value={student?.group?.name}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label={content[language]!['Müəllim']}
+            value={student?.group?.teacher?.first_name && student?.group?.teacher?.last_name ? 
+              `${student.group.teacher.first_name} ${student.group.teacher.last_name}` : ''}
             fullWidth
             InputProps={{ readOnly: true }}
           />
@@ -37,63 +68,41 @@ function ProfilePage() {
       </Paper>
 
       {/* Contact Information Section */}
-      <Paper className="p-6 mb-6" sx={{ backgroundColor: 'transparent' }}>
+      <Paper className="p-6" sx={{ backgroundColor: 'transparent' }}>
         <Typography variant="h6" sx={{ mb: 2 }}>
-          Əlaqə məlumatları
+          <Lang>Əlaqə məlumatları</Lang>
         </Typography>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TextField
-            label="Email"
-            value="tunzalealiyeva@gmail.com"
+            label={content[language]!['Əlaqə nömrəsi']}
+            value={student?.phone}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Əlaqə nömrəsi"
-            value="+994 55 555 55 55"
+            label={content[language]!['Filial']}
+            value={student?.branch?.name}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Fin kodu"
-            value="12345"
+            label={content[language]!['Ölkə']}
+            value={student?.city?.country?.[`name_${language}`]}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Filial"
-            value="Sumqayıt"
+            label={content[language]!['Şəhər']}
+            value={student?.city?.[`name_${language}`]}
             fullWidth
             InputProps={{ readOnly: true }}
           />
           <TextField
-            label="Ünvan"
-            value="Lorem İpsum"
+            label={content[language]!['Ünvan']}
+            value={student?.address}
             fullWidth
             InputProps={{ readOnly: true }}
             className="md:col-span-2"
-          />
-        </div>
-      </Paper>
-
-      {/* Education Center Information Section */}
-      <Paper className="p-6" sx={{ backgroundColor: 'transparent' }}>
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Tədris Mərkəzinə bağlı məlumatları
-        </Typography>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <TextField
-            label="Email"
-            value="tunzalealiyeva@gmail.com"
-            fullWidth
-            InputProps={{ readOnly: true }}
-          />
-          <TextField
-            label="Şifrə"
-            value="414 141 414"
-            fullWidth
-            InputProps={{ readOnly: true }}
-            type="password"
           />
         </div>
       </Paper>

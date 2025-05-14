@@ -143,7 +143,7 @@ export const content: LangContent = {
         'Formul': 'Formuła',
         ...formulaLangContent['pl'],
     },
-    'kz': {
+    'kk': {
         'YENIDƏN OYNA': 'ҚАЙТА ОЙНАУ',
         'Asan': 'Оңай',
         'Normal': 'Қалыпты',
@@ -169,7 +169,7 @@ export const content: LangContent = {
         'Rəqəm Sayı': 'Сандар саны',
         'Ədəd Sayı': 'Сандар мөлшері',
         'Formul': 'Формула',
-        ...formulaLangContent['kz'],
+        ...formulaLangContent['kk'],
     },
 }
 

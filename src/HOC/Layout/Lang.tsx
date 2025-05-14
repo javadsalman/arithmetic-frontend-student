@@ -53,7 +53,7 @@ const content: LangContent = {
         'Çıxış': 'Wyjście',
         'Menyu': 'Menu',
     },
-    'kz': {
+    'kk': {
         'Formullar': 'Формулалар',
         'Əməllər': 'Операциялар',
         'Testlər': 'Тесттер',

@@ -5,7 +5,7 @@ import wellDoneImageSource from '../../assets/images/well-done.png';
 import { tv } from 'tailwind-variants';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
-import { useGameplayStore } from '../../stores/gameplayStore';
+import { sendGameResult, useGameplayStore } from '../../stores/gameplayStore';
 import { useGameStore } from '../../stores/gameStore';
 import { playTrueSound, playFalseSound, stopCurrentSound } from '../../stores/soundStore';
 import Lang from './Lang';
@@ -35,7 +35,7 @@ interface ResultScreenProps extends ModeFeatures {
 }
 
 function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) {
-    const { rounds, getCurrentRound } = useGameplayStore();
+    const { rounds, getCurrentRound} = useGameplayStore();
     const { gameCount } = useGameStore();
     const currentRound = getCurrentRound();
     const [report, setReport] = useState<RoundReport>();
@@ -51,6 +51,12 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
         }
         return [null, null];
     }, [inputUnits, language]);
+
+    useEffect(() => {
+        if (totalCorrect !== undefined && totalIncorrect !== undefined && (totalCorrect || totalIncorrect)) {
+            sendGameResult({correctCount: totalCorrect, wrongCount: totalIncorrect});
+        }
+    }, [totalCorrect, totalIncorrect])
 
     useEffect(() => {
         if (currentRound && currentRound.finished) {
@@ -108,7 +114,7 @@ function ResultScreen({doubleInput, inputUnits, onComplete}: ResultScreenProps) 
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
-    
+
     const userAnswerContent = useMemo(() => {
         const userAnswerString = userAnswer === null ? "-" : userAnswer;
         if (doubleInput) {

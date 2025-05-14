@@ -10,8 +10,8 @@ import FormuleGenerator from '../lib/formules/generator';
 import ActionGenerator from '../lib/actinos/generator';
 import { CalcItem } from '../helpers/types';
 import { ActionMode } from '../pages/actions/types';
-import { MIXED_ADD_SUB } from '../lib/formules/constants';
-
+import { createGameResult, updateGameResult } from '../services/gameService';
+import { useNotificationStore } from './notificationStore';
 export interface Round {
     calcItems: CalcItem[];
     secondCalcItems: CalcItem[]|null;
@@ -29,12 +29,15 @@ const actionGenerator = new ActionGenerator();
 export type HeightSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface GameplayState {
+    gameId: number|null;
     rounds: Round[];
     currentUserAnswer: string;
     secondUserAnswer: string;
     screen: "enterance" | "game" | "input" | "result" | "end";
     heightSize: HeightSize;
     timestamp: number;
+    recordPending: boolean;
+    setGameId: (gameId: number|null) => void;
     setCurrentUserAnswer: (answer: string) => void;
     setSecondUserAnswer: (answer: string) => void;
     getCurrentRound: () => Round|undefined;
@@ -46,17 +49,23 @@ interface GameplayState {
     setScreen: (screen: "enterance" | "game" | "input" | "result" | "end") => void;
     setHeightSize: (size: HeightSize) => void;
     setTimestamp: (timestamp: number) => void;
+    setRecordPending: (recordPending: boolean) => void;
 }
 
 export const useGameplayStore = create<GameplayState>()(
     persist(
         immer((set, get) => ({
+            gameId: null,
             rounds: [],
             currentUserAnswer: "",
             secondUserAnswer: "",
             screen: "enterance",
             heightSize: 'md',
             timestamp: 0,
+            recordPending: false,
+            setGameId: (gameId: number|null) => set(state => {
+                state.gameId = gameId;
+            }),
             setCurrentUserAnswer: (answer: string) => set(state => {
                 state.currentUserAnswer = answer;
             }),
@@ -97,6 +106,9 @@ export const useGameplayStore = create<GameplayState>()(
             setTimestamp: (timestamp: number) => set(state => {
                 state.timestamp = timestamp;
             }),
+            setRecordPending: (recordPending: boolean) => set(state => {
+                state.recordPending = recordPending;
+            }),
         })),
         {name: "gameplay"}
     )
@@ -119,7 +131,7 @@ export const createFormuleRound = () => {
 }
 
 export const createActionRound = () => {
-    const { digitCount, numberCount, isMixedDigits, gameMode, secondDigitCount } = useGameStore.getState();
+    const { digitCount, numberCount, isMixedDigits, gameMode, secondDigitCount, gameFormule  } = useGameStore.getState();
     const { addRound, getCurrentRound } = useGameplayStore.getState();
     const { language } = useLanguageStore.getState();
     const currentRound = getCurrentRound();
@@ -130,15 +142,16 @@ export const createActionRound = () => {
     let correctAnswer: number = NaN;
     let secondCorrectAnswer: number|null = null;
     let secondCalcItems: CalcItem[] = [];
+    
     if ([FREE_WORK_ACTION, FREE_WORK_FLIPPED_ACTION, RANDOM_NUMBERS_ACTION, RANDOM_NUMBERS_ROTATED_ACTION].includes(gameMode as ActionMode)) {
-        [calcItems, correctAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
+        [calcItems, correctAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: gameFormule});
     } else if ([ANIMAL_SOUNDS_ACTION, INSTRUMENT_SOUNDS_ACTION].includes(gameMode as ActionMode)) {
         [calcItems, correctAnswer] = actionGenerator.generateRandomAdd({numberCount});
     } else if (gameMode === COMBINED_OPERATIONS_ACTION) {
-        [calcItems, correctAnswer] = actionGenerator.generateCombinedOperations({digitCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
+        [calcItems, correctAnswer] = actionGenerator.generateCombinedOperations({digitCount, mixedCount: isMixedDigits, formuleMode: gameFormule});
     } else if ([DOUBLE_CALCULATION_ACTION, DOUBLE_CALCULATION_FLIPPED_ACTION].includes(gameMode as ActionMode)) {
-        [calcItems, correctAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
-        [secondCalcItems, secondCorrectAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: MIXED_ADD_SUB});
+        [calcItems, correctAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: gameFormule});
+        [secondCalcItems, secondCorrectAnswer] = actionGenerator.generateAddSub({digitCount, numberCount, mixedCount: isMixedDigits, formuleMode: gameFormule});
     } else if (gameMode === SQUARE_ACTION) {
         [calcItems, correctAnswer] = actionGenerator.generateSquare({digitCount});
     } else if (gameMode === SQUARE_ROOT_ACTION) {
@@ -185,6 +198,50 @@ export const createActionRound = () => {
     addRound(newRound);
 }
 
+
+export const sendGameResult = ({correctCount, wrongCount}: {correctCount: number, wrongCount: number}) => {
+    const { gameMode, gameFormule, digitCount, secondDigitCount, numberCount, isMixedDigits } = useGameStore.getState();
+    const { gameId, setGameId, recordPending, setRecordPending } = useGameplayStore.getState();
+    const { setNotification } = useNotificationStore.getState();
+    if (recordPending) return;
+
+    if (!gameId) {
+        setRecordPending(true);
+        createGameResult({
+            game_code: gameMode!,
+            formule_code: gameFormule!,
+            digit_count: digitCount,
+            second_digit_count: secondDigitCount,
+            number_count: numberCount,
+            is_mixed: isMixedDigits,
+            game_count: 10,
+            between_duration: 10,
+            answer_duration: 10,
+            correct_count: correctCount,
+            wrong_count: wrongCount,
+        }).then((res) => {
+            setGameId(res.data.data.id);
+        }).catch(() => {
+            setNotification("Error creating game result", "error", "filled", { vertical: "bottom", horizontal: "center" });
+        }).finally(() => {
+            setRecordPending(false);
+        })
+    } else {
+        setRecordPending(true);
+        updateGameResult({
+            id: gameId!,
+            gameResult: {
+                correct_count: correctCount,
+                wrong_count: wrongCount
+            }
+        }).catch(() => {
+            setNotification("Error updating game result", "error", "filled", { vertical: "bottom", horizontal: "center" });
+        }).finally(() => {
+            setRecordPending(false);
+        })
+    }
+}
+
 export const createNewRound = () => {
     const { gameType } = useGameStore.getState();
     if (gameType === "formules") {
@@ -202,9 +259,11 @@ export const startGame = () => {
     createNewRound();
 }
 
+
 export const restartGame = ({hard = false}: {hard?: boolean} = {}) => {
-    const { clearRounds, setScreen, setTimestamp } = useGameplayStore.getState();
+    const { clearRounds, setScreen, setTimestamp, setGameId } = useGameplayStore.getState();
     clearRounds();
+    setGameId(null);
     setScreen("enterance");
     if (hard) {
         const currentTimestamp = Date.now();

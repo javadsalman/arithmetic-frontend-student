@@ -7,7 +7,7 @@ import trFlag from '../assets/images/turkey.png';
 import plFlag from '../assets/images/poland.png';
 import kzFlag from '../assets/images/kazakhistan.png';
 
-export type LanguageCode = 'az' | 'en' | 'ru' | 'tr' | 'pl' | 'kz';
+export type LanguageCode = 'az' | 'en' | 'ru' | 'tr' | 'pl' | 'kk';
 
 export const DEFAULT_LANGUAGE: LanguageCode = 'az';
 
@@ -39,7 +39,7 @@ const LANGUAGES: { code: LanguageCode; name: string; icon: string }[] = [
         icon: plFlag
     },
     {
-        code: 'kz',
+        code: 'kk',
         name: 'Қазақша',
         icon: kzFlag
     }

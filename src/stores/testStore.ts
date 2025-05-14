@@ -6,6 +6,9 @@ import { CalcItem } from "../helpers/types";
 import { SIMPLE_ADD_SUB } from "../lib/formules/constants";
 import Generator from "../lib/formules/generator";
 import { EASY_MODE, HARD_MODE, MEDIUM_MODE } from "../pages/tests/constants";
+import { useNotificationStore } from "./notificationStore";
+import { useGameStore } from "./gameStore";
+import { createTestResult, TestResultCreatePayload } from "../services/gameService";
 
 const formuleGenerator = new Generator();
 
@@ -37,6 +40,8 @@ interface TestStore {
     minutes: number;
     started: boolean;
     seconds: number;
+    recordPending: boolean;
+    recordCreated: boolean;
     setFinished: (finished: boolean) => void;
     setDigitCount: (digitCount: number) => void;
     setNumberCount: (numberCount: number) => void;
@@ -61,6 +66,8 @@ interface TestStore {
     clearPages: () => void;
     resetFocusIndexes: () => void;
     resetStore: () => void;
+    setRecordPending: (recordPending: boolean) => void;
+    setRecordCreated: (recordCreated: boolean) => void;
 }
 
 const initialPages = {
@@ -82,6 +89,8 @@ const initialState = {
     gameMode: SIMPLE_ADD_SUB,
     testMode: "easy" as TestMode,
     pages: initialPages,
+    recordPending: false,
+    recordCreated: false,
     coefficients: {
         easy: 1,
         medium: 1.5,
@@ -165,6 +174,8 @@ export const useTestStore = create<TestStore>()(
         clearPages: () => set({ pages: initialPages }),
         resetStore: () => set(initialState),
         resetFocusIndexes: () => set({ focusIndexes: initialFocusIndexes }),
+        setRecordPending: (recordPending: boolean) => set({ recordPending }),
+        setRecordCreated: (recordCreated: boolean) => set({ recordCreated }),
     })), {
         name: "test",
     })
@@ -186,15 +197,53 @@ export const addRoundsByMode = (testMode: TestMode, roundCount: number) => {
     addRounds(testMode, rounds);
 }
 
-
+export const sendTestResult = ({correctOne, correctOneAndHalf, correctTwo, wrongOne, wrongTwo, wrongOneAndHalf, emptyOne, emptyTwo, emptyOneAndHalf}: {correctOne: number, correctOneAndHalf: number, correctTwo: number, wrongOne: number, wrongTwo: number, wrongOneAndHalf: number, emptyOne: number, emptyTwo: number, emptyOneAndHalf: number}) => {
+    const { minutes, seconds } = useTestStore.getState();
+    const { gameFormule, digitCount, numberCount } = useGameStore.getState();
+    const { setNotification } = useNotificationStore.getState();
+    const { recordPending, setRecordPending, recordCreated, setRecordCreated } = useTestStore.getState();
+    if (recordPending || recordCreated) return;
+    
+    const duration = minutes * 60;
+    const payload: TestResultCreatePayload = {
+        formule_code: gameFormule,
+        digit_count: digitCount,
+        number_count: numberCount,
+        duration,
+        finish_duration: duration - seconds,
+        correct_one: correctOne,
+        correct_one_and_half: correctOneAndHalf,
+        correct_two: correctTwo,
+        wrong_one: wrongOne,
+        wrong_two: wrongTwo,
+        wrong_one_and_half: wrongOneAndHalf,
+        empty_one: emptyOne,
+        empty_one_and_half: emptyOneAndHalf,
+        empty_two: emptyTwo,
+    }
+    setRecordPending(true);
+    createTestResult(payload).catch(() => {
+        setNotification(
+            "Test məlumatları göndərilə bilmədi",
+            "error",
+            "filled",
+            { vertical: "bottom", horizontal: "center" },
+        );
+    }).finally(() => {
+        setRecordPending(false);
+        setRecordCreated(true);
+    });
+}
 
 export const resetTests = () => {
-    const { clearPages, clearRounds, resetFocusIndexes, setFinished, setTestMode } = useTestStore.getState();
+    const { clearPages, clearRounds, resetFocusIndexes, setFinished, setTestMode, setRecordPending, setRecordCreated } = useTestStore.getState();
     setTestMode("easy");
     setFinished(false);
     clearPages();
     clearRounds();
     resetFocusIndexes();
+    setRecordPending(false);
+    setRecordCreated(false);
 }
 
 export const finishTest = () => {

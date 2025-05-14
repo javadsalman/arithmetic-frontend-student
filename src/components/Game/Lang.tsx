@@ -154,7 +154,7 @@ export const content: LangContent = {
         ...formulaLangContent['pl'],
         ...actionLangContent['pl'],
     },
-    'kz': {
+    'kk': {
         'Formul': 'Формула',
         'Rəqəm sayı': 'Сандар саны',
         'Oyun sayı': 'Ойын саны',
@@ -181,8 +181,8 @@ export const content: LangContent = {
         'Nəticə': 'Нәтиже',
         'Mod': 'Режим',
         'Birinci rəqəm sayı ikincidən kiçik ola bilməz': 'Бірінші сандар саны екіншіден кем болмауы керек',
-        ...formulaLangContent['kz'],
-        ...actionLangContent['kz'],
+        ...formulaLangContent['kk'],
+        ...actionLangContent['kk'],
     },
 }
 

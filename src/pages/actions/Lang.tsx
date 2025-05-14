@@ -177,7 +177,7 @@ export const content: LangContent = {
         'tam': 'całość',
         'qalıq': 'reszta',
     },
-    'kz': {
+    'kk': {
         'SƏRBƏST ÇALIŞMA': 'ЕРКІН ПРАКТИКА',
         'SƏRBƏST ÇALIŞMA TƏRSINE ƏDƏDLƏR': 'ТӨҢКЕРІЛГЕН САНДАРМЕН ЕРКІН ПРАКТИКА',
         'TOPLAMA, ÇIXMA VƏ VURMA ƏMƏLLƏRİ BİRGƏ HESABLA': 'ҚОСУ, АЛЫП ТАСТАУ ЖӘНЕ КӨБЕЙТУ АМАЛДАРЫМЕН ЕСЕПТЕУ',

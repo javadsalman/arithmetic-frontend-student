@@ -13,6 +13,7 @@ import { useNotificationStore } from "../../stores/notificationStore";
 import { ACTIONS_FEATURES, ACTION_TITLES } from "../../pages/actions/constants";
 import { ActionMode } from "../../pages/actions/types";
 import { tv } from "tailwind-variants";
+import { getAllowedFormuleCodes } from "../../stores/authStore";
 
 const formElementVariants = tv({
     base: "",
@@ -104,7 +105,9 @@ function MiniForm() {
         setValue('mode', gameMode as FormuleMode|ActionMode);
     }, [gameMode]);
 
-    const titles = gameType === 'formules' ? FORMULE_TITLES : ACTION_TITLES;
+    const allowedFormuleKeys = getAllowedFormuleCodes();
+    const allowedFormuleTitleEntries = allowedFormuleKeys ? Object.entries(FORMULE_TITLES).filter(([key]) => allowedFormuleKeys.includes(key as FormuleMode)) : [];
+    const titles = gameType === 'formules' ? allowedFormuleTitleEntries : Object.entries(ACTION_TITLES);
     const showFormuleInput = true
     const showDigitCountInput = !isSoundNumbers
     const showSecondDigitCountInput = isDoubleDigitCount
@@ -133,7 +136,7 @@ function MiniForm() {
                                         className={formElementVariants({ changed: field.value !== gameMode })}
                                     >
 
-                                        {Object.entries(titles).map(([key, title]) => (
+                                        {titles.map(([key, title]) => (
                                             <MenuItem key={key} value={key}><Lang>{title}</Lang></MenuItem>
                                         ))}
                                     </Select>

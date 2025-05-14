@@ -31,6 +31,9 @@ import { useGameStore } from "../../stores/gameStore";
 import { ActionMode } from "./types";
 import Lang, { content as langContent } from "./Lang";
 import { useLanguageStore } from "../../stores/languageStore";
+import { useAuthStore } from "../../stores/authStore";
+import { MIXED_ADD_SUB } from "../../lib/formules/constants";
+import { FormuleMode } from "../../lib/formules/types";
 
 
 const actionCard = tv({
@@ -103,12 +106,15 @@ const number = tv({
 
 function ActionsPage() {
     const navigate = useNavigate();
-    const { setGameType, setGameMode } = useGameStore();
+    const { setGameType, setGameMode, setGameFormule } = useGameStore();
     const { language } = useLanguageStore();
+    const actionCode = useAuthStore((state) => state.student?.allowed_challenge_formule?.code);
 
     const handleNoteClick = (action: string, step: string = DIGIT_STEP) => {
+        const defaultFormuleMode = actionCode || MIXED_ADD_SUB;
         setGameType("actions");
         setGameMode(action as ActionMode);
+        setGameFormule(defaultFormuleMode as FormuleMode);
         navigate(`/game/actions/${action}/steps/${step}`);
     }
     

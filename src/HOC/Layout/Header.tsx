@@ -6,7 +6,7 @@ import graduatedSvg from "../../assets/svg/graduated.svg"
 import { LanguageCode, useLanguageStore } from "../../stores/languageStore"
 import Lang from './Lang';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import { useAuthStore } from "../../stores/authStore";
 interface HeaderProps {
     onOpenSidebar: () => void;
 }
@@ -18,9 +18,16 @@ const Header = ({ onOpenSidebar }: HeaderProps) => {
     const langOpen = Boolean(langAnchorEl)
     const navigate = useNavigate()
     const { language, languages, setLanguage } = useLanguageStore()
+    const { logout } = useAuthStore((state) => state)   
+
+    const student = useAuthStore((state) => state.student)
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorEl(event.currentTarget)
+    }
+
+    const handleLogout = () => {
+        logout()
     }
 
     const handleClose = () => {
@@ -221,7 +228,7 @@ const Header = ({ onOpenSidebar }: HeaderProps) => {
                                         lineHeight: 1.2
                                     }}
                                 >
-                                    <Lang>Əli Resulzadə</Lang>
+                                    {student?.first_name} {student?.last_name}
                                 </Typography>
                                 <Typography 
                                     variant="body2" 
@@ -231,7 +238,7 @@ const Header = ({ onOpenSidebar }: HeaderProps) => {
                                         lineHeight: 1.2
                                     }}
                                 >
-                                    X <Lang>sinif şagirdi</Lang>
+                                    {student?.group?.name}
                                 </Typography>
                             </Box>
                             <Box 
@@ -333,7 +340,7 @@ const Header = ({ onOpenSidebar }: HeaderProps) => {
                         </MenuItem>
                         <Divider sx={{ my: 1 }} />
                         <MenuItem 
-                            onClick={handleClose}
+                            onClick={handleLogout}
                             sx={{ 
                                 py: 1.5,
                                 px: 2.5,

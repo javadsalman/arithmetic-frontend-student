@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { ActionMode } from '../pages/actions/types';
 import { FormuleMode } from '../lib/formules/types';
 import { immer } from 'zustand/middleware/immer';
-
+import { MIXED_ADD_SUB } from '../lib/formules/constants';
 interface GameState {
     digitCount: number;
     secondDigitCount: number;   
@@ -12,6 +12,7 @@ interface GameState {
     gameCount: number;
     betweenDuration: number;
     answerDuration: number;
+    gameFormule: FormuleMode;
     gameType: "formules" | "actions"| null;
     gameMode: FormuleMode|ActionMode|null;
     setDigitCount: (count: number) => void;
@@ -24,6 +25,7 @@ interface GameState {
     resetStore: () => void;
     setGameType: (gameType: "formules" | "actions") => void;
     setGameMode: (gameMode: FormuleMode|ActionMode) => void;
+    setGameFormule: (gameFormule: FormuleMode) => void;
 }
 
 
@@ -37,6 +39,7 @@ const initialState = {
     answerDuration: 10,
     gameMode: null,
     gameType: null,
+    gameFormule: MIXED_ADD_SUB,
 }
 
 
@@ -56,6 +59,7 @@ export const useGameStore = create<GameState>()(
             setAnswerDuration: (time: number) => set({ answerDuration: time }),
             resetStore: () => set(initialState),
             setNewState: (newState: GameState) => set(newState),
+            setGameFormule: (gameFormule: FormuleMode) => set({ gameFormule }),
         })), 
         {
             name: 'game',

@@ -282,7 +282,7 @@ export const content: LangContent = {
         'Rəqəmlərə uyğun səsləri öyrən': 'Naucz się dźwięków odpowiadających liczbom',
         'Ədəd': 'Liczba',
     },
-    'kz': {
+    'kk': {
         'Rəqəm sayı': 'Сандар саны',
         'Ədəd sayı': 'Сандар саны',
         'Cavab müddəti': 'Жауап уақыты',

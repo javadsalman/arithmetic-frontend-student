@@ -31,7 +31,7 @@ export const content: LangContent = {
         'ƏMƏLLƏR': 'OPERACJE',
         'TESTLƏR': 'TESTY'
     },
-    'kz': {
+    'kk': {
         'Daxil olmaq istədiyin bölməni seç!': 'Кіргіңіз келетін бөлімді таңдаңыз!',
         'FORMULLAR': 'ФОРМУЛАЛАР',
         'ƏMƏLLƏR': 'ОПЕРАЦИЯЛАР',

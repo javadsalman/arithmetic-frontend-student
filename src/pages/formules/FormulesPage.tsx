@@ -15,15 +15,18 @@ import Lang, {content as langContent } from './Lang';
 import { useLanguageStore } from '../../stores/languageStore';
 import { useGameStore } from '../../stores/gameStore';
 import { FormuleMode } from '../../lib/formules/types';
+import { getAllowedFormuleCodes } from '../../stores/authStore';
 
 function FormulesPage() {
     const navigate = useNavigate();
     const { language } = useLanguageStore();
-    const { setGameType, setGameMode } = useGameStore();
+    const { setGameType, setGameMode, setGameFormule } = useGameStore();
+    const allowedFormuleKeys = getAllowedFormuleCodes();
 
     const handleNoteClick = (formule: string) => {
         setGameType("formules");
         setGameMode(formule as FormuleMode);
+        setGameFormule(formule as FormuleMode);
         navigate(`/game/formules/${formule}/steps/digit`);
     }
 
@@ -39,6 +42,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={1}
+                        disabled={!allowedFormuleKeys?.includes(SIMPLE_ADD_SUB)}
                         title={langContent[language]![FORMULE_TITLES[SIMPLE_ADD_SUB]]}
                         numberColor="text-orange-400"
                         bgColor="bg-orange-400"
@@ -53,6 +57,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={2}
+                        disabled={!allowedFormuleKeys?.includes(FIVE_ADD)}
                         title={langContent[language]![FORMULE_TITLES[FIVE_ADD]]}
                         numberColor="text-red-400"
                         bgColor="bg-red-400"
@@ -65,6 +70,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={3}
+                        disabled={!allowedFormuleKeys?.includes(FIVE_ADD_SUB)}
                         title={langContent[language]![FORMULE_TITLES[FIVE_ADD_SUB]]}
                         numberColor="text-green-600"
                         bgColor="bg-green-600"
@@ -77,6 +83,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={4}
+                        disabled={!allowedFormuleKeys?.includes(TEN_ADD)}
                         title={langContent[language]![FORMULE_TITLES[TEN_ADD]]}
                         numberColor="text-pink-500"
                         bgColor="bg-pink-500"
@@ -89,6 +96,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={5}
+                        disabled={!allowedFormuleKeys?.includes(TEN_ADD_SUB)}
                         title={langContent[language]![FORMULE_TITLES[TEN_ADD_SUB]]}
                         numberColor="text-blue-500"
                         bgColor="bg-blue-500"
@@ -101,6 +109,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={6}
+                        disabled={!allowedFormuleKeys?.includes(FIVE_K_ADD)}
                         title={langContent[language]![FORMULE_TITLES[FIVE_K_ADD]]}
                         numberColor="text-red-800"
                         bgColor="bg-red-800"
@@ -113,7 +122,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={7}
-                        disabled={false}
+                        disabled={!allowedFormuleKeys?.includes(FIVE_K_ADD_SUB)}
                         title={langContent[language]![FORMULE_TITLES[FIVE_K_ADD_SUB]]}
                         numberColor="text-indigo-500"
                         bgColor="bg-indigo-500"
@@ -127,7 +136,7 @@ function FormulesPage() {
                 <div className="flex justify-center mb-8 sm:mb-12 lg:mb-16">
                     <Note 
                         number={8}
-                        disabled={false}
+                        disabled={!allowedFormuleKeys?.includes(MIXED_ADD_SUB)}
                         title={langContent[language]![FORMULE_TITLES[MIXED_ADD_SUB]]}
                         numberColor="text-green-500"
                         bgColor="bg-green-500"

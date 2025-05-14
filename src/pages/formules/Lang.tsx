@@ -59,7 +59,7 @@ export const content: LangContent = {
         '5k ilə Toplama-Çıxma': 'Dodawanie-odejmowanie z 5K',
         'Qarışıq Toplama-Çıxma': 'Mieszane Dodawanie-Odejmowanie',
     },
-    'kz': {
+    'kk': {
         'Sənə uyğun formulu seç!': 'Сізге сәйкес формуланы таңдаңыз!',
         'Bəsit toplama-çıxma': 'Қарапайым қосу-азайту',
         '5 Əsasda Toplama': '5 негізінде қосу',

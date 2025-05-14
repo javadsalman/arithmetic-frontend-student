@@ -7,37 +7,30 @@ import HomePage from "./pages/home/HomePage";
 import TestsPage from "./pages/tests/TestsPage";
 import StepsPage from "./pages/steps/StepsPage";
 import GamePage from "./pages/game/GamePage";
-import { useState, useCallback, useRef } from "react";
-
-const password = "12tiamo34";
-
+import LoginPage from "./pages/login/LoginPage";
+import { useAuthStore } from "./stores/authStore";
+import CheckAuth from "./pages/InitialCheck";
+import PageSpinner from "./components/Loading/PageSpinner";
+import { useUiStore } from "./stores/uiStore";
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [wrongPassword, setWrongPassword] = useState(false);
+    const {student} = useAuthStore((state) => state);
+    const {isLoading} = useUiStore((state) => state);
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const checkAuth = useCallback(() => {
-        const newEnteredPassword = inputRef.current?.value;
-        if (newEnteredPassword === password) {
-            setIsAuthenticated(true);
-        } else {
-            setWrongPassword(true);
-        }
-    }, [inputRef]);
-
-
-    if (!isAuthenticated) {
-        return <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="text-2xl font-bold">Giriş məlumatlarınızı daxil edin</h1>
-            {wrongPassword && <p className="text-red-500 mb-2">Şifrə yanlışdır</p>}
-            <input className="border-2 border-gray-300 rounded-md p-2 mb-2" type="password" placeholder="Şifrəni daxil edin" ref={inputRef} onKeyDown={e => e.key === "Enter" && checkAuth()} />
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={checkAuth}>Giriş et</button>
-        </div>
+    if (!student) {
+        return (
+            <>
+                {isLoading && <PageSpinner />}
+                <Routes>
+                    <Route path="/login/:langCode/:userID/:userToken" element={<LoginPage />} />
+                    <Route path="*" element={<CheckAuth />} />
+                </Routes>
+            </>
+        )
     }
 
     return (
         <Layout>
+            {isLoading && <PageSpinner />}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/formules">
@@ -56,5 +49,6 @@ function App() {
         </Layout>
     )
 }
+
 
 export default App

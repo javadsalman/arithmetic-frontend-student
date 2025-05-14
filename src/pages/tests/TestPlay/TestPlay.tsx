@@ -1,5 +1,5 @@
 import ModeButtons from '../../../components/Test/ModeButtons';
-import { useEffect, useState, createRef, ChangeEvent, KeyboardEvent } from 'react';
+import { useEffect, useState, createRef, ChangeEvent, KeyboardEvent, useMemo } from 'react';
 import TimeButton from './TimeButton';
 import { FORMULE_TITLES } from '../../formules/constants';
 import { addRoundsByMode, resetTests, useTestStore, finishTest } from '../../../stores/testStore';
@@ -9,7 +9,8 @@ import Controls from './Controls';
 import { EASY_MODE, HARD_MODE, MEDIUM_MODE, MODE_COLORS } from '../constants';
 import { TestColumnProps } from '../../../components/Test/TestColumn';
 import { DEFAULT_COLUMN_COUNT, DEFAULT_ROUND_COUNT } from '../constants';
-
+import { FormuleMode } from '../../../lib/formules/types';
+import { getAllowedFormuleCodes, useAuthStore } from '../../../stores/authStore';
 function TestPlay() {
     const [columnCount, setColumnCount] = useState(DEFAULT_COLUMN_COUNT)
     const { started, setStarted } = useTestStore()
@@ -37,6 +38,27 @@ function TestPlay() {
     const inputRefs = Array.from({ length: columnCount }, () => createRef<HTMLInputElement>());
 
     const currentPage = pages[testMode].page;
+
+    
+    const allowedFormuleTitleEntries = useMemo(() => {
+        const formuleTitleEntries = Object.entries(FORMULE_TITLES) as [FormuleMode, string][];
+        const allowedTestFormuleKey = useAuthStore.getState().student?.allowed_test_formule?.code;
+        if (allowedTestFormuleKey) {
+            return formuleTitleEntries.filter(([key]) => allowedTestFormuleKey === key);
+        }
+        const allowedFormuleKeys = getAllowedFormuleCodes();
+        if (allowedFormuleKeys) {
+            return formuleTitleEntries.filter(([key]) => allowedFormuleKeys.includes(key as FormuleMode));
+        }
+        return formuleTitleEntries;
+    }, []);
+
+    useEffect(() => {
+        const lastAllowedFormuleTitleEntry = allowedFormuleTitleEntries[allowedFormuleTitleEntries.length - 1];
+        if (lastAllowedFormuleTitleEntry) {
+            setGameMode(lastAllowedFormuleTitleEntry[0]);
+        }
+    }, [allowedFormuleTitleEntries]);
 
     useEffect(() => {
         if (!started) {
@@ -156,6 +178,7 @@ function TestPlay() {
         }
     })
 
+
     return (
         <div>
             <div className="flex flex-wrap gap-4 justify-center md:justify-between items-center mb-16">
@@ -173,7 +196,7 @@ function TestPlay() {
                 onDigitCountChange={setDigitCount}
                 onNumberCountChange={setNumberCount}
                 onGameModeChange={setGameMode}
-                titles={FORMULE_TITLES}
+                titleEntries={allowedFormuleTitleEntries}
             />
             <div className="relative w-full">
                 <TestList

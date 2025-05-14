@@ -24,7 +24,7 @@ const buttonVariants = tv({
 interface OptionsProps {
     page: number;
     started: boolean;
-    titles: Record<string, string>;
+    titleEntries: [FormuleMode, string][];
     digitCount: number;
     numberCount: number;
     gameMode: string|null;
@@ -35,7 +35,7 @@ interface OptionsProps {
     onGameModeChange: (mode: FormuleMode) => void;
 }
 
-function Options({ page, started, digitCount, numberCount, gameMode, testMode, onDigitCountChange, onNumberCountChange, onGameModeChange, titles }: OptionsProps) {
+function Options({ page, started, digitCount, numberCount, gameMode, testMode, onDigitCountChange, onNumberCountChange, onGameModeChange, titleEntries }: OptionsProps) {
     const { language } = useLanguageStore();
     return (
         <div className="flex gap-4 mb-5 justify-between md:justify-start items-center">
@@ -72,7 +72,7 @@ function Options({ page, started, digitCount, numberCount, gameMode, testMode, o
                         labelId="gamemode-select-label"
                         label={langContent[language]?.['Formul']}
                     >
-                        {Object.entries(titles).map(([key, title]) => (
+                        {titleEntries.map(([key, title]) => (
                             <MenuItem key={key} value={key}><Lang>{title}</Lang></MenuItem>
                         ))}
                     </Select>
