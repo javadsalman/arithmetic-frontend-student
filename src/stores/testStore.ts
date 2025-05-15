@@ -7,7 +7,6 @@ import { SIMPLE_ADD_SUB } from "../lib/formules/constants";
 import Generator from "../lib/formules/generator";
 import { EASY_MODE, HARD_MODE, MEDIUM_MODE } from "../pages/tests/constants";
 import { useNotificationStore } from "./notificationStore";
-import { useGameStore } from "./gameStore";
 import { createTestResult, TestResultCreatePayload } from "../services/gameService";
 
 const formuleGenerator = new Generator();
@@ -198,15 +197,14 @@ export const addRoundsByMode = (testMode: TestMode, roundCount: number) => {
 }
 
 export const sendTestResult = ({correctOne, correctOneAndHalf, correctTwo, wrongOne, wrongTwo, wrongOneAndHalf, emptyOne, emptyTwo, emptyOneAndHalf}: {correctOne: number, correctOneAndHalf: number, correctTwo: number, wrongOne: number, wrongTwo: number, wrongOneAndHalf: number, emptyOne: number, emptyTwo: number, emptyOneAndHalf: number}) => {
-    const { minutes, seconds } = useTestStore.getState();
-    const { gameFormule, digitCount, numberCount } = useGameStore.getState();
+    const { minutes, seconds, gameMode, digitCount, numberCount } = useTestStore.getState();
     const { setNotification } = useNotificationStore.getState();
     const { recordPending, setRecordPending, recordCreated, setRecordCreated } = useTestStore.getState();
     if (recordPending || recordCreated) return;
     
     const duration = minutes * 60;
     const payload: TestResultCreatePayload = {
-        formule_code: gameFormule,
+        formule_code: gameMode!,
         digit_count: digitCount,
         number_count: numberCount,
         duration,
