@@ -3,9 +3,23 @@ import formulesIcon from '../../assets/images/formulesIcon.png';
 import actionsIcon from '../../assets/images/actionsIcon.png';
 import testsIcon from '../../assets/images/testsIcon.png';
 import Lang from './Lang';
+import { getHasAnyAccess } from '../../stores/authStore';
+import { useNotificationStore } from '../../stores/notificationStore';
+
 
 function HomePage() {
     const navigate = useNavigate();
+
+    const notification = useNotificationStore();
+    const hasAnyAccess = getHasAnyAccess();
+
+    const onNavigatePage = (path: string) => {
+        if (!hasAnyAccess) {
+            notification.setNotification("Bu səhifəyə icazəniz yoxdur!", "error", "filled", { vertical: "bottom", horizontal: "center" });
+        } else {
+            navigate(path);
+        }
+    }
 
     return (
         <div className="mt-16 md:mt-32 flex flex-col items-center justify-center p-4">
@@ -22,7 +36,7 @@ function HomePage() {
                         className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 md:w-24 h-16 md:h-24" 
                     />
                     <button 
-                        onClick={() => navigate('/formules')}
+                        onClick={() => onNavigatePage('/formules')}
                         className="relative z-10 w-full flex flex-col items-center p-4 md:p-6 bg-[#90be6d] rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                     >
                         <span className="text-white text-xl md:text-2xl font-semibold">
@@ -40,7 +54,7 @@ function HomePage() {
                             className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 md:w-24 h-16 md:h-24" 
                         />
                         <button 
-                            onClick={() => navigate('/actions')}
+                            onClick={() => onNavigatePage('/actions')}
                             className="relative z-10 w-full flex flex-col items-center p-4 md:p-6 bg-red-500 rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                         >
                             <span className="text-white text-xl md:text-2xl font-semibold">
@@ -56,7 +70,7 @@ function HomePage() {
                             className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 md:w-24 h-16 md:h-24" 
                         />
                         <button 
-                            onClick={() => navigate('/tests')}
+                            onClick={() => onNavigatePage('/tests')}
                             className="relative z-10 w-full flex flex-col items-center p-4 md:p-6 bg-sky-500 rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                         >
                             <span className="text-white text-xl md:text-2xl font-semibold">

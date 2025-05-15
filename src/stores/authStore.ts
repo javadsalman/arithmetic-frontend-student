@@ -106,3 +106,12 @@ export const getAllowedFormuleCodes = () => {
   const allowedFormules = useAuthStore.getState().student?.allowed_formules;
   return allowedFormules?.map(formule => formule.code);
 }
+
+
+export const getHasAnyAccess = () => {
+  const allowedFormuleKeys = getAllowedFormuleCodes();
+  return allowedFormuleKeys?.length;
+}
+
+
+
